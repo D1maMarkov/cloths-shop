@@ -1,0 +1,27 @@
+.product__wrapper{
+    min-width: 20%;
+    max-width: 20%;
+    margin: 3px;
+}
+
+.products__wrapper{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.content{
+    padding-top: 100px;
+    background-color: white;
+    padding-bottom: 100px;
+
+    p{
+        font-size: 4vh;
+        text-align: center;
+    }
+}
+
+hr{
+    margin: 0px;
+    border: 1px solid rgb(240, 240, 240);
+}

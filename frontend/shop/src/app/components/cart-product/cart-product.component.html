@@ -1,0 +1,22 @@
+<div fadeInOut class="product">
+    <img [src]="product.image" />
+
+    <div style="min-width: 45%; max-width: 50%">
+        <a>{{ product.name }}</a><br />
+        <small>{{ product.description }}</small>
+
+        <div class="quantity">
+            <div class="count__wrapper">
+                <div class="count" (click)="cartService.decrement(product)"><a><strong>{{ "-" }}</strong></a></div>
+            
+                <a>{{ product.quantity }}</a>
+            
+                <div class="count" (click)="cartService.increment(product)"><a>{{ "+" }}</a></div>
+            </div>
+
+            <small class="size">{{ product.size }}</small>
+        </div>
+    </div>
+
+    <a class="price">{{product.price}} $</a>
+</div>

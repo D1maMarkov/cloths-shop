@@ -1,0 +1,29 @@
+<div class="container">
+    <div class="title">
+        <h3>{{ title }}</h3>
+
+        <div class="page__change">
+            <p>{{ index + 1 }} / {{ totalLength }}</p>
+            <div *ngIf="index > 0" (click)="decrement()" class="count"><a>{{ '<' }}</a></div>
+            <div *ngIf="index === 0" class="count inactiveCount"><a>{{ '<' }}</a></div>
+            <div *ngIf="index < totalLength - 1" (click)="increment()" class="count"><a>{{ '>' }}</a></div>
+            <div *ngIf="index >= totalLength - 1" class="count inactiveCount"><a>{{ '>' }}</a></div>
+        </div>
+    </div>
+
+    <div *ngIf="right">
+        <div class="products__wrapper" *ngIf="objects">
+            <catalog-product [@flyInOut] [ngClass]="{product__wrapper: true}"
+                *ngFor="let product of objects.slice(index * productsPerPage, (index + 1) * productsPerPage)" [product]="product" >
+            </catalog-product>
+        </div>
+    </div>
+
+    <div *ngIf="!right">
+        <div class="products__wrapper" *ngIf="objects">
+            <catalog-product [@flyInOutLeft] [ngClass]="{product__wrapper: true}"
+                *ngFor="let product of objects.slice(index * productsPerPage, (index + 1) * productsPerPage)" [product]="product" >
+            </catalog-product>
+        </div>
+    </div>
+</div>

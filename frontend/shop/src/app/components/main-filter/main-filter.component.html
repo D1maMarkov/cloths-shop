@@ -1,0 +1,75 @@
+<aside class="filtr">
+    <div *ngIf="validReset(); else basicTitle"
+        (click)="filter.reset()"
+        class="main__reset"
+        >
+        <div class="cross"></div>
+        <a>Сбросить фильтр</a>
+    </div>
+
+    <ng-template #basicTitle>
+        <a>фильтр</a><br />
+    </ng-template>
+
+    <div *ngIf="filter.priceRange$ | async as priceRange">
+        <a>цена</a><br />
+        <div style="display: flex;">
+            <div class="cost">
+                <a>От</a><br />
+                <a>${{ priceRange[0] }}</a>
+            </div>
+            <div class="cost">
+                <a>До</a><br />
+                <a style="color: black">{{ price | currency: '$' : 'symbol':'.0'}}</a>
+            </div>
+        </div>
+
+        <div class="slidecontainer" name="cost">
+            <input type="range" (ngModelChange)="filter.price$.next($event)" [(ngModel)]="price" [min]="priceRange[0]" [max]="priceRange[1]" class="slider" id="myRange">
+        </div>
+    </div>
+
+    <app-search-filter 
+        [title]="'пол'" 
+        [list]="filter.genders" 
+        [observableObject]="filter.genderFilters$" 
+        [functionUpdate]="filter.updateGender.bind(filter)" 
+        >
+    </app-search-filter>
+
+    <app-search-filter 
+        *ngIf="filter.categories !== undefined"
+        [title]="'категория'" 
+        [list]="filter.categories" 
+        [observableObject]="filter.categoryFilters$" 
+        [functionUpdate]="filter.updateCategory.bind(filter)" 
+        >
+    </app-search-filter>
+
+    <app-search-filter 
+        *ngIf="filter.colors !== undefined"
+        [title]="'цвет'" 
+        [list]="filter.colors" 
+        [observableObject]="filter.colorFilters$" 
+        [functionUpdate]="filter.updateColor.bind(filter)" 
+        >
+    </app-search-filter>
+
+    <app-search-filter 
+        *ngIf="filter.sizes !== undefined"
+        [title]="'размер'" 
+        [list]="filter.sizes" 
+        [observableObject]="filter.sizeFilters$"
+        [functionUpdate]="filter.updateSizes.bind(filter)" 
+        >
+    </app-search-filter>
+
+    <app-search-filter 
+        *ngIf="filter.brands !== undefined"
+        [title]="'бренд'" 
+        [list]="filter.brands" 
+        [observableObject]="filter.brandFilters$" 
+        [functionUpdate]="filter.updateBrand.bind(filter)" 
+        >
+    </app-search-filter>
+</aside>

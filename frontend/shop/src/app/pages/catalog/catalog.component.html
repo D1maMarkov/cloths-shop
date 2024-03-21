@@ -1,0 +1,23 @@
+<app-global-error></app-global-error>
+<app-topnav></app-topnav>
+
+<app-topnav-filters></app-topnav-filters>
+
+<div class="content">
+    <app-main-filter></app-main-filter>
+
+    <div *ngIf="products$ | async as products">
+        <div class="products__wrapper" [ngClass]="{loading__products__wrapper:loading}">
+            <catalog-product @fadeIn [ngClass]="{product__wrapper: true}"
+                *ngFor="let product of products | paginate: { itemsPerPage: filter.quantity$.getValue(), currentPage: filter.pageIndex$.getValue(), totalItems: totalCount}" [product]="product" >
+            </catalog-product>
+        </div>
+
+        <div *ngIf="this.filter.quantity$.getValue() < this.totalCount" class="pagination__wrapper">
+            <div *ngIf="this.filter.pageIndex$.getValue() * this.filter.quantity$.getValue() < this.totalCount" (click)="filter.updatePageIndexIncrement()" class="more">Показать ещё товары</div>
+            <pagination-controls (pageChange)="filter.updatePageIndex($event, true)" ></pagination-controls>
+        </div>
+    </div>
+</div>
+
+<app-footer></app-footer>

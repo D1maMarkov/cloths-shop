@@ -1,0 +1,13 @@
+a{
+    color: rgb(180, 180, 180);
+    margin: 5px;
+    font-size: 18px;
+    margin-right: 5px;
+    margin-bottom: 150px;
+    text-decoration: none;
+
+    &:hover{
+        color: rgb(10, 10, 10);
+        cursor: pointer;
+    }
+}

@@ -1,0 +1,91 @@
+<header class="topnav">
+    <div class="container">
+        <div class="topnav__segment">
+            <a class="icon" href="/"><img src="../../../assets/img/topnav_title/opium.png" /></a>
+            <div *ngFor="let label of labels; index as index">
+                <label
+                    (mouseover)="TopnavService.openInfo(index)" 
+                    (mouseout)="TopnavService.closeInfo(index)"
+                    [ngClass]="{label__active: TopnavService.infoIndex == index && TopnavService.openedInfo}"
+                    (click)="TopnavService.defaultFilter()"
+                    >
+                    {{ label.title }}
+                </label>
+            </div>
+        </div>
+
+        <div class="topnav__segment">
+            <div style="position: relative;" (click)="route.navigate(['wishlist'])">
+                <span id="favs-icon" [matBadge]="favsService.len > 0 ? favsService.len : null" matBadgePosition="below after" matBadgeSize="small">
+                    <img class="svg" src="../../../assets/img/topnav_title/star.png"/>
+                </span>
+            </div>
+
+            <img [@fadeIn] *ngIf="!searchService.opened" (click)="searchService.visible()" class="svg" src="../../../assets/img/topnav_title/magnifier.png"/>
+            <img [@fadeIn] *ngIf="searchService.opened" (click)="searchService.visible()" class="svg" src="../../../assets/img/cross.png" />
+
+            <div style="position: relative;">
+                <span id="cart-icon" (click)="cartService.opened = !cartService.opened" [matBadge]="cartService.len > 0 ? cartService.len : null" matBadgePosition="below after" matBadgeSize="small">
+                    <img class="svg" src="../../../assets/img/topnav_title/basket.svg"/>
+                </span>
+
+                <app-cart></app-cart>
+            </div>
+
+            <img *ngIf="!isAuth" (click)="goToProfile()" class="svg" src="../../../assets/img/topnav_title/profile.png"/>
+            <div *ngIf="isAuth" (click)="goToProfile()" class="profile-icon">
+                <a>{{ username }}</a>
+            </div>
+        </div>
+    </div>
+
+    <div (mouseover)="TopnavService.openInfo()" (mouseout)="TopnavService.closeInfo()" id="base" class="info__body">
+        <div *ngIf="TopnavService.infoIndex !== 1; else allBrands" class="text__wrapper">
+            <div class="topnav_text">
+                <app-underlined-text [color]="'lightgray'" [text]="'ВСЕ БРЕНДЫ'"></app-underlined-text>
+
+                <div *ngFor="let brand of brands">
+                    <app-underlined-text (click)="TopnavService.defaultFilter({brand: brand.name })" [text]="brand.name"></app-underlined-text>
+                </div>
+            </div>
+
+            <div class="topnav_text">
+                <app-underlined-text [color]="'lightgray'" [text]="'ВСЕ КАТЕГОРИИ'"></app-underlined-text>
+
+                <div *ngIf="TopnavService.infoIndex != 4; else accessories">
+                    <div *ngFor="let category of categories">
+                        <app-underlined-text (click)="TopnavService.defaultFilter({category: category})" [text]="category.viewed_name"></app-underlined-text>
+                    </div>
+                </div>
+
+                <ng-template #accessories>
+                    <div *ngFor="let category of accessoriesCategories">
+                        <app-underlined-text (click)="TopnavService.defaultFilter({category: category})" [text]="category.viewed_name"></app-underlined-text>
+                    </div>
+                </ng-template>
+            </div>
+        </div>
+
+        <ng-template #allBrands>
+            <div class="text__wrapper" style="flex-direction: column;">
+                <app-underlined-text [color]="'lightgray'" class="topnav_text" [text]="'ВСЕ БРЕНДЫ'"></app-underlined-text>
+                <div class="topnav_text" style="columns: 3; width: 40vw; margin-right: 0px">
+                    <div *ngFor="let brand of allBrandsList">
+                        <app-underlined-text (click)="route.navigate(['catalog/' + brand.name])" [text]="brand.viewed_name"></app-underlined-text>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+
+        <div class="topnav_img">
+            <div *ngFor="let image of images[TopnavService.infoIndex]">
+                <figure (click)="TopnavService.defaultFilter({brand: image.title })">
+                    <img [src]="'../../../assets/img/topnav/' + image.image" [height]="image.height"/>
+                    <figcaption>{{ image.title }}</figcaption>
+                </figure>
+            </div>
+        </div>
+    </div>
+
+    <app-search></app-search>
+</header>

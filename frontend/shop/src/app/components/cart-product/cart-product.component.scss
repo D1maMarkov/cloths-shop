@@ -1,0 +1,44 @@
+.product{
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 25px;
+
+    .quantity{
+        margin-top: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        .count__wrapper{
+            min-width: 80px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .size{
+            font-size: 17px;
+        }
+
+        .count{
+            width: 27px;
+            height: 27px;
+            transition: .2s;
+            margin: 0px;
+
+            &:hover{
+                background-color: rgb(180, 180, 180);
+            }
+        }
+    }
+
+    img{
+        border-radius: 5px;
+        height: 80px;
+    }
+
+    .price{
+        font-size: 23px;
+    }
+}

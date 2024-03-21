@@ -1,0 +1,23 @@
+<div class="topnav__filter__wrapper">
+    <app-redirect-toolbar></app-redirect-toolbar>
+
+    <div>
+        <select (change)="filter.updateQuantity($event)" [(ngModel)]="quantity" class="sort">
+            <option
+                *ngFor="let opt of quantityOptions"
+                [selected]="opt == 10"
+                [value]="opt"
+            >
+                Показывать: {{ opt }}
+            </option>
+        </select>
+
+        <select class="sort" (change)="filter.updateOrderBy($event)">
+            <option value="">Сортировать:</option>
+            <option value="price">По возрастанию цены</option>
+            <option value="-price">По убыванию цены</option>
+            <option value="created">Сначала старые товары</option>
+            <option value="-created">Сначала новые товары</option>
+        </select>
+    </div>
+</div>

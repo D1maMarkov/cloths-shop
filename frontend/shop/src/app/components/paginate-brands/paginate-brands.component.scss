@@ -1,0 +1,30 @@
+.products__wrapper{
+    display: flex;
+}
+
+.container{
+    margin-top: 100px;
+    margin-bottom: 100px;
+    width: 90%;
+    margin-left: 5%;
+}
+
+.title{
+    display: flex;
+    justify-content: space-between;
+
+    .page__change{
+        display: flex;
+        align-items: center;
+
+        .inactiveCount{
+            color: rgb(200, 200, 200);
+        }
+    }
+}
+
+.logo{
+    height: 17vw;
+    margin: 1vw;
+    cursor: pointer;
+}

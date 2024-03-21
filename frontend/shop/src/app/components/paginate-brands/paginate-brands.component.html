@@ -1,0 +1,34 @@
+<div class="container">
+    <div class="title">
+        <h3>{{ title }}</h3>
+
+        <div class="page__change">
+            <p>{{ index + 1 }} / {{ totalLength }}</p>
+            <div *ngIf="index > 0" (click)="decrement()" class="count"><a>{{ '<' }}</a></div>
+            <div *ngIf="index === 0" class="count inactiveCount"><a>{{ '<' }}</a></div>
+            <div *ngIf="index < totalLength - 1" (click)="increment()" class="count"><a>{{ '>' }}</a></div>
+            <div *ngIf="index >= totalLength - 1" class="count inactiveCount"><a>{{ '>' }}</a></div>
+        </div>
+    </div>
+
+    <div class="products__wrapper" *ngIf="BrandsService.brands$ | async as brands">
+        <a href="catalog/{{ brand.name }}"
+        
+            *ngFor="let brand of brands.slice(index * productsPerPage, (index + 1) * productsPerPage)"
+            >
+            <img
+                *ngIf="right"
+                @flyInOut
+                class="logo" 
+                [src]="brand.image"
+            />
+
+            <img
+                *ngIf="!right"
+                @flyInOutLeft
+                class="logo"
+                [src]="brand.image"
+            />
+        </a>
+    </div>
+</div>

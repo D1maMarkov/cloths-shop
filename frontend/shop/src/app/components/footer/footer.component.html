@@ -1,0 +1,54 @@
+<footer>
+    <div class="footer_text">
+        <div class="social">
+            <a>Социальные сети</a><br><br>
+            <div class="container__for__social">
+                <img src="https://cdn.onlinewebfonts.com/svg/download_2255.png"/>
+                <a>Вконтакте</a>
+            </div>
+            <div class="container__for__social">
+                <img src="../../../assets/img/black_telegram.png"/>
+                <a onclick="location.href='https://t.me/n3foooooor'">Телеграмм</a>
+            </div>
+        </div>
+        <div class="social">
+            <a>Интернет магазин</a><br><br>
+            <div *ngFor="let phoneText of phones">
+                <app-underlined-text [text]="phoneText"></app-underlined-text>
+            </div>
+        </div>
+        <div class="social">
+            <a>Поддержка</a><br><br>
+            <div *ngFor="let supportText of support">
+                <app-underlined-text [text]="supportText"></app-underlined-text>
+            </div>
+        </div>
+        <div class="social">
+            <a>Информация</a><br><br>
+            <div *ngFor="let infoText of information">
+                <app-underlined-text [text]="infoText"></app-underlined-text>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom">
+        <div class="bottom_imgs">
+            <span><img src="https://brandshop.ru/assets/images/footer-icons/mir.svg"/></span>
+            <span><img src="https://brandshop.ru/assets/images/footer-icons/visa.svg"/></span>
+            <span><img src="https://brandshop.ru/assets/images/footer-icons/mastercard.svg"/></span>
+            <span><img src="https://brandshop.ru/assets/images/footer-icons/dolyame.svg"/></span>
+            <span><img src="https://brandshop.ru/assets/images/footer-icons/tinkoff.svg"/></span>
+            <span><img src="https://brandshop.ru/assets/images/footer-icons/sberpay.svg"/></span>
+            <span><img src="https://brandshop.ru/assets/images/footer-icons/yapay.svg"/></span>
+            <span><img src="https://brandshop.ru/assets/images/footer-icons/russian-post.svg"/></span>
+            <span><img src="https://brandshop.ru/assets/images/footer-icons/ems.svg"/></span>
+            <span><img src="https://brandshop.ru/assets/images/footer-icons/cdek.svg"/></span>
+        </div>
+        <div class="bottom_text">
+            <span><a>Ⓒ OPIUM SHOP, 2023</a></span>
+            <a href="/">Пользовательское соглашение</a>
+            <a href="/">Политика о конфиденциальности</a>
+            <a href="/">Карта сайта</a>
+        </div>
+    </div>
+</footer>

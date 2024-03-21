@@ -1,0 +1,21 @@
+<app-simple-topnav></app-simple-topnav>
+
+<main>
+    <form [formGroup]="form" (ngSubmit)="getAccessToken($event)">
+        <p>Вход</p>
+        <input formControlName="username" placeholder="имя пользователя"/>
+        <div class="error" *ngIf="form.get('username')?.errors?.required && form.get('username')?.touched">Введите имя</div>
+        <input formControlName="password" placeholder="пароль" name="password"/>
+        <div class="error" *ngIf="form.get('password')?.errors?.required && form.get('password')?.touched">Введите пароль</div>
+        <div class="error">{{ error.getValue() }}</div>
+
+        <button *ngIf="form.valid">Вход</button>
+        <button *ngIf="form.invalid" disabled>Вход</button>
+        
+        <div class="register" style="margin: 10px;">
+            <a>Нет аккаунта?</a><a (click)="route.navigate(['/register'])" style="cursor: pointer;">Регистрация</a>
+        </div>
+    </form>
+</main>
+
+<app-footer></app-footer>

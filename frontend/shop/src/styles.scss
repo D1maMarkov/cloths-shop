@@ -1,0 +1,93 @@
+body{
+    margin: 0px;
+    padding: 0px;
+    font-family: 'Roboto Condensed', sans-serif;
+    overflow-x: hidden;
+    color: rgb(70,70, 70);
+}
+
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+.black__button{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 10px 0px;
+    color: #fff;
+    font-size: 15px;
+    border-radius: 5px;
+    background-color: rgb(10, 10, 10);
+    border: none;
+    line-height: 20px;
+    cursor: pointer;
+
+    span{
+        color: rgb(180, 180, 180);
+    }
+
+    &:hover {
+        background-color: rgb(100, 100, 100);
+        transition: 0.3s;
+    }
+
+    &:disabled{
+        opacity: .7;
+    }
+}
+
+.gray__button{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 175px;
+    padding: 10px 15px;
+    color: black;
+    font-size: 15px;
+    border-radius: 5px;
+    background-color: rgb(235, 235, 235);
+    border: none;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+
+    &:hover {
+        background-color: rgb(210, 210, 210);
+    }
+}
+
+.count{
+    background-color: rgb(220, 220, 220);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 20px;
+    color: black
+}
+
+.product__wrapper{
+    min-width: 25%;
+    max-width: 25%;
+    position: relative;
+}
+
+.svg{
+    padding: 10px;
+    background-color: white;
+    border-radius: 7px;
+    transition: 0.3s;
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+    
+    &:hover{
+        background-color: rgb(240, 240, 240);
+    }
+}

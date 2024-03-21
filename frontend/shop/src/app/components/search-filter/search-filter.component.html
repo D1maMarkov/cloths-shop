@@ -1,0 +1,21 @@
+<div class="title__wrapper">
+    <a>{{ title }}</a>
+    <a class="reset" *ngIf="getActiveCheckboxes() > 0" (click)="clear()" >Сбросить</a>
+</div>
+
+<span *ngIf="list | searchProducts: search as options">
+    <div class="search__wrapper">
+        <img class="magnifier" src="../../../assets/img/topnav_title/magnifier.png" />
+        <input placeholder="Поиск" class="search" [(ngModel)]="search"/><br />
+        <img *ngIf="empty(options)" (click)="search=''" class="cross" src="../../../assets/img/cross-in-circle.png" />
+    </div>
+
+    <span *ngIf="empty(options)" class="nothing__found">
+        <a>По запросу «{{ search }}» ничего не найдено</a>
+    </span>
+
+    <span *ngFor="let option of options">
+        <input class="filter_option" type="checkbox" (click)="functionUpdate(option.name)" id="{{ option.name }}"/>
+        <label for="{{ option.name }}" class="chose">{{ option.viewed_name }}</label><br />
+    </span>
+</span>

@@ -1,0 +1,16 @@
+<app-topnav></app-topnav>
+
+<div class="content">
+    <div *ngIf="products | async as products">
+        <p>Избранное</p>
+        <div class="products__wrapper">
+            <catalog-product @fadeIn [ngClass]="{product__wrapper: true}"
+                *ngFor="let product of products" [product]="product" >
+            </catalog-product>
+        </div>
+    </div>
+</div>
+
+<hr />
+
+<app-footer></app-footer>

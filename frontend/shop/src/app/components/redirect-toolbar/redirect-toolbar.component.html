@@ -1,0 +1,7 @@
+<span>
+    <a href="/">Главная</a>
+</span>
+<span *ngFor="let refObj of defaultRefs">
+    <a style="pointer-events: none">/</a>
+    <a href="#">{{ refObj.viewed_name }}</a>
+</span>

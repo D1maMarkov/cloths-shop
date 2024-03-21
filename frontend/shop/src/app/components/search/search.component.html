@@ -1,0 +1,51 @@
+<nav @fadeInOutTopnav *ngIf="searchService.opened">
+    <div class="search">
+        <div class="input" [ngClass]="{input__full: search.length == 0, input__half: search.length > 0}">
+            <img src="../../../assets/img/topnav_title/magnifier.png" />
+            <input [(ngModel)]="search" placeholder="искать">
+        </div>
+
+        <a (click)="getSearchedProducts(search)" *ngIf="search.length > 0">Найти</a>
+    </div>
+
+    <div class="content">
+        <div style="width: 17vw;">
+            <div *ngIf="history.length > 0">
+                <p style="color: rgb(210, 210, 210);">Вы искали</p>
+                <div *ngFor="let response of history.slice(0, 3)" class="option">
+                    <div>
+                        <div style="display: flex; align-items: center;">
+                            <img src="../../../assets/img/topnav_title/magnifier.png" />
+                            <p (click)="getSearchedProducts(response)" >{{ response }}</p>
+                        </div>
+                        <img (click)="deleteFromHistorySearch(response)" class="cross" src="../../../assets/img/cross.png" />
+                    </div>
+                        
+                    <hr />
+                </div>
+            </div>
+
+            <p style="color: rgb(210, 210, 210);">Так же ищут</p>
+            <div *ngFor="let response of alsoSearch" class="option">
+                <div>
+                    <div style="display: flex; align-items: center;">
+                        <img src="../../../assets/img/topnav_title/magnifier.png" />
+                        <p>{{ response }}</p>
+                    </div>
+                    <img class="cross" src="../../../assets/img/cross.png" />
+                </div>
+                    
+                <hr />
+            </div>
+        </div>
+
+        <div *ngIf="products$ | async as products" class="products">
+           <catalog-product [ngClass]="{product__wrapper: true}" *ngFor="let product of products.slice(0, 4)" [product]="product">
+           </catalog-product>
+        </div>
+    </div>
+
+    <div *ngIf="nothingFound">
+        <h3 style="text-align: center; color: gray;">По запросу ничего не найдено</h3>
+    </div>
+</nav>

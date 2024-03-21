@@ -1,0 +1,35 @@
+<div @fadeInOutTopnav *ngIf="cartService.opened" class="cart">
+    <div *ngIf="products.length > 0; else empty" >
+        <div class="header">
+            <div>
+                <a>Корзина</a><br />
+                <small>{{ cartService.len }} товара</small>
+            </div>
+
+            <img id="basket" *ngIf="!deleteWarning" (click)="readyToChangeDelete = true" class="basket" src="../../../assets/img/trash.png"/>
+            <a @fadeIn class="warning" *ngIf="deleteWarning" (click)="delete()">Удалить всё</a>
+        </div>
+
+        <div class="products__wrapper">
+            <div *ngFor="let product of products">
+                <app-cart-product [product]="product"></app-cart-product>
+            </div>
+        </div>  
+
+        <button (click)="cartService.openSnackBar()" style="padding: 13px 0px;" class="black__button">Оформить заказ на {{ cartService.price }} $</button>
+    </div>
+
+    <ng-template #empty>
+        <div class="empty">
+            <div class="header">
+                <a>Корзина</a>
+            </div>
+
+            <div class="content">
+                <a><small>Вы пока что ничего не добавили в корзину</small></a>
+            </div>
+
+            <button (click)="exit()" class="black__button">Перейти к новинкам</button>
+        </div>
+    </ng-template>
+</div>

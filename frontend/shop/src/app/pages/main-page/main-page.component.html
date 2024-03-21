@@ -1,0 +1,68 @@
+<app-topnav></app-topnav>
+
+<div>
+    <div class="title_imgs">
+        <div (click)="route.navigate(['catalog/muzhskoe'])" class="hello">
+            <img src="../../../assets/img/owens.png"/>
+            <div>
+                <p>Мужское</p>
+            </div>
+        </div>
+
+        <div (click)="route.navigate(['catalog/zhenskoe'])" class="hello">
+            <img src="../../../assets/img/tommy.png"/>
+            <div>
+                <p>Женское</p>
+            </div>
+        </div>
+    </div>
+
+    <app-paginate-brands [title]="'Популярные бренды'"></app-paginate-brands>
+
+    <div id="arrivals" *ngIf="newArrivals$ | async as newArrivals">
+        <app-paginate-component [title]="'Новые поступления'" [objects]="newArrivals.slice(0, 20)"></app-paginate-component>
+    </div>
+
+    <hr style="width: 90%; border: 2px solid rgb(200, 200, 200); margin-top: 4vw;" />
+
+    <div class="container4populars">
+        <div id="aesthetic">
+            <div style="display: flex; margin-bottom: 30px;">
+                <img style="width: 64%; pointer-events: none; border-radius: 3px;" src="../../../assets/img/indexShoes/rickshoes.png" />
+                <div style="width: 30%;">
+                    <div style="margin-top: 40%; margin-left: 40px;">
+                        <div class="link-ease-in-out">
+                            <h3 id="newArrivalsP">Новые поступления</h3>
+                        </div>
+                        <h4>Обувь Rick Owens</h4>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display: flex; margin-bottom: 50px;">
+                <div class="newArrivalsPicture">
+                    <img src="../../../assets/img/indexShoes/balenciaga shoes.jpg"/>
+                    <p>Balenciaga steroid boots</p>
+                </div>
+
+                <div class="newArrivalsPicture">
+                    <img src="../../../assets/img/indexShoes/ccp.jpg" />
+                    <p>Carol Cristian Poell collection</p>
+                </div>
+
+                <div class="newArrivalsPicture">
+                    <img src="../../../assets/img/indexShoes/raf simons.jpg" />
+                    <p>Raf Simons shoes</p>
+                </div>
+            </div>
+        </div>
+
+        <hr style="width: 100%; border: 2px solid rgb(200, 200, 200); margin-top: 30px; margin-bottom: 40px;" />
+
+        <div id="populars" *ngIf="popularProducts$ | async as popularProducts">
+            <app-paginate-component [title]="'Популярные товары'" [objects]="popularProducts.slice(0, 20)"></app-paginate-component>
+        </div>
+    </div>
+</div>
+
+<app-footer></app-footer>

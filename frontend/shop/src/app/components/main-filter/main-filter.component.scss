@@ -1,0 +1,71 @@
+.filtr {
+    position: sticky;
+    font-size: 16px;
+    line-height: 40px;
+    min-width: 22%;
+    padding-top: 15px;
+    padding-left: 20px;
+    top: -170%;
+
+    .main__reset{
+        color: black;
+        cursor: pointer;
+        transition: .2s;
+        display: flex;
+        align-items: center;
+
+        &:hover{
+            opacity: .7;
+        }
+
+        div{
+            background-image: url("../../../assets/img/cross.png");
+            width: 30px;
+            height: 30px;
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-color: rgb(220, 220, 220);
+            background-size: 40% 40%;
+            margin-right: 10px;
+            border-radius: 50%;
+        }
+    }
+}
+
+.slider {
+    -webkit-appearance: none;
+    width: 90%;
+    height: 5px;
+    background: black;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+    position: relative;
+}
+
+.slider:hover {
+    opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 23px;
+    height: 23px;
+    background: black;
+    border-radius: 7px;
+    border: 4px solid rgb(240, 240, 240);
+    transition: .2s;
+    cursor: pointer;
+}
+
+.cost{
+    font-size: 15px;
+    display:inline-block;
+    margin-right: 65px;
+
+    a{
+        color: rgb(180, 180, 180);
+    }
+}

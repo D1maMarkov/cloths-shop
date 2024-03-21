@@ -1,0 +1,129 @@
+nav{
+    width: 100%; 
+    min-height: 100vh; 
+    background-color: white; 
+    position: absolute; 
+    margin-top: 70px;
+    left: 0px;
+    z-index: -2;
+
+    .search{
+        position: relative; 
+        display: flex;
+        align-items: center;
+        margin-top: 20px;
+
+        div{
+            display: flex; 
+            align-items: center
+        }
+
+        a{
+            color: black;
+            margin-left: 20px;
+            cursor: pointer; 
+        }
+
+        .input__full{
+            width: 94vw;
+        }
+
+        .input__half{
+            width: 87vw;
+        }
+
+        .input{
+            position: relative;
+            display: flex;
+            align-items: center;
+            margin-left: 3vw;
+
+            img{
+                position: absolute;
+                left: 10px;
+                width: 20px;
+                height: 20px;
+                opacity: .4;
+            }
+
+            input{
+                width: 100%;
+                padding: 12px 20px 12px 42px;
+                font-size: 1rem;
+                font-weight: 400;
+                background-color: rgb(245, 245, 245);
+                border: none;
+                border-radius: 0.25rem;
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                appearance: none;
+
+                &:focus {
+                    outline: 0;
+                }
+
+                &::placeholder {
+                    color: rgb(150, 150, 150);
+                }
+            }
+        }
+    }
+
+    .products{ 
+        max-width: 75vw;
+        display: flex;
+    }
+
+    .content{
+        display: flex;
+        justify-content: space-between;
+        width: 94vw;
+        margin: 3vw;
+    }
+}
+
+.option{
+    cursor: pointer;
+
+    *{
+        transition: .2s;
+    }
+
+    div{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    img{
+        width: 15px;
+        height: 15px;
+        margin-right: 10px;
+        opacity: .4;
+    }
+
+    .cross{
+        width: 12px;
+        height: 12px;
+        opacity: 0;
+    }
+
+    p{
+        margin: 7px 0px;
+    }
+
+    hr{
+        width: 100%;
+        height: 0px;
+        border: 1px solid rgb(245, 245, 245);
+    }
+
+    &:hover{
+        p{
+            color: rgb(210, 210, 210);
+        }
+
+        .cross{
+            opacity: .4;
+        }
+    }
+}

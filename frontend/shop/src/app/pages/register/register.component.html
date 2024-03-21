@@ -1,0 +1,19 @@
+<app-simple-topnav></app-simple-topnav>
+
+<main>
+    <form [formGroup]="form" (ngSubmit)="register($event)">
+        <p>Регистрация</p>
+        <input formControlName="username" placeholder="имя пользователя"/>
+        <div class="error" *ngIf="form.get('username')?.errors?.required && form.get('username')?.touched">Введите имя</div>
+        <input formControlName="password" placeholder="пароль"/>
+        <div class="error" *ngIf="form.get('password')?.errors?.required && form.get('password')?.touched">Введите пароль</div>
+        <input formControlName="password2" placeholder="повторите пароль"/>
+        <div class="error" *ngIf="form.get('password2')?.errors?.required && form.get('password2')?.touched">Введите пароль повторно</div>
+        <div class="error">{{ error.getValue() }}</div>
+
+        <button *ngIf="form.valid">Продолжить</button>
+        <button *ngIf="form.invalid" disabled>Продолжить</button>
+    </form>
+</main>
+
+<app-footer></app-footer>

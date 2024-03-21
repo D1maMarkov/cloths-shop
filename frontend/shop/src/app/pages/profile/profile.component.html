@@ -1,0 +1,75 @@
+<app-topnav></app-topnav>
+
+<main>
+    <h4>{{ username.getValue() }}</h4>
+    <h4>Электроная почта</h4>
+    
+    <div class="container__for__info">
+        <p>{{ 'email' }}</p>
+    </div>
+
+    <div style="display: flex; margin: 10% 0%; justify-content: space-between;">
+        <div class="telegram__icon__wrapper">
+            <img src="../../../assets/img/telegram.png"/>
+
+            <div style="margin-right: 15px; margin-left: 10px;">
+                <a style="font-size: 1.5vw;">Телеграм бот 1000 и 1 Рик Овенс</a><br>
+                <a style="color: rgb(150,150,150); font-size: 1.3vw;">Отслеживайте статус ваших заказов</a>
+            </div>
+        </div>
+
+        <a href='https://t.me/thousandRickOwensBot'>
+            <button class="telegramButton">Открыть в Телеграм</button>
+        </a>
+    </div>
+
+    <div *ngIf="favsService.products | async as products">
+        <p style="font-size: 2.3vh;">Избранное ({{ products.length }} товаров)</p>
+        
+        <div class="favs">
+            <div class="inner">
+                <catalog-product *ngFor="let product of products.slice(0, 2)" [product]="product" [ngClass]="{product__wrapper: true}">
+                </catalog-product>
+            </div>
+            <button (click)="route.navigate(['/wishlist'])">Все товары ({{ products.length }})</button>
+        </div>
+    </div>
+
+    <div *ngIf="orders$ | async as orders">
+        <h4>Заказы</h4>
+
+        <div *ngFor="let order of orders">
+            <div class="order_products">
+                <div class="order__date">
+                    <h4>{{ order.created | date : 'shortDate' }}</h4>
+
+                    <div *ngIf="order.status === 'Готов к выдаче'" class="container4status200">
+                        <a>{{ order.status }}</a>
+                    </div>
+                    
+                    <div *ngIf="order.status !== 'Готов к выдаче'" class="container4status202">
+                        <a>{{ "В пути" }}</a>
+                    </div>
+                </div>
+
+                <div class="order_list">
+                    <div *ngFor="let product of order.order_products" class="order__product">
+                        <img [src]="product.image" [alt]="product.name"/>
+                        <div class="description">
+                            <p>{{ product.name }}</p>
+                            <p style="font-size: 2.5vh; color: rgb(150, 150, 150);">{{ product.description }}</p>
+                            <div style="width: 90%; display: flex; justify-content: space-between; align-items: center;">
+                                <p style="font-size: 2.5vh;">{{ product.size }}</p>
+                                <p>{{ product.price}} $</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h4 (click)="logout()" class="logout">Выйти</h4>
+</main>
+
+<app-footer></app-footer>

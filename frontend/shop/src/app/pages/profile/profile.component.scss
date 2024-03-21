@@ -1,0 +1,174 @@
+.order_products{
+    display: flex;
+    flex-direction: column;
+    margin-top: 50px;
+}
+
+.order__product{
+    background-color: white;
+    margin: 10px;
+    width: 45%;
+    aspect-ratio: 3/2;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+
+    img{
+        height: 80%;
+        margin: 3%;
+        margin-right: 2%;
+    }
+
+    .description{
+        letter-spacing: 0px;
+        width: 37%;
+        font-size: 24px;
+
+        p{
+            color: black;
+            margin: 5px;
+        }
+    }
+}
+
+main{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 50%;
+    margin-left: 50%;
+    transform: translate(-50%, -0%);
+    margin-top: 125px;
+
+    p{
+        font-size: 2vh;
+    }
+}
+
+.container__for__info{
+    border-radius: 3px;
+    border: 2px solid rgb(150,150,150);
+
+    p{
+        margin-left: 5%;
+    }
+}
+
+.telegramButton{
+    border-radius: 20px;
+    background-color: rgb(190, 230, 240);
+    color: rgb(50, 180, 210);
+    border: none;
+    padding: 12px;
+    font-size: 2.5vh;
+    cursor: pointer;
+}
+
+button[type=submit]{
+    background-color: black;
+    padding: 12px;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 13px;
+    margin-top: 30px;
+    transition: 0.2s;
+
+    &:hover{
+        background-color: rgb(50, 50, 50);
+    }
+}
+
+input{
+    width: 80%;
+    padding: 10px;
+    left: 20%;
+    border: none;
+    border: 1px solid black;
+    border-radius: 5px;
+    margin-bottom: 10xp;
+}
+
+.order_list{
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: rgba(240, 240, 240, .5);
+    padding-top: 10px;
+}
+
+.container4status200{
+    width: 25%;
+    height: 20px;
+    background-color: rgb(170, 240, 130);
+    border-radius: 10px;
+    color: rgb(90, 170, 25);
+    padding: 10px 0px;
+    text-align: center;
+}
+
+.container4status202{
+    width: 25%;
+    height: 20px;
+    background-color: rgb(255, 255, 150);
+    border-radius: 10px;
+    color: rgb(255, 170, 65);
+    padding: 10px 0px;
+    text-align: center;
+}
+
+.logout{
+    text-align: center;
+    margin-top: 150px; 
+    cursor: pointer;
+}
+
+.telegram__icon__wrapper{
+    display: flex;
+    align-items: center;
+
+    img{
+        width: 4vw; 
+        height: 4vw;
+    }
+}
+
+.favs{
+    margin-left: 5%;
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+
+    .product__wrapper{
+        min-width: 50%;
+        max-width: 50%;
+    }
+
+    button{
+        padding: 20px 0px;
+        background-color: rgb(150, 150, 150);
+        border-radius: 5px;
+        border: none;
+        transition: .3s;
+    
+        &:hover{
+            opacity: .7;
+        }
+    }
+
+    .inner{
+        width: 100%;
+        display: flex; 
+        justify-content: center; 
+        padding-bottom: 50px;
+    }
+}
+
+.order__date{
+    display: flex; 
+    justify-content: space-between;
+    align-items: center;
+} 

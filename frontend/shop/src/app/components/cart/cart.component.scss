@@ -1,0 +1,126 @@
+.cart{
+    width: 330px;
+    height: 320px;
+    background-color: white;
+    position: absolute;
+    right: 0px;
+    padding: 25px;
+    border-radius: 7px;
+    box-shadow: 5px 5px 14px 6px rgba(180, 180, 180, .5);
+    padding-top: 10px;
+
+    small{
+        color: rgb(200, 200, 200);
+    }
+
+    .product{
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 25px;
+
+        .quantity{
+            margin-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            .count__wrapper{
+                min-width: 80px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .size{
+                font-size: 17px;
+            }
+
+            .count{
+                width: 27px;
+                height: 27px;
+                transition: .2s;
+                margin: 0px;
+
+                &:hover{
+                    background-color: rgb(180, 180, 180);
+                }
+            }
+        }
+
+        img{
+            border-radius: 5px;
+            height: 80px;
+        }
+
+        .price{
+            font-size: 23px;
+        }
+    }
+
+    .header{
+        display: flex;
+        position: relative;
+        justify-content: center;
+        margin-bottom: 30px;
+        font-size: 17px;
+        align-items: center;
+    }
+
+    .products__wrapper{
+        max-height: 200px;
+        overflow-y: auto;
+        width: 330px;
+        padding-right: 25px;
+
+        &::-webkit-scrollbar {
+            width: 5px; 
+        }
+        
+        &::-webkit-scrollbar-thumb{
+            border-radius: 5px;
+            background: rgb(220, 220, 220);
+        }
+    }
+}
+
+.warning{
+    color: red;
+    font-size: 14px;
+    position: absolute;
+    right: 0px;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.basket{
+    position: absolute;
+    right: 0px;
+    height: 25px;
+    filter: brightness(0%);
+    cursor: pointer;
+
+    &:hover{
+        filter: brightness(100%);
+    }
+}
+
+.empty{
+    .content{
+        font-size: 20px;
+        text-align: center;
+        margin-top: 90px
+    }
+
+    button{
+        margin-top: 80px;
+        width: 70%;
+        margin-left: 15%;
+        padding: 15px 0px;
+        color: black;
+        background: rgb(230, 230, 230);
+    }
+}
+
+::ng-deep .mat-simple-snackbar-action {
+    color: rgb(120, 120, 255);
+}

@@ -1,0 +1,74 @@
+<app-simple-topnav></app-simple-topnav>
+
+<div class="content">
+    <main>
+        <div [ngClass]="{not__allowed: formInd === 2}" class="products__wrapper">
+            <div class="products">
+                <div *ngFor="let product of products.getValue()">
+                    <app-cart-product [product]="product"></app-cart-product>
+                </div>
+            </div>
+        </div>
+
+        <div class="form">
+            <form @flyInOut *ngIf="formInd === 0" [formGroup]="firstForm" (ngSubmit)="onSubmitFirstForm()">
+                <input placeholder="имя" formControlName="firstName" />
+                <div class="error" *ngIf="firstForm.get('firstName')?.errors?.required && firstForm.get('firstName')?.touched">Введите имя</div>
+                <input placeholder="фамилия" formControlName="secondName"/>
+                <div class="error" *ngIf="firstForm.get('secondName')?.errors?.required && firstForm.get('secondName')?.touched">Введите фамилию</div>
+                <input mask="+0 (000) 000-00-00" placeholder="номер телефона" formControlName="phone"/>
+                <div class="error" *ngIf="firstForm.get('phone')?.errors && firstForm.get('phone')?.touched">Введите корректный номер телефона</div>
+                <input placeholder="адресс" formControlName="adress"/>
+                <div class="error" *ngIf="firstForm.get('adress')?.errors?.required && firstForm.get('adress')?.touched">Введите адресс</div>
+
+                <button *ngIf="firstForm.valid">Даллее</button>
+                <button *ngIf="firstForm.invalid" disabled>Даллее</button>
+            </form>
+
+            <form @flyInOut *ngIf="formInd === 1">
+                <img (click)="back()" class="array" src="../../../assets/img/topnav_title/array.png"/>
+
+                <a style="margin-left: 10px;">доставка</a> 
+            
+                <div class="radio__wrapper">
+                    <div *ngFor="let method of deliveryMethods" class="form_radio_btn">
+                        <input (click)="changeDeliveryMethod($event)" [checked]="method === chosedDeliveryMethod.getValue()" id="radio-{{ method }}" type="radio" value="{{ method }}" />
+                        <label for="radio-{{ method }}">{{ method }}</label>
+                    </div>
+                </div>
+                
+                <div style="padding: 5px 10px; display: flex; justify-content: space-between;">
+                    <a>Общая сумма заказа</a>
+                    <a>{{ cartService.price }} $</a>
+                </div>
+
+                <div style="padding: 5px 10px; display: flex; justify-content: space-between;">
+                    <a>Стоимость доставки</a>
+                    <a>{{ deliveryPrice.getValue() }} $</a>
+                </div>
+
+                <div style="padding: 5px 10px; display: flex; justify-content: space-between;">
+                    <a style="font-size: 23px; font-weight: bold;">Итого</a>
+                    <a style="font-size: 23px; font-weight: bold;">{{ cartService.price + deliveryPrice.getValue() }} $</a>
+                </div>
+
+                <hr />
+                <a style="margin-left: 10px;">Оплата</a>
+
+                <div class="radio__wrapper">
+                    <div *ngFor="let method of paymentMethods" class="form_radio_btn">
+                        <input (click)="changePaymentMethod($event)" [checked]="method === chosedPaymentMethod.getValue()" id="radio-{{ method }}" type="radio" value="{{ method }}" />
+                        <label for="radio-{{ method }}">{{ method }}</label>
+                    </div>
+                </div>
+
+                <button (click)="place()">Заказать</button>
+            </form>
+
+            <div class="success" @flyInOut *ngIf="formInd === 2">
+                <p>Заказ успешно оформлен</p>
+                <button (click)="exit()" class="gray__button">к новинкам</button>
+            </div>
+        </div>
+    </main>
+</div>

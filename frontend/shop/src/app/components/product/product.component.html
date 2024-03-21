@@ -1,0 +1,12 @@
+<div class="product" (mouseover)="hover = true" (mouseleave)="hover = false" (click)="goToProductPage()">
+    <img [src]="product.images[0]" /><br>
+    <p class="name"><b>{{ product.name }}</b></p>
+    <a>{{ product.description}}</a><br><br>
+    <a>{{ product.price | currency: "$": 'symbol': ".0" }}</a>
+
+    <div *ngIf="hover" @fadeIn class="size__wrapper">
+        <div class="size" *ngFor="let size of product.sizes">
+            {{ size }}
+        </div>
+    </div>
+</div>

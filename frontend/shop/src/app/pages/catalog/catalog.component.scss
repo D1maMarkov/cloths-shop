@@ -1,0 +1,123 @@
+body{
+    background-color: rgb(245, 245, 245);
+}
+
+.content{
+    width: 96%;
+    margin-left: 2%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+
+.product__wrapper{
+    min-width: 25%;
+    max-width: 25%;
+}
+
+.loading__products__wrapper{
+    opacity: .5;
+    pointer-events: none;
+}
+
+.products__wrapper{
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.pagination__wrapper{
+    margin-top: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    .more{
+        padding: 15px 0px;
+        width: 100%;
+        background-color: rgb(220, 220, 220);
+        color: rgb(50, 50, 50);
+        border-radius: 5px;
+        transition: .2s;
+        text-align: center;
+        cursor: pointer;
+
+        &:hover{
+            background-color: rgb(200, 200, 200);
+        }
+    }
+
+    ::ng-deep{
+        .ngx-pagination {
+            display: flex;
+            justify-content: center;
+        }
+        .small-screen, .ellipsis{
+            display: none!important;
+        }
+       
+        .ngx-pagination li{
+            padding: 0;
+            background: rgb(220, 220, 220);
+            width: 45px;
+            height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 3px;
+            margin: 2px;
+            transition: .2s;
+            cursor: pointer;
+
+            &:hover:not(.current){
+                background: rgb(200, 200, 200);
+            }
+        }
+
+        .ngx-pagination .current{
+            background: rgb(50, 50, 50);
+            color: white;
+        }
+
+        .ngx-pagination a{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: rgb(50, 50, 50);
+            padding: 0;
+            width: 45px;
+            height: 45px;
+            border-radius: 3px;
+
+            &:hover{
+                background-color: rgb(200, 200, 200);
+            }
+        }
+
+        .pagination-previous.disabled, .pagination-next.disabled{  
+            display: none;
+        }
+
+        .pagination-previous::before, .pagination-next::before{  
+            content: '<'; 
+            font-size: 20px;
+            z-index: 1;
+        }
+
+        .pagination-next::before{
+            content: '>';
+        }
+
+        .pagination-previous .ng-star-inserted, .pagination-next .ng-star-inserted{
+            font-size: 2px;
+            width: 45px;
+            height: 45px;
+            border-radius: 3px;
+            color: rgb(220, 220, 220);
+            position: absolute;
+
+            &:hover{
+                color: rgb(220, 220, 220);
+            }
+        }
+    }
+}

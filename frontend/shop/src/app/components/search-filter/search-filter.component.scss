@@ -1,0 +1,108 @@
+.filter_option {
+    position: absolute;
+    z-index: -1;
+    opacity: 0;
+}
+.filter_option+label {
+    display: inline-flex;
+    align-items: center;
+    user-select: none;
+}
+.filter_option+label::before {
+    content: '';
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    flex-shrink: 0;
+    flex-grow: 0;
+    border: none;
+    border-radius: 0.25em;
+    margin-right: 0.5em;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-color: rgb(220, 220, 220);
+    background-size: 50% 50%;
+}
+
+.filter_option:checked+label::before {
+    background-image: url("../../../assets/img/mark.png");
+}
+
+.chose{
+    margin-left: 10px;
+    transition: 0.3s;
+    cursor: pointer;
+
+    &:hover{
+        color: rgb(180, 180, 180);
+    }
+}
+
+.title__wrapper{
+    display: flex;
+    justify-content: space-between;
+
+    .reset{
+        color: rgb(180, 180, 180);
+        cursor: pointer;
+        transition: .2s;
+
+        &:hover{
+            color: black;
+        }
+    }
+}
+
+.search__wrapper{
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    margin-left: 7px;
+    max-width: 80%;
+
+    .magnifier{
+        width: 15px;
+        height: 15px;
+        margin-right: 10px;
+    }
+
+    .cross{
+        width: 15px;
+        height: 15px;
+        cursor: pointer;
+        transition: .2;
+
+        &:hover{
+            filter: brightness(50%);
+        }
+    }
+
+    .search{
+        background-color: transparent;
+        border: none;
+        outline: 0;
+        outline-offset: 0;
+        max-width: 80%;
+
+        &::-webkit-input-placeholder{
+            color: rgb(200, 200, 200);
+            font-size: 16px;
+        }
+
+        &:active, &:hover, &:focus {
+            border: none;
+            outline: 0;
+            outline-offset: 0;
+        }
+    }
+}
+
+.nothing__found{
+    text-align: center;
+    display: flex;
+
+    a{
+        font-size: 12px;
+        color: rgb(170, 170, 170);
+    }
+}

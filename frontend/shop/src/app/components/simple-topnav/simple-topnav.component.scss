@@ -1,0 +1,25 @@
+.icon{
+    img{
+        width: 45px;
+        height: 60px;
+        padding: 0px 10px;
+    }
+}
+
+header{
+    position: fixed;
+    top: 0px;
+    width: 100%;
+    background: white;
+    z-index: 1;
+    transition: .3s;
+    display: flex;
+    justify-content: center;
+
+    .container{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 95%;
+    }
+}
