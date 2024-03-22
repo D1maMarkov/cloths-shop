@@ -94,8 +94,6 @@ class ProductRepository:
             
             image = await session.get(ProductImageOrm, image_id)
             
-            #print(image.image)
-            #print(image.product_id)
             return FileResponse(Settings.PRODUCTS_PATH + image.image)
 
     @classmethod
@@ -161,7 +159,6 @@ class ProductRepository:
                 query = query.join(ProductColorOrm)
                 
             query = query.join(ProductImageOrm)
-            
             query = query.filter(ProductOrm.price <= price)
             
             if order_by[0] == "-":
@@ -180,7 +177,6 @@ class ProductRepository:
                 query = query.join(CategoryOrm).filter(CategoryOrm.basic_category==basic_category)
                 
             query = query.offset(page_index * quantity).limit(quantity)
-
             query = query.options(joinedload(ProductOrm.brand),
                                 joinedload(ProductOrm.category),
                                 joinedload(ProductOrm.images),

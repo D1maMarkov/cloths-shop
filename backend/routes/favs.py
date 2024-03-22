@@ -1,8 +1,7 @@
+from fastapi import APIRouter, Request, Depends
 from repositories.favs import FavsRepository
-from schemas.cart import SCartProduct
 from schemas.products import SProduct
-from fastapi import APIRouter
-from fastapi import Request
+from typing import Annotated
 
 
 router = APIRouter(
@@ -10,17 +9,35 @@ router = APIRouter(
     tags=["favs"]
 )
 
+repository = FavsRepository()
+
+def get_repository():
+    return repository
+
+repository_dependency = Annotated[dict, Depends(get_repository)]
+
 @router.post("/add")
-async def favs_add(request: Request, product: SProduct):
-    product = await FavsRepository.add_product(request=request, product=product)
+async def favs_add(
+    request: Request, 
+    product: SProduct,
+    repository: repository_dependency
+):
+    product = await repository.add_product(request=request, product=product)
     return product
 
 @router.get("/get")
-async def favs_get(request: Request):
-    products = await FavsRepository.get_products(request=request)
+async def favs_get(
+    request: Request,
+    repository: repository_dependency    
+) -> list[SProduct]:
+    products = await repository.get_products(request=request)
     return products
 
 @router.get("/remove/{id}")
-async def remove(request: Request, id: int):
-    response = await FavsRepository.remove(request=request, id=id)
+async def remove(
+    request: Request, 
+    id: int,
+    repository: repository_dependency    
+):
+    response = await repository.remove(request=request, id=id)
     return response

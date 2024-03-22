@@ -1,7 +1,8 @@
-from repositories.additional_for_products import AdditionalForProductSRepository
+from repositories.categories import CategoriesRepository
 from schemas.common import SBaseDataField, SCategory
-from fastapi import APIRouter, Query
+from fastapi import APIRouter, Query, Depends
 from enums import basic_categories
+from typing import Annotated
 
 
 router = APIRouter(
@@ -9,10 +10,18 @@ router = APIRouter(
     tags=["categories"]
 )
 
+repository = CategoriesRepository()
+
+def get_repository():
+    return repository
+
+repository_dependency = Annotated[dict, Depends(get_repository)]
+
 @router.post("/")
 async def add_category(
     name: str,
     viewed_name: str,
+    repository: repository_dependency,
     basic_category: str = Query(enum=basic_categories)
 ):
     category = {
@@ -21,15 +30,15 @@ async def add_category(
         "basic_category": basic_category
     }
     
-    category_id = await AdditionalForProductSRepository.add_one_category(category)
+    category_id = await repository.add_one_category(category)
     return {"ok": True, "category_id": category_id}
 
 @router.get("/")
-async def get_categories() -> list[SCategory]:
-    categories = await AdditionalForProductSRepository.find_all_categories()
+async def get_categories(repository: repository_dependency) -> list[SCategory]:
+    categories = await repository.find_all_categories()
     return categories
 
 @router.get("/accessories")
-async def get_accessories_categories() -> list[SBaseDataField]:
-    categories = await AdditionalForProductSRepository.find_all_accessories_categories()
+async def get_accessories_categories(repository: repository_dependency) -> list[SBaseDataField]:
+    categories = await repository.find_all_accessories_categories()
     return categories

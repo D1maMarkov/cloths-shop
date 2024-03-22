@@ -1,4 +1,4 @@
-class SessionObject(object):
+class SessionObject:
     def __init__(self, request, secret_key):
         self.session = request.session
         dict = self.session.get(secret_key)

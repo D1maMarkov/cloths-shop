@@ -1,0 +1,6 @@
+*.pyc
+*.env
+/frontend/node_modules/
+__pycache__/
+__pycache__
+backend/sql_app.db
