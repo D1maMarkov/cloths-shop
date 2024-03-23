@@ -1,9 +1,8 @@
-from .common import SCategoryAdd, SBaseDataField
+from .common import SBaseDataField
 from pydantic import BaseModel, validator
 from typing import Optional
 from datetime import datetime
-from schemas.brands import SBrand
-from settings import Settings
+from settings import settings
 
 
 class SProductAdd(BaseModel):
@@ -51,7 +50,7 @@ class SProduct(SProductAdd):
 
     @validator("images", pre=True)
     def get_images(cls, v, values):
-        images = [f'{Settings.HOST}/products/image/{image.id}' for image in v]
+        images = [f'{settings.HOST}/products/image/{image.id}' for image in v]
 
         return images
 

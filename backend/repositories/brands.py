@@ -5,7 +5,7 @@ from sqlalchemy.orm import joinedload
 from database import new_session
 from fastapi import UploadFile
 from sqlalchemy import select
-from settings import Settings
+from settings import settings
 import os
 
 
@@ -26,10 +26,10 @@ class BrandRepository:
         async with new_session() as session:
             contents = file.file.read()
             
-            if not os.path.exists(Settings.BRANDS_PATH):
-                os.makedirs(Settings.BRANDS_PATH)
+            if not os.path.exists(settings.BRANDS_PATH):
+                os.makedirs(settings.BRANDS_PATH)
                 
-            with open(Settings.BRANDS_PATH + file.filename, 'wb') as f:
+            with open(settings.BRANDS_PATH + file.filename, 'wb') as f:
                 f.write(contents)
 
             file.file.close()
@@ -47,7 +47,7 @@ class BrandRepository:
         async with new_session() as session:
             image = await session.get(BrandImageOrm, image_id)
             
-            return FileResponse(Settings.BRANDS_PATH + image.image)
+            return FileResponse(settings.BRANDS_PATH + image.image)
 
     @classmethod
     async def get_brand(cls, brand) -> SBrand:
@@ -87,9 +87,8 @@ class BrandRepository:
                 brand_dict["value"] = brand_dict["name"]
 
                 if brand.image:
-                    brand_dict["image"] = f'{Settings.HOST}/brands/image/{brand.image.id}'
+                    brand_dict["image"] = f'{settings.HOST}/brands/image/{brand.image.id}'
 
                 serialized_brands.append(brand_dict)
             
             return serialized_brands
-#98

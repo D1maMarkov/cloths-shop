@@ -1,4 +1,4 @@
-from schemas.cart import CreateOrderForm, SOrder, SCartProduct
+from schemas.cart import CreateOrderForm, SOrder, SOrderProduct
 from models.products import ProductOrm, ProductImageOrm
 from models.orders import OrderOrm, OrderProductOrm
 from sqlalchemy.orm import joinedload
@@ -6,7 +6,6 @@ from database import new_session
 from models.models import User
 from sqlalchemy import select
 from session.cart import Cart
-from settings import Settings
 
 
 class OrderRepository:
@@ -26,18 +25,18 @@ class OrderRepository:
 
             cart = Cart(request)
             for cart_product in cart:
+                product = await session.get(ProductOrm, cart_product["id"])
+                product.quantity_sold = product.quantity_sold + cart_product["quantity"]
+                await session.commit()
+
+                await session.refresh(product)
+
                 order_product_dict = {
                     "product_model_id": cart_product["id"],
                     "order_id": order.id,
                     "quantity": cart_product["quantity"],
                     "size": cart_product["size"]
                 }
-
-                product = await session.get(ProductOrm, cart_product["id"])
-                product.quantity_sold = product.quantity_sold + cart_product["quantity"]
-                await session.commit()
-
-                await session.refresh(product)
 
                 order_product = OrderProductOrm(**order_product_dict)
                 session.add(order_product)
@@ -69,17 +68,17 @@ class OrderRepository:
                     product = result.unique().scalars().first()
             
                     serialized_product = product.__dict__
+
                     serialized_product["size"] = order_product.size
                     serialized_product["quantity"] = order_product.quantity
-                    serialized_product["image"] = f"{Settings.HOST}/products/image/{product.images[0].id}"
 
-                    serialized_product = SCartProduct(**serialized_product)
+                    serialized_product = SOrderProduct(**serialized_product, image=product.images[0])
                     
                     serialized_products.append(serialized_product)     
 
                 order_dict["order_products"] = serialized_products
 
-                serialized_orders.append(order_dict)
+                serialized_orders.append(SOrder(**order_dict))
 
             await session.commit()
             return serialized_orders

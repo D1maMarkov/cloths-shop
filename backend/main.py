@@ -9,7 +9,7 @@ from fastapi import FastAPI
 from database import create_tables, delete_tables
 from contextlib import asynccontextmanager
 from starlette.middleware.sessions import SessionMiddleware
-from settings import Settings
+from settings import settings
 
 
 @asynccontextmanager
@@ -21,10 +21,9 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
-app.add_middleware(SessionMiddleware, secret_key=Settings.SESSION_SECRET_KEY)
+app.add_middleware(SessionMiddleware, secret_key=settings.SESSION_SECRET_KEY)
 
 origins = ["http://127.0.0.1:4200"]
-#origins = ["http://127.0.0.1:4200"]
 
 app.add_middleware(
     CORSMiddleware,

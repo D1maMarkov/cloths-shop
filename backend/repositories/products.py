@@ -8,7 +8,7 @@ from schemas.products import SProduct
 from sqlalchemy import and_, select, or_
 from database import new_session
 from fastapi import UploadFile
-from settings import Settings
+from settings import settings
 import os
 
 
@@ -62,10 +62,10 @@ class ProductRepository:
         async with new_session() as session:
             contents = file.file.read()
             
-            if not os.path.exists(Settings.PRODUCTS_PATH):
-                os.makedirs(Settings.PRODUCTS_PATH)
+            if not os.path.exists(settings.PRODUCTS_PATH):
+                os.makedirs(settings.PRODUCTS_PATH)
 
-            with open(Settings.PRODUCTS_PATH + file.filename, 'wb') as f:
+            with open(settings.PRODUCTS_PATH + file.filename, 'wb') as f:
                 f.write(contents)
 
             file.file.close()
@@ -93,7 +93,7 @@ class ProductRepository:
             
             image = await session.get(ProductImageOrm, image_id)
             
-            return FileResponse(Settings.PRODUCTS_PATH + image.image)
+            return FileResponse(settings.PRODUCTS_PATH + image.image)
 
     @classmethod
     async def add_one_product(cls, data: SBaseDataFieldAdd) -> list[int]:

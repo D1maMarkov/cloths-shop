@@ -4,7 +4,7 @@ from utils.user_dependency import user_dependency
 from schemas.user import Token, CreateUserRequest
 from repositories.user import UserRepository
 from datetime import datetime, timedelta
-from settings import Settings
+from settings import settings
 from typing import Annotated
 from starlette import status
 from jose import jwt
@@ -35,7 +35,7 @@ def create_access_token(username: str, user_id: int, expires_delta: timedelta):
     encode = {"sub": username, 'id': user_id}
     expires = datetime.utcnow() + expires_delta
     encode.update({'exp': expires})
-    return jwt.encode(encode, Settings.SECRET_KEY, algorithm=Settings.ALGORITHM)
+    return jwt.encode(encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
 
 @router.get("/", status_code=status.HTTP_200_OK)
 async def user(user: user_dependency):
