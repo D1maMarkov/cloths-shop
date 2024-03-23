@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Request, Depends
 from repositories.favs import FavsRepository
-from schemas.products import SProduct
+from schemas.products import SBaseProduct
 from typing import Annotated
 
 
@@ -18,8 +18,8 @@ repository_dependency = Annotated[dict, Depends(get_repository)]
 
 @router.post("/add")
 async def favs_add(
-    request: Request, 
-    product: SProduct,
+    request: Request,
+    product: SBaseProduct,
     repository: repository_dependency
 ):
     product = await repository.add_product(request=request, product=product)
@@ -29,7 +29,7 @@ async def favs_add(
 async def favs_get(
     request: Request,
     repository: repository_dependency    
-) -> list[SProduct]:
+) -> list[SBaseProduct]:
     products = await repository.get_products(request=request)
     return products
 

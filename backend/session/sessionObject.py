@@ -12,7 +12,7 @@ class SessionObject:
 
     def __iter__(self):
         dict = self.dict.copy()
-      
+
         for item in dict.values():
             yield item
 

@@ -1,6 +1,5 @@
 from schemas.brands import SBrandAdd, SBrand, SPaginateBrand
 from models.models import BrandImageOrm, BrandOrm
-from utils.proccesing import serialize_brand
 from fastapi.responses import FileResponse
 from sqlalchemy.orm import joinedload
 from database import new_session
@@ -52,8 +51,8 @@ class BrandRepository:
 
     @classmethod
     async def get_brand(cls, brand) -> SBrand:
-        serialized_brand = serialize_brand(brand)
-        
+        serialized_brand = SBrand(**brand.__dict__, viewed_name=brand.name)
+
         return serialized_brand
 
     @classmethod

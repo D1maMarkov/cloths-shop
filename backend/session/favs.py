@@ -6,6 +6,6 @@ class Favs(SessionObject):
     def __init__(self, request):
         super().__init__(request, secret_key)
 
-    async def add(self, product):
+    def add(self, product):
         product_id = str(product["id"])
         self.dict[product_id] = product

@@ -1,7 +1,6 @@
 from models.products import ProductOrm, ProductImageOrm, ProductColorOrm, ProductSizeOrm
 from schemas.common import SBaseDataFieldAdd, SFiltered
 from utils.get_list_from_json import get_list_from_json
-from utils.proccesing import full_serialize_product
 from models.models import CategoryOrm, BrandOrm
 from fastapi.responses import FileResponse
 from sqlalchemy.orm import joinedload
@@ -124,7 +123,7 @@ class ProductRepository:
             unique_product = await session.execute(query)
             unique_product = unique_product.unique().scalars().first()
 
-            product = full_serialize_product(unique_product)
+            product = SProduct(**unique_product.__dict__)
 
             return product
 
@@ -189,8 +188,8 @@ class ProductRepository:
             if order_by[0] == "-":
                 unique_products = unique_products[::-1]
             
-            products = [full_serialize_product(product) for product in unique_products]
-            
+            products = [SProduct(**product.__dict__) for product in unique_products]
+
             return products
 
     @classmethod
@@ -204,7 +203,7 @@ class ProductRepository:
             search = search.lower()
             serialized_products = []
             for product in product_models:
-                serialized_product = full_serialize_product(product)
+                serialized_product = SProduct(**product.__dict__)
                 if search in serialized_product.category.name.lower() \
                     or search in serialized_product.category.viewed_name.lower() \
                     or search in serialized_product.name.lower() \
@@ -223,7 +222,7 @@ class ProductRepository:
             result = await session.execute(query)
             product_models = result.unique().scalars().all()
 
-            serialized_products = [full_serialize_product(product) for product in product_models]
+            serialized_products = [SProduct(**product.__dict__) for product in product_models]
 
             return serialized_products
         
@@ -237,7 +236,7 @@ class ProductRepository:
             result = await session.execute(query)
             product_models = result.unique().scalars().all()
 
-            serialized_products = [full_serialize_product(product) for product in product_models]
+            serialized_products = [SProduct(**product.__dict__) for product in product_models]
 
             return serialized_products
 
@@ -251,7 +250,7 @@ class ProductRepository:
             result = await session.execute(query)
             product_models = result.unique().scalars().all()
 
-            serialized_products = [full_serialize_product(product) for product in product_models]
+            serialized_products = [SProduct(**product.__dict__) for product in product_models]
 
             return serialized_products
 #276 245 261

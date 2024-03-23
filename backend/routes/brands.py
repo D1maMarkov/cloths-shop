@@ -26,7 +26,7 @@ async def get_paginate_brands(repository: repository_dependency) -> list[SPagina
     brands = await repository.get_paginate_brands()
     return brands
 
-@router.post("/")
+@router.post("/", status_code=201)
 async def add_brand(
     brand: Annotated[SBrandAdd, Depends()],
     repository: repository_dependency
@@ -34,7 +34,7 @@ async def add_brand(
     brand_id = await repository.add_brand(brand)
     return {"ok": True, "brand_id": brand_id}
 
-@router.post("/image")
+@router.post("/image", status_code=201)
 async def add_image(
     brand_id: int,
     image: UploadFile,
