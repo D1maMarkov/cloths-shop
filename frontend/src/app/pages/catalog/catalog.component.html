@@ -6,7 +6,7 @@
 <div class="content">
     <app-main-filter></app-main-filter>
 
-    <div *ngIf="products$ | async as products">
+    <main *ngIf="products$ | async as products">
         <div class="products__wrapper" [ngClass]="{loading__products__wrapper:loading}">
             <catalog-product @fadeIn [ngClass]="{product__wrapper: true}"
                 *ngFor="let product of products | paginate: { itemsPerPage: filter.quantity$.getValue(), currentPage: filter.pageIndex$.getValue(), totalItems: totalCount}" [product]="product" >
@@ -17,7 +17,7 @@
             <div *ngIf="this.filter.pageIndex$.getValue() * this.filter.quantity$.getValue() < this.totalCount" (click)="filter.updatePageIndexIncrement()" class="more">Показать ещё товары</div>
             <pagination-controls (pageChange)="filter.updatePageIndex($event, true)" ></pagination-controls>
         </div>
-    </div>
+    </main>
 </div>
 
 <app-footer></app-footer>

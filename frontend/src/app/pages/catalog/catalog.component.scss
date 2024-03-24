@@ -2,6 +2,10 @@ body{
     background-color: rgb(245, 245, 245);
 }
 
+main{
+    width: 100%;
+}
+
 .content{
     width: 96%;
     margin-left: 2%;
@@ -54,7 +58,7 @@ body{
         .small-screen, .ellipsis{
             display: none!important;
         }
-       
+
         .ngx-pagination li{
             padding: 0;
             background: rgb(220, 220, 220);
@@ -93,12 +97,12 @@ body{
             }
         }
 
-        .pagination-previous.disabled, .pagination-next.disabled{  
+        .pagination-previous.disabled, .pagination-next.disabled{
             display: none;
         }
 
-        .pagination-previous::before, .pagination-next::before{  
-            content: '<'; 
+        .pagination-previous::before, .pagination-next::before{
+            content: '<';
             font-size: 20px;
             z-index: 1;
         }

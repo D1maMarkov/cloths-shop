@@ -1,15 +1,8 @@
-from pydantic import BaseModel, validator
 from datetime import datetime
+
+from pydantic import BaseModel, validator
 from settings import settings
 
-
-class CreateOrderForm(BaseModel):
-    name: str
-    secondname: str
-    adress: str
-    phone: str
-    payment: str
-    delivery: str
 
 class SCartProduct(BaseModel):
     id: int
@@ -20,10 +13,21 @@ class SCartProduct(BaseModel):
     quantity: int
     size: str
 
+
 class SOrderProduct(SCartProduct):
     @validator("image", pre=True)
     def get_image(cls, v, values):
         return f"{settings.HOST}/products/image/{v.id}"
+
+
+class CreateOrderForm(BaseModel):
+    name: str
+    secondname: str
+    adress: str
+    phone: str
+    payment: str
+    delivery: str
+
 
 class SOrder(CreateOrderForm):
     user_id: int

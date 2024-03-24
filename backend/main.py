@@ -1,20 +1,24 @@
-from routes.categories import router as categories_router
-from routes.products import router as products_router
-from routes.brands import router as brands_router
-from routes.cart import router as cart_router
-from routes.favs import router as favs_router
-from routes.user import router as user_router
-from fastapi.middleware.cors import CORSMiddleware
-from fastapi import FastAPI
-from database import create_tables, delete_tables
 from contextlib import asynccontextmanager
-from starlette.middleware.sessions import SessionMiddleware
+
+from database import create_tables
+
+# from database import delete_tables
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+
+from routes.brands_route import router as brands_router
+from routes.cart_route import router as cart_router
+from routes.categories_router import router as categories_router
+from routes.favs_route import router as favs_router
+from routes.products_route import router as products_router
+from routes.user import router as user_router
 from settings import settings
+from starlette.middleware.sessions import SessionMiddleware
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    #await delete_tables()
+    # await delete_tables()
     await create_tables()
     yield
 
@@ -30,7 +34,12 @@ app.add_middleware(
     allow_origins=origins,
     allow_credentials=True,
     allow_methods=["GET", "POST"],
-    allow_headers=["Access-Control-Allow-Headers", 'Set-Cookie' 'Content-Type', 'Authorization', 'Access-Control-Allow-Origin'],
+    allow_headers=[
+        "Access-Control-Allow-Headers",
+        "Set-Cookie" "Content-Type",
+        "Authorization",
+        "Access-Control-Allow-Origin",
+    ],
 )
 
 app.include_router(router=user_router)
@@ -39,4 +48,3 @@ app.include_router(router=products_router)
 app.include_router(router=brands_router)
 app.include_router(router=cart_router)
 app.include_router(router=favs_router)
-

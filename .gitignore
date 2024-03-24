@@ -1,6 +1,11 @@
-*.pyc
-*.env
+/backend/.env
 /frontend/node_modules/
-__pycache__/
-__pycache__
-backend/sql_app.db
+/backend/__pycache__/
+/backend/utils/__pycache__/
+/backend/routes/__pycache__/
+/backend/services/__pycache__/
+/backend/repositories/__pycache__/
+/backend/session/__pycache__/
+/backend/models/__pycache__/
+/backend/schemas/__pycache__/
+/backend/sql_app.db

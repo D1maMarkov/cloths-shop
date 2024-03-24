@@ -1,8 +1,10 @@
-from .common import SBaseDataField
-from pydantic import BaseModel, validator
-from typing import Optional
 from datetime import datetime
+
+from enums import Gender, Size
+from pydantic import BaseModel, validator
 from settings import settings
+
+from .common import SBaseDataField
 
 
 class SProductAdd(BaseModel):
@@ -14,7 +16,8 @@ class SProductAdd(BaseModel):
     color_id: int
     code: int
     article: str
-    gender: Optional[str]# = Gender.unisex.value
+    gender: Gender | None = Gender.unisex
+
 
 class SBaseProduct(SProductAdd):
     id: int
@@ -25,6 +28,7 @@ class SBaseProduct(SProductAdd):
     sizes: list[str] = []
     color: SBaseDataField
     quantity_sold: int
+
 
 class SProduct(SProductAdd):
     id: int
@@ -50,7 +54,7 @@ class SProduct(SProductAdd):
 
     @validator("images", pre=True)
     def get_images(cls, v, values):
-        images = [f'{settings.HOST}/products/image/{image.id}' for image in v]
+        images = [f"{settings.HOST}/products/image/{image.id}" for image in v]
 
         return images
 
@@ -65,7 +69,13 @@ class SProduct(SProductAdd):
     class Config:
         from_attributes = True
 
+
 class SProductImage(BaseModel):
     id: int
     image: str
     product_id: int
+
+
+class SSize(BaseModel):
+    product_id: int
+    size: Size
