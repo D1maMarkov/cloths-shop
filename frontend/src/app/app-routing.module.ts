@@ -10,6 +10,7 @@ import { RegisterComponent } from './pages/register/register.component';
 import { OrderComponent } from './pages/order/order.component';
 import { AuthGuard } from './guards/auth-guards.guard';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { ConfirmEmailComponent } from './pages/confirm-email/confirm-email.component';
 
 const routes: Routes = [
   { path: '', component: MainPageComponent},
@@ -20,8 +21,9 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent},
   { path: 'register', component: RegisterComponent},
   { path: 'order', component: OrderComponent},
-  {path: '404', component: NotFoundComponent},
-  {path: '**', redirectTo: '/404'}
+  { path: 'confirm-email/:token', component: ConfirmEmailComponent},
+  { path: '404', component: NotFoundComponent},
+  { path: '**', redirectTo: '/404'}
 ];
 
 @NgModule({

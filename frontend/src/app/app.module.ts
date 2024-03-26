@@ -40,6 +40,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { NgxMaskModule } from 'ngx-mask';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { CartProductComponent } from './components/cart-product/cart-product.component';
+import { ConfirmEmailComponent } from './pages/confirm-email/confirm-email.component';
 
 @NgModule({
   declarations: [
@@ -70,7 +71,8 @@ import { CartProductComponent } from './components/cart-product/cart-product.com
     RegisterComponent,
     OrderComponent,
     NotFoundComponent,
-    CartProductComponent
+    CartProductComponent,
+    ConfirmEmailComponent
   ],
   imports: [
     BrowserModule,

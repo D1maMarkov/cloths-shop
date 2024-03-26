@@ -2,7 +2,7 @@ export type AccessTokenType = {
     access_token: string,
     token_type: string
 }
-  
+
 export type isAuthResponseType = {
     user: {
         username: string,
@@ -11,10 +11,16 @@ export type isAuthResponseType = {
 }
 
 export type UserInfoType = {
-    username: string
+    username: string,
+    email: string
 }
 
 export type TypeRegisterForm = {
     username: string,
     password: string,
+}
+
+export type TypePayload = {
+    user_id: number,
+    code: string
 }

@@ -1,4 +1,4 @@
-import { AccessTokenType, isAuthResponseType, UserInfoType } from '../models/auth';
+import { AccessTokenType, isAuthResponseType, TypePayload, UserInfoType } from '../models/auth';
 import { GlobalSettingsService } from './global-settings.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, throwError } from 'rxjs';
@@ -26,10 +26,23 @@ export class AuthService{
     try {
       const auth = await this.http.get<isAuthResponseType>(this.host + '/is-auth', this.httpOptions).toPromise();
       return auth;
-    } 
+    }
     catch (error) {
       return false;
     }
+  }
+
+  async getConfirmEmailPayload(token: string){
+    const payload = await this.http.get<TypePayload>(this.host + `/confirm-email/${token}`).toPromise();
+    return payload;
+  }
+
+  activateUser(user_id: number){
+    this.http.get<string>(this.host + `/activate-user/${user_id}`).subscribe(response => {
+      const token = response;
+      this.setToken(token);
+      this.route.navigate(["/profile"])
+    });
   }
 
   getAccessToken(formData: FormData, error: BehaviorSubject<string>): void{
@@ -79,7 +92,7 @@ export class AuthService{
     private route: Router,
     private http: HttpClient,
     private global: GlobalSettingsService,
-  ) { 
+  ) {
     this.host = this.global.host + 'auth';
     this.token.subscribe(token => {
       this.httpOptions = {
@@ -94,7 +107,7 @@ export class AuthService{
 
   getToken(): string{
     const raw = localStorage.getItem("token");
-    
+
     if (raw !== null){
       return JSON.parse(raw);
     }

@@ -1,0 +1,16 @@
+<app-simple-topnav></app-simple-topnav>
+
+<main>
+    <form *ngIf="error.length === 0" style="justify-content: center; min-height: 25vh;" [formGroup]="form" (ngSubmit)="checkVerificationCode($event)">
+        <input formControlName="code" placeholder="код"/>
+        <div class="error" *ngIf="form.get('code')?.errors?.required && form.get('code')?.touched">Введите шестизначный код</div>
+        <div class="error" *ngIf="incorrectCodeError.length > 0">{{ incorrectCodeError }}</div>
+        <button>Подтвердить</button>
+    </form>
+
+    <div *ngIf="error.length > 0">
+        {{ error }}
+    </div>
+</main>
+
+<app-footer></app-footer>

@@ -1,11 +1,12 @@
 import { OrdersService } from 'src/app/services/orders.service';
 import { FavsService } from 'src/app/services/favs.service';
 import { AuthService } from 'src/app/services/auth.service';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { TypeOrder } from 'src/app/models/order';
 import { Router } from '@angular/router';
+import { UserInfoType } from 'src/app/models/auth';
 
 @Component({
   selector: 'app-profile',
@@ -13,7 +14,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./profile.component.scss']
 })
 export class ProfileComponent implements OnInit {
-  username = new BehaviorSubject<string>('');
+  userInfo: UserInfoType;
   orders$: Observable<TypeOrder[]>;
 
   constructor(
@@ -31,7 +32,7 @@ export class ProfileComponent implements OnInit {
   async getUserInfo(){
     const userInfo = await this.authService.getUserInfo();
     if (userInfo){
-      this.username.next(userInfo.username)
+      this.userInfo = userInfo
     }
   }
 
