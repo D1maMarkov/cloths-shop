@@ -1,8 +1,6 @@
 from contextlib import asynccontextmanager
 
 from database import create_tables, delete_tables
-
-# from database import delete_tables
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from routes.brands_route import router as brands_router

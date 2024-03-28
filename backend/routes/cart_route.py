@@ -6,7 +6,7 @@ from repositories.products_repository import ProductRepository
 from schemas.cart import CreateOrderForm, SCartProduct
 from services.cart_service import CartService
 from services.order_service import OrderService
-from utils.user_dependency import user_dependency
+from utils.dependencies import user_dependency
 
 router = APIRouter(prefix="/cart", tags=["cart"])
 

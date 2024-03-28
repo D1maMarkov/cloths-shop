@@ -6,3 +6,5 @@ python-jose==3.3.0
 passlib==1.7.4
 python-dotenv==1.0.1
 pydantic-settings==2.2.0
+celery==5.3.6
+Redis==5.0.3

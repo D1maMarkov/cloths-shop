@@ -61,3 +61,10 @@ class UserRepository:
         async with new_session() as session:
             user = await session.get(User, user_id)
             return user
+
+    @classmethod
+    async def delete_inactive_users(cls):
+        async with new_session() as session:
+            inactive_users = select(User).filter(User.is_active == False)
+            await session.delete(inactive_users)
+            await session.commit()

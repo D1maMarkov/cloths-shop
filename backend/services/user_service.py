@@ -1,12 +1,11 @@
-import smtplib
 from datetime import datetime, timedelta
-from email.message import EmailMessage
 from random import randrange
 
 from jose import jwt
 from repositories.user_repository import UserRepository
 from schemas.user import CreateUserRequest, SUser
 from settings import settings
+from tasks.tasks import send_mail
 
 
 class UserService:
@@ -21,27 +20,9 @@ class UserService:
 
         confirm_email_token = jwt.encode(payload, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
 
-        await self.send_mail(create_user_request.email, code, confirm_email_token)
+        send_mail.delay(create_user_request.email, code, confirm_email_token)
 
         return confirm_email_token
-
-    async def send_mail(self, email, code, token):
-        msg = EmailMessage()
-        msg["Subject"] = "verification code for confirm your email"
-        msg["From"] = settings.BACKEND_EMAIL
-        msg["To"] = email  # type Email
-
-        msg.set_content(
-            f"""\
-            ссылка для подтверждения почты: http:127.0.0.1:4000/confirm-email/{token} \n
-
-        код для подтверждения почты: {code}
-        """,
-        )
-
-        with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
-            smtp.login(settings.BACKEND_EMAIL, settings.BACKEND_EMAIL_PASSWORD)
-            smtp.send_message(msg)
 
     def create_access_token(self, username: str, user_id: int, expires_delta: timedelta):
         encode = {"sub": username, "id": user_id}
@@ -59,4 +40,8 @@ class UserService:
         user_model = await self.repository.get_user(user_id)
 
         user = SUser(**user_model.__dict__)
+        return user
+
+    async def authenticate_user(self, username, password):
+        user = await self.repository.authenticate_user(username, password)
         return user

@@ -9,7 +9,7 @@ from schemas.user import CreateUserRequest, SUser, Token
 from services.user_service import UserService
 from settings import settings
 from starlette import status
-from utils.user_dependency import user_dependency
+from utils.dependencies import user_dependency
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
@@ -32,7 +32,7 @@ async def create_user(service: service_dependency, create_user_request: CreateUs
 
 
 @router.get("/confirm-email/{token}")
-async def confirm_email(service: service_dependency, token):
+async def confirm_email(token):
     try:
         payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
         return payload
@@ -50,7 +50,7 @@ async def activate_user(service: service_dependency, id):
 async def login_for_access_token(
     service: service_dependency, form_data: Annotated[OAuth2PasswordRequestForm, Depends()]
 ):
-    user = await UserRepository.authenticate_user(form_data.username, form_data.password)
+    user = await service.authenticate_user(form_data.username, form_data.password)
     if not user:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="invalid username or password")
 

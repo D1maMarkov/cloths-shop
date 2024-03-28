@@ -9,3 +9,7 @@
 /backend/models/__pycache__/
 /backend/schemas/__pycache__/
 /backend/sql_app.db
+/backend/tasks/__pycache__
+/backend/*.bak
+/backend/*.dat
+/backend/*.dir
