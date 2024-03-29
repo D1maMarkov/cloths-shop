@@ -2,7 +2,7 @@ from datetime import datetime
 
 from enums import Gender, Size
 from pydantic import BaseModel, validator
-from settings import settings
+from settings import get_settings
 
 from .common import SBaseDataField
 
@@ -54,7 +54,7 @@ class SProduct(SProductAdd):
 
     @validator("images", pre=True)
     def get_images(cls, v, values):
-        images = [f"{settings.HOST}/products/image/{image.id}" for image in v]
+        images = [f"{get_settings().HOST}/products/image/{image.id}" for image in v]
 
         return images
 

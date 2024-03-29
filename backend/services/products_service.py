@@ -4,13 +4,19 @@ from fastapi import UploadFile
 from fastapi.responses import FileResponse
 from repositories.products_repository import ProductRepository
 from schemas.common import SFiltered
-from schemas.products import SProduct
-from settings import settings
+from schemas.products import SProduct, SProductAdd
+from settings import get_settings
 
 
 class ProductService:
     def __init__(self, repository: ProductRepository) -> None:
         self.repository = repository
+
+    async def add_one_product(self, data: SProductAdd) -> list[int]:
+        product_dict = data.model_dump()
+        ids = await self.repository.add_one_product(product_dict)
+
+        return ids
 
     async def get_filtered_products(self, data: SFiltered) -> list[SProduct]:
         product_models = await self.repository.get_filtered_products(data=data)
@@ -27,10 +33,10 @@ class ProductService:
     async def add_image(self, product_id: int, file: UploadFile):
         contents = file.file.read()
 
-        if not os.path.exists(settings.PRODUCTS_PATH):
-            os.makedirs(settings.PRODUCTS_PATH)
+        if not os.path.exists(get_settings().PRODUCTS_PATH):
+            os.makedirs(get_settings().PRODUCTS_PATH)
 
-        with open(settings.PRODUCTS_PATH + file.filename, "wb") as f:
+        with open(get_settings().PRODUCTS_PATH + file.filename, "wb") as f:
             f.write(contents)
 
         file.file.close()
@@ -42,7 +48,7 @@ class ProductService:
     async def get_image(self, image_id: int):
         image = await self.repository.get_image(id=image_id)
 
-        return FileResponse(settings.PRODUCTS_PATH + image.image)
+        return FileResponse(get_settings().PRODUCTS_PATH + image.image)
 
     async def get_searched_products(self, search: str) -> list[SProduct]:
         product_models = await self.repository.get_all_products()

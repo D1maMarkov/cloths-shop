@@ -4,7 +4,7 @@ from random import randrange
 from jose import jwt
 from repositories.user_repository import UserRepository
 from schemas.user import CreateUserRequest, SUser
-from settings import settings
+from settings import get_settings
 from tasks.tasks import send_mail
 
 
@@ -18,7 +18,7 @@ class UserService:
 
         payload = {"user_id": user_id, "code": code, "exp": datetime.utcnow() + timedelta(hours=1)}
 
-        confirm_email_token = jwt.encode(payload, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
+        confirm_email_token = jwt.encode(payload, get_settings().SECRET_KEY, algorithm=get_settings().ALGORITHM)
 
         send_mail.delay(create_user_request.email, code, confirm_email_token)
 
@@ -28,7 +28,7 @@ class UserService:
         encode = {"sub": username, "id": user_id}
         expires = datetime.utcnow() + expires_delta
         encode.update({"exp": expires})
-        return jwt.encode(encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
+        return jwt.encode(encode, get_settings().SECRET_KEY, algorithm=get_settings().ALGORITHM)
 
     async def activate_user(self, user_id: int) -> str:
         user_model = await self.repository.get_user(user_id)

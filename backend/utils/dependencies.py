@@ -4,7 +4,7 @@ from fastapi import Depends, HTTPException
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
 from repositories.user_repository import UserRepository
-from settings import settings
+from settings import Settings, get_settings
 from starlette import status
 
 user_repository = UserRepository()
@@ -20,7 +20,7 @@ user_repository_dependency = Annotated[dict, Depends(get_user_repository)]
 oauth2_bearer = OAuth2PasswordBearer(tokenUrl="auth/token")
 
 
-async def get_current_user(token: Annotated[str, Depends(oauth2_bearer)]):
+async def get_current_user(token: Annotated[str, Depends(oauth2_bearer)], settings: Settings = Depends(get_settings)):
     try:
         payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
         username: str = payload.get("sub")

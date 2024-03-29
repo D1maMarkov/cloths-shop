@@ -7,7 +7,7 @@ from jose import JWTError, jwt
 from repositories.user_repository import UserRepository
 from schemas.user import CreateUserRequest, SUser, Token
 from services.user_service import UserService
-from settings import settings
+from settings import Settings, get_settings
 from starlette import status
 from utils.dependencies import user_dependency
 
@@ -32,7 +32,7 @@ async def create_user(service: service_dependency, create_user_request: CreateUs
 
 
 @router.get("/confirm-email/{token}")
-async def confirm_email(token):
+async def confirm_email(token, settings: Settings = Depends(get_settings)):
     try:
         payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
         return payload

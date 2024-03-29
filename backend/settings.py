@@ -1,4 +1,5 @@
 import os
+from functools import lru_cache
 
 from dotenv import load_dotenv
 from pydantic_settings import BaseSettings, SettingsConfigDict
@@ -20,7 +21,11 @@ class Settings(BaseSettings):
     BACKEND_EMAIL: str = os.getenv("BACKEND_EMAIL")
     BACKEND_EMAIL_PASSWORD: str = os.getenv("BACKEND_EMAIL_PASSWORD")
 
+    CELERY_BROKER_URL: str = os.getenv("CELERY_BROKER_URL")
+
     model_config = SettingsConfigDict(env_file=".env")
 
 
-settings = Settings()
+@lru_cache
+def get_settings():
+    return Settings()

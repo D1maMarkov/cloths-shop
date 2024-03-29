@@ -13,3 +13,5 @@
 /backend/*.bak
 /backend/*.dat
 /backend/*.dir
+/.mypy_cache/
+/backend/static/

@@ -1,5 +1,5 @@
 from pydantic import BaseModel, validator
-from settings import settings
+from settings import get_settings
 
 
 class SBrandAdd(BaseModel):
@@ -20,4 +20,4 @@ class SPaginateBrand(SBrandAdd):
         if len(v) == 0:
             return ""
 
-        return f"{settings.HOST}/brands/image/{v[0].id}"
+        return f"{get_settings().HOST}/brands/image/{v[0].id}"

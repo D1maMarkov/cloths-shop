@@ -9,7 +9,7 @@ from routes.categories_router import router as categories_router
 from routes.favs_route import router as favs_router
 from routes.products_route import router as products_router
 from routes.user import router as user_router
-from settings import settings
+from settings import get_settings
 from starlette.middleware.sessions import SessionMiddleware
 
 
@@ -22,7 +22,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
-app.add_middleware(SessionMiddleware, secret_key=settings.SESSION_SECRET_KEY)
+app.add_middleware(SessionMiddleware, secret_key=get_settings().SESSION_SECRET_KEY)
 
 origins = ["http://127.0.0.1:4200"]
 

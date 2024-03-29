@@ -3,17 +3,17 @@ from datetime import timedelta
 from email.message import EmailMessage
 
 from celery import Celery
-from settings import settings
+from settings import get_settings
 from utils.dependencies import user_repository_dependency as repository
 
-celery = Celery("tasks", broker="redis://127.0.0.1:6379")
+celery = Celery("tasks", broker=get_settings().CELERY_BROKER_URL)
 
 
 @celery.task
 def send_mail(email, code, token):
     msg = EmailMessage()
     msg["Subject"] = "подтверждение почты"
-    msg["From"] = settings.BACKEND_EMAIL
+    msg["From"] = get_settings().BACKEND_EMAIL
     msg["To"] = email
 
     msg.set_content(
@@ -28,7 +28,7 @@ def send_mail(email, code, token):
     )
 
     with smtplib.SMTP_SSL("smtp.gmail.com", 465) as smtp:
-        smtp.login(settings.BACKEND_EMAIL, settings.BACKEND_EMAIL_PASSWORD)
+        smtp.login(get_settings().BACKEND_EMAIL, get_settings().BACKEND_EMAIL_PASSWORD)
         smtp.send_message(msg)
 
 
