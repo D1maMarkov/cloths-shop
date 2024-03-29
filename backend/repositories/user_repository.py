@@ -26,9 +26,9 @@ class UserRepository:
                 await session.commit()
                 return create_user_model.id
 
-            except IntegrityError:
+            except IntegrityError as e:
                 raise HTTPException(
-                    status_code=status.HTTP_409_CONFLICT, detail="There is already a user with that username"
+                    status_code=status.HTTP_409_CONFLICT, detail="There is already a user with that email"
                 )
 
     @classmethod

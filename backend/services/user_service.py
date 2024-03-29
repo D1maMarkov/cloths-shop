@@ -14,7 +14,7 @@ class UserService:
 
     async def create_user(self, create_user_request: CreateUserRequest):
         user_id = await self.repository.create_user(create_user_request)
-        code = "".join([str(randrange(10)) for _ in range(6)])
+        code = str(randrange(100000, 1000000))
 
         payload = {"user_id": user_id, "code": code, "exp": datetime.utcnow() + timedelta(hours=1)}
 
@@ -24,24 +24,11 @@ class UserService:
 
         return confirm_email_token
 
-    def create_access_token(self, username: str, user_id: int, expires_delta: timedelta):
-        encode = {"sub": username, "id": user_id}
-        expires = datetime.utcnow() + expires_delta
-        encode.update({"exp": expires})
-        return jwt.encode(encode, get_settings().SECRET_KEY, algorithm=get_settings().ALGORITHM)
-
-    async def activate_user(self, user_id: int) -> str:
-        user_model = await self.repository.get_user(user_id)
-        await self.repository.activate_user(user_id)
-        token = self.create_access_token(user_model.username, user_model.id, timedelta(minutes=60))
-        return token
-
-    async def get_user_info(self, user_id: int) -> SUser:
+    async def get_user(self, user_id: int) -> SUser:
         user_model = await self.repository.get_user(user_id)
 
         user = SUser(**user_model.__dict__)
         return user
 
-    async def authenticate_user(self, username, password):
-        user = await self.repository.authenticate_user(username, password)
-        return user
+    async def activate_user(self, user_id: int) -> None:
+        await self.repository.activate_user(user_id)

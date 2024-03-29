@@ -41,7 +41,7 @@ class User(Model):
     __tablename__ = "user"
 
     id = Column(Integer, primary_key=True, index=True)
-    username = Column(String, unique=True)
+    username = Column(String)
     hashed_password = Column(String)
     email = Column(String, unique=True)
     orders = relationship("OrderOrm", back_populates="user")

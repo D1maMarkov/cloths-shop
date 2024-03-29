@@ -6,6 +6,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 from jose import JWTError, jwt
 from repositories.user_repository import UserRepository
 from schemas.user import CreateUserRequest, SUser, Token
+from services.auth_service import AuthService
 from services.user_service import UserService
 from settings import Settings, get_settings
 from starlette import status
@@ -15,24 +16,33 @@ router = APIRouter(prefix="/auth", tags=["auth"])
 
 
 repository = UserRepository()
-service = UserService(repository)
+user_service = UserService(repository)
 
 
-def get_service():
-    return service
+def get_user_service():
+    return user_service
 
 
-service_dependency = Annotated[dict, Depends(get_service)]
+user_service_dependency = Annotated[dict, Depends(get_user_service)]
+
+auth_service = AuthService(repository)
+
+
+def get_auth_service():
+    return auth_service
+
+
+auth_service_dependency = Annotated[dict, Depends(get_auth_service)]
 
 
 @router.post("/", status_code=status.HTTP_201_CREATED)
-async def create_user(service: service_dependency, create_user_request: CreateUserRequest):
+async def create_user(service: user_service_dependency, create_user_request: CreateUserRequest):
     response = await service.create_user(create_user_request)
     return response
 
 
 @router.get("/confirm-email/{token}")
-async def confirm_email(token, settings: Settings = Depends(get_settings)):
+async def confirm_email(token: str, settings: Settings = Depends(get_settings)):
     try:
         payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
         return payload
@@ -40,15 +50,19 @@ async def confirm_email(token, settings: Settings = Depends(get_settings)):
         return False
 
 
-@router.get("/activate-user/{id}")
-async def activate_user(service: service_dependency, id):
-    response = await service.activate_user(id)
-    return response
+@router.get("/activate-user/{user_id}")
+async def activate_user(
+    user_service: user_service_dependency, auth_service: auth_service_dependency, user_id: int
+) -> str:
+    user_model = await user_service.get_user(user_id)
+    await user_service.activate_user(user_id)
+    token = auth_service.create_access_token(user_model.username, user_model.id, timedelta(minutes=60))
+    return token
 
 
 @router.post("/token", response_model=Token)
 async def login_for_access_token(
-    service: service_dependency, form_data: Annotated[OAuth2PasswordRequestForm, Depends()]
+    service: auth_service_dependency, form_data: Annotated[OAuth2PasswordRequestForm, Depends()]
 ):
     user = await service.authenticate_user(form_data.username, form_data.password)
     if not user:
@@ -74,9 +88,9 @@ async def user(user: user_dependency):
 
 
 @router.get("/get-info", status_code=status.HTTP_200_OK)
-async def get_user_info(service: service_dependency, user: user_dependency) -> SUser:
+async def get_user_info(service: user_service_dependency, user: user_dependency) -> SUser:
     if user is None:
-        raise HTTPException(status_code=401, detail="Authentification failed")
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Authentification failed")
 
-    user = await service.get_user_info(user["id"])
+    user = await service.get_user(user["id"])
     return user
