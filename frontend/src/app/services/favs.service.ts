@@ -5,13 +5,14 @@ import { Injectable, OnInit } from '@angular/core';
 import { ErrorService } from "./error.service";
 import { IProduct } from '../models/product';
 import { GlobalSettingsService } from './global-settings.service';
+import { TypeBaseProduct } from '../models/product';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FavsService implements OnInit{
   len: number = 0;
-  products = new BehaviorSubject<IProduct[]>([]);
+  products = new BehaviorSubject<TypeBaseProduct[]>([]);
   host: string;
 
   httpOptions = {
@@ -32,8 +33,8 @@ export class FavsService implements OnInit{
     })
   }
 
-  getFavs(): Observable<IProduct[]>{
-    return this.http.get<IProduct[]>(this.host + '/get', {
+  getFavs(): Observable<TypeBaseProduct[]>{
+    return this.http.get<TypeBaseProduct[]>(this.host, {
           withCredentials: true
     }).pipe(
         catchError(this.errorHandler.bind(this))
@@ -45,7 +46,7 @@ export class FavsService implements OnInit{
     return throwError(() => error.message)
   }
 
-  addInSession(product: IProduct){
+  addInSession(product: TypeBaseProduct){
     const httpOptions = {
       ...this.httpOptions,
       headers: new HttpHeaders({
@@ -54,14 +55,14 @@ export class FavsService implements OnInit{
       })
     };
 
-    this.http.post(this.host + '/add', product, httpOptions).subscribe()
+    this.http.post(this.host, product, httpOptions).subscribe()
   }
 
   removeFromSession(id: number){
     this.http.get(this.host + `/remove/${id}`, this.httpOptions).subscribe()
   }
 
-  addProduct(product: IProduct){
+  addProduct(product: TypeBaseProduct){
     const products = this.products.getValue()
     this.products.next([...products, product]);
     this.addInSession(product);

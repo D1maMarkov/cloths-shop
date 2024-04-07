@@ -1,6 +1,6 @@
 import { IsVisibleImageService } from 'src/app/services/is-visible-image.service';
 import { ProductsService } from 'src/app/services/products.service';
-import { IProduct, TypeCartProduct } from 'src/app/models/product';
+import { IProduct, TypeCartProduct, TypeBaseProduct } from 'src/app/models/product';
 import { SearchService } from 'src/app/services/search.service';
 import { fadeIn } from 'src/app/animations/fade-in.animation';
 import { CartService } from 'src/app/services/cart.service';
@@ -18,17 +18,17 @@ import { ActivatedRoute } from "@angular/router";
   animations: [fadeIn]
 })
 export class ProductPageComponent implements OnInit {
-  colors$: Observable<IProduct[]>;
+  colors$: Observable<TypeBaseProduct[]>;
 
   refs = new BehaviorSubject<TypeDataFilter[]>([
     {
-      viewed_name: "Новинки", 
+      viewed_name: "Новинки",
       name: 'unisex'
     }
   ]);
 
   product: IProduct;
-  products$: Observable<IProduct[]>;
+  products$: Observable<TypeBaseProduct[]>;
 
   chosedSize = new BehaviorSubject<string>('');
 
@@ -47,7 +47,16 @@ export class ProductPageComponent implements OnInit {
   }
 
   addToFavs(): void{
-    this.favsService.addProduct(this.product);
+    const favsProduct: TypeBaseProduct = {
+      id: this.product.id,
+      image: this.product.images[0],
+      name: this.product.name,
+      description: this.product.description,
+      price: this.product.price,
+      sizes: this.product.sizes
+    }
+
+    this.favsService.addProduct(favsProduct);
   }
 
   removeFromFavs(): void{
@@ -55,8 +64,8 @@ export class ProductPageComponent implements OnInit {
   }
 
   constructor(
-    private productsService: ProductsService, 
-    private route: ActivatedRoute, 
+    private productsService: ProductsService,
+    private route: ActivatedRoute,
     private visibleService: IsVisibleImageService,
     private titleService: Title,
     public cartService: CartService,
@@ -69,16 +78,16 @@ export class ProductPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
-      const id = params['id']; 
-     
+      const id = params['id'];
+
       this.productsService.getProduct(id).subscribe(product => {
         this.product = product;
 
         this.chosedSize.next(product.sizes[0]);
 
-        this.refs.next([...this.refs.getValue(), {name: product.category.name, viewed_name: product.category.viewed_name}]); 
+        this.refs.next([...this.refs.getValue(), {name: product.category.name, viewed_name: product.category.viewed_name}]);
         this.refs.next([...this.refs.getValue(), {name: product.name, viewed_name: product.name}]);
-        
+
         this.titleService.setTitle(product.name);
         this.colors$ = this.productsService.getColors(product.name);
       })

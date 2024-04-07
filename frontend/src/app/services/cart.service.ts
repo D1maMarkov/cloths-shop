@@ -21,7 +21,7 @@ export class CartService{
   price: number;
   checkClick: boolean = true;
 
-  httpOptions = { 
+  httpOptions = {
     withCredentials: true,
     headers: new HttpHeaders({
       'accept': 'application/json',
@@ -41,7 +41,7 @@ export class CartService{
         horizontalPosition: 'left',
         panelClass: 'snack'
       });
-  
+
       snack.onAction().subscribe(() => {
         this.route.navigate(["login"]);
       });
@@ -108,7 +108,7 @@ export class CartService{
   }
 
   getCart(): Observable<TypeCartProduct[]>{
-    return this.http.get<TypeCartProduct[]>(this.host + '/get', this.httpOptions).pipe(
+    return this.http.get<TypeCartProduct[]>(this.host, this.httpOptions).pipe(
       catchError(this.errorHandler.bind(this))
     )
   }
@@ -136,7 +136,7 @@ export class CartService{
         break;
       }
     }
-  
+
     if (!inCart){
       products.push(cartProduct);
     }

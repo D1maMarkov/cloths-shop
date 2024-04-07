@@ -1,9 +1,10 @@
 import { HttpErrorResponse, HttpClient } from '@angular/common/http';
 import { Observable, catchError, throwError } from 'rxjs';
-import { TypeDataFilter } from '../models/filter';
+import { TypeDataFilter, TypePriceRange } from '../models/filter';
 import { ErrorService } from "./error.service";
 import { Injectable } from '@angular/core';
 import { GlobalSettingsService } from './global-settings.service';
+
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class DataService {
   categories$ = new Observable<TypeDataFilter[]>;
   accessoriesCategories$ = new Observable<TypeDataFilter[]>;
   colors$ = new Observable<TypeDataFilter[]>;
-  priceRange$ = new Observable<number[]>;
+  priceRange$ = new Observable<TypePriceRange>;
 
   host: string;
 
@@ -36,8 +37,8 @@ export class DataService {
     return throwError(() => error.message)
   }
 
-  getPriceRange(): Observable<number[]>{
-    return this.http.get<number[]>(this.host + 'products/price-range').pipe(
+  getPriceRange(): Observable<TypePriceRange>{
+    return this.http.get<TypePriceRange>(this.host + 'products/price-range').pipe(
       catchError(this.errorHandler.bind(this))
     )
   }
@@ -49,7 +50,7 @@ export class DataService {
   }
 
   getSizes(): void{
-    this.sizes$ = this.http.get<TypeDataFilter[]>(this.host + 'products/sizes').pipe(
+    this.sizes$ = this.http.get<TypeDataFilter[]>(this.host + 'additional-for-products/sizes').pipe(
       catchError(this.errorHandler.bind(this))
     )
   }
@@ -67,7 +68,7 @@ export class DataService {
   }
 
   getColors(): void{
-    this.colors$ = this.http.get<TypeDataFilter[]>(this.host + 'products/colors').pipe(
+    this.colors$ = this.http.get<TypeDataFilter[]>(this.host + 'additional-for-products/colors').pipe(
       catchError(this.errorHandler.bind(this))
     )
   }

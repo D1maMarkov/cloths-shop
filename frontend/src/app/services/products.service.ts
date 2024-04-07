@@ -3,7 +3,7 @@ import { GlobalSettingsService } from "./global-settings.service";
 import { Observable, catchError, throwError } from 'rxjs';
 import { FilterService } from "./filter.service";
 import { ErrorService } from "./error.service";
-import { IProduct } from "../models/product";
+import { IProduct, TypeBaseProduct } from "../models/product";
 import { Injectable } from "@angular/core";
 
 
@@ -34,29 +34,29 @@ export class ProductsService{
         )
     }
 
-    getColors(name: string): Observable<IProduct[]>{
-        return this.http.get<IProduct[]>(this.host + `/product-colors/${name}`).pipe(
+    getColors(name: string): Observable<TypeBaseProduct[]>{
+        return this.http.get<TypeBaseProduct[]>(this.host + `/product-colors/${name}`).pipe(
             catchError(this.errorHandler.bind(this))
         )
     }
 
-    getSearched(searchBy: string): Observable<IProduct[]>{
+    getSearched(searchBy: string): Observable<TypeBaseProduct[]>{
         const data = {
             search: searchBy
         }
 
-        return this.http.post<IProduct[]>(this.host + `/search`, data, this.httpOptions).pipe(
+        return this.http.post<TypeBaseProduct[]>(this.host + `/search`, data, this.httpOptions).pipe(
             catchError(this.errorHandler.bind(this))
         )
     }
 
-    getFiltered(): Observable<IProduct[]>{
+    getFiltered(): Observable<TypeBaseProduct[]>{
         const data = {
-            gender: this.filter.genderFilters$.getValue().join(),
-            category: this.filter.categoryFilters$.getValue().join(),
-            brand: this.filter.brandFilters$.getValue().join(),
-            size: this.filter.sizeFilters$.getValue().join(),
-            color: this.filter.colorFilters$.getValue().join(),
+            gender: this.filter.genderFilters$.getValue(),
+            category: this.filter.categoryFilters$.getValue(),
+            brand: this.filter.brandFilters$.getValue(),
+            size: this.filter.sizeFilters$.getValue(),
+            color: this.filter.colorFilters$.getValue(),
             price: this.filter.price$.getValue(),
             quantity: this.filter.quantity$.getValue(),
             pageIndex: this.filter.pageIndex$.getValue(),
@@ -66,19 +66,19 @@ export class ProductsService{
 
         //console.log(data);
 
-        return this.http.post<IProduct[]>(this.host + '/get-filtered', data, this.httpOptions).pipe(
+        return this.http.post<TypeBaseProduct[]>(this.host + '/get-filtered', data, this.httpOptions).pipe(
             catchError(this.errorHandler.bind(this))
         )
     }
 
-    getPopularProducts(): Observable<IProduct[]>{
-        return this.http.get<IProduct[]>(this.host + '/populars').pipe(
+    getPopularProducts(): Observable<TypeBaseProduct[]>{
+        return this.http.get<TypeBaseProduct[]>(this.host + '/populars').pipe(
             catchError(this.errorHandler.bind(this))
         )
     }
 
-    getNewArrivals(): Observable<IProduct[]>{
-        return this.http.get<IProduct[]>(this.host + '/new-arrivals').pipe(
+    getNewArrivals(): Observable<TypeBaseProduct[]>{
+        return this.http.get<TypeBaseProduct[]>(this.host + '/new-arrivals').pipe(
             catchError(this.errorHandler.bind(this))
         )
     }

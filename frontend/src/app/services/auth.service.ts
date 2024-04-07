@@ -76,7 +76,7 @@ export class AuthService{
   }
 
   async getUserInfo(){
-    const userInfo = await this.http.get<UserInfoType>(this.host + '/get-info', this.httpOptions).toPromise();
+    const userInfo = await this.http.get<UserInfoType>('http://127.0.0.1:8000/user/get-info', this.httpOptions).toPromise();
     return userInfo;
   }
 

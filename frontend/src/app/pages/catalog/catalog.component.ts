@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { IProduct } from 'src/app/models/product';
+import { TypeBaseProduct } from 'src/app/models/product';
 import { ProductsService } from 'src/app/services/products.service';
 import { Observable, tap } from 'rxjs';
 import { FilterService } from 'src/app/services/filter.service';
@@ -19,13 +19,13 @@ import { TypeDataFilter } from 'src/app/models/filter';
   animations: [fadeIn]
 })
 export class CatalogComponent implements OnInit {
-  products$: Observable<IProduct[]>;
+  products$: Observable<TypeBaseProduct[]>;
   loading : boolean = true;
   totalCount: number;
   brands: TypeDataFilter[];
 
   constructor(
-    private productsService: ProductsService, 
+    private productsService: ProductsService,
     public filter: FilterService,
     public topnavFilterService: TopnavFiltersService,
     private titleService: Title,
@@ -69,7 +69,7 @@ export class CatalogComponent implements OnInit {
       else{
         this.topnavFilterService.refs$.next([
           {
-            viewed_name: "Одежда для женщин и мужчин", 
+            viewed_name: "Одежда для женщин и мужчин",
             name: 'unisex'
           }]);
       }

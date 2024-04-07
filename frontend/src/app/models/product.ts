@@ -12,7 +12,7 @@ export interface IProduct {
     category: TypeDataFilter,
     color_id: number,
     color: string,
-    sizes: string[]
+    sizes: string[],
     brand_id: number,
     brand: TypeDataFilter,
     code: string,
@@ -29,4 +29,13 @@ export type TypeCartProduct = {
     image: string,
     size: string,
     quantity: number
+}
+
+export type TypeBaseProduct = {
+    id: number,
+    image: string,
+    name: string,
+    description: string,
+    price: number,
+    sizes: string[]
 }

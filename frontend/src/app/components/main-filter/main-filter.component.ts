@@ -8,15 +8,15 @@ import { Component, ElementRef } from '@angular/core';
 })
 export class MainFilterComponent{
   constructor(
-    public filter: FilterService, 
+    public filter: FilterService,
     private elementRef: ElementRef
   ) {
     this.filter.price$.subscribe(price => {
-      this.price = price  
+      this.price = price
     })
     this.filter.priceRange$.subscribe(range => {
-      this.defaultPrice = range[1];
-      this.price = range[1];
+      this.defaultPrice = range.max_price;
+      this.price = range.max_price;
     })
   }
 
@@ -26,7 +26,7 @@ export class MainFilterComponent{
   validReset(): boolean{
     const checkboxes: HTMLInputElement[] = this.elementRef.nativeElement.querySelectorAll('input[type=checkbox]');
     let valid: boolean = false;
-    
+
     checkboxes.forEach(checkbox => {
       if (checkbox.checked){
         valid = true;

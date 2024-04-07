@@ -55,7 +55,7 @@
         <a style="margin-top: 20px; margin-bottom: 10px;">Доступные расцветки</a>
         <div *ngIf="colors$ | async as colors" style="display: flex; justify-content: center;">
             <a *ngFor="let colorProduct of colors" href="product/{{colorProduct.id}}">
-                <img [ngClass]="{current__color: product.id === colorProduct.id}" class="color__product" [src]="colorProduct.images[0]"/>
+                <img [ngClass]="{current__color: product.id === colorProduct.id}" class="color__product" [src]="colorProduct.image"/>
             </a>
         </div>
 

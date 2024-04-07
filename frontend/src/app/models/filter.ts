@@ -3,3 +3,8 @@ export type TypeDataFilter = {
     name: string,
     id?: number
 }
+
+export type TypePriceRange = {
+    min_price: number,
+    max_price: number
+}

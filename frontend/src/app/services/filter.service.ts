@@ -1,5 +1,5 @@
 import { BehaviorSubject, Observable, tap } from 'rxjs';
-import { TypeDataFilter } from '../models/filter';
+import { TypeDataFilter, TypePriceRange } from '../models/filter';
 import { DataService } from './data.service';
 import { Injectable } from '@angular/core';
 import { genders } from "../data/filter";
@@ -25,7 +25,7 @@ export class FilterService{
   quantity$ = new BehaviorSubject<number>(24);
   pageIndex$ = new BehaviorSubject<number>(0);
   orderBy$ = new BehaviorSubject<string>("-price");
-  priceRange$ = new Observable<number[]>;
+  priceRange$ = new Observable<TypePriceRange>;
 
   constructor(
     private data: DataService
@@ -44,7 +44,7 @@ export class FilterService{
     })
     this.priceRange$ = this.data.getPriceRange().pipe(
       tap((range) => {
-        this.price$.next(range[1])
+        this.price$.next(range.max_price)
       })
     );
   }
@@ -129,7 +129,7 @@ export class FilterService{
     this.price$.next(5000);
 
     const checkboxes: HTMLInputElement[] = Array.from(document.querySelectorAll('input[type=checkbox]'));
-    
+
     checkboxes.forEach(checkbox => {
       checkbox.checked = false;
     })

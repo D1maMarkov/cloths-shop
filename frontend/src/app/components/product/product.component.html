@@ -1,5 +1,5 @@
 <div class="product" (mouseover)="hover = true" (mouseleave)="hover = false" (click)="goToProductPage()">
-    <img [src]="product.images[0]" /><br>
+    <img [src]="product.image" /><br>
     <p class="name"><b>{{ product.name }}</b></p>
     <a>{{ product.description}}</a><br><br>
     <a>{{ product.price | currency: "$": 'symbol': ".0" }}</a>

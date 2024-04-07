@@ -16,15 +16,15 @@ export class OrdersService {
     private authService: AuthService,
     private global: GlobalSettingsService,
     private http: HttpClient
-  ) { 
-    this.host = this.global.host + 'cart';
+  ) {
+    this.host = this.global.host + 'orders';
   }
 
   place(data: TypeCreateOrder): void{
-    this.http.post(this.host + '/create-order', data, this.authService.httpOptions).subscribe();
+    this.http.post(this.host, data, this.authService.httpOptions).subscribe();
   }
 
   getOrders(): Observable<TypeOrder[]>{
-    return this.http.get<TypeOrder[]>(this.host + '/get-orders', this.authService.httpOptions);
+    return this.http.get<TypeOrder[]>(this.host, this.authService.httpOptions);
   }
 }
