@@ -3,7 +3,7 @@ from sqlalchemy import Boolean, Column, Integer, String
 from sqlalchemy.orm import relationship
 
 
-class User(Model):
+class UserOrm(Model):
     __tablename__ = "user"
 
     id = Column(Integer, primary_key=True, index=True)

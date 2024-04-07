@@ -1,9 +1,9 @@
 from application.contracts.products.add_product_request import AddProductRequest
-from infrastructure.persistence.repositories.product_repository import ProductRepository
+from domain.product.repository import ProductRepositoryInterface
 
 
 class AddProduct:
-    def __init__(self, repository: ProductRepository) -> None:
+    def __init__(self, repository: ProductRepositoryInterface) -> None:
         self.repository = repository
 
     async def __call__(self, data: AddProductRequest) -> None:

@@ -1,11 +1,9 @@
 from application.contracts.categories.add_category_request import AddCategoryRequest
-from infrastructure.persistence.repositories.category_repository import (
-    CategoriesRepository,
-)
+from domain.category.repository import CategoriesRepositoryInterface
 
 
 class AddCategory:
-    def __init__(self, repository: CategoriesRepository) -> None:
+    def __init__(self, repository: CategoriesRepositoryInterface) -> None:
         self.repository = repository
 
     async def __call__(self, data: AddCategoryRequest) -> None:

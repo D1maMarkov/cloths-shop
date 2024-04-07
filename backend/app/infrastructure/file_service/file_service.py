@@ -1,10 +1,11 @@
 import os
 from functools import lru_cache
 
+from application.common.file_service import FileServiceInterface
 from fastapi import UploadFile
 
 
-class FileService:
+class FileService(FileServiceInterface):
     def save_file(self, path: str, file: UploadFile):
         contents = file.file.read()
         if not os.path.exists(path):

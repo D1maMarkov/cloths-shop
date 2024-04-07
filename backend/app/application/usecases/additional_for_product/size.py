@@ -1,12 +1,12 @@
 from domain.additional_for_product.products_size import Size
-from domain.common.base_data_field import BaseDataField
-from infrastructure.persistence.repositories.additional_for_products_repository import (
-    AdditionalForProductSRepository,
+from domain.additional_for_product.repository import (
+    AdditionalForProductSRepositoryInterface,
 )
+from domain.common.base_data_field import BaseDataField
 
 
 class AddProductsSize:
-    def __init__(self, repository: AdditionalForProductSRepository) -> None:
+    def __init__(self, repository: AdditionalForProductSRepositoryInterface) -> None:
         self.repository = repository
 
     async def __call__(self, size: Size) -> None:
@@ -15,7 +15,7 @@ class AddProductsSize:
 
 
 class GetProductsSizes:
-    def __init__(self, repository: AdditionalForProductSRepository) -> None:
+    def __init__(self, repository: AdditionalForProductSRepositoryInterface) -> None:
         self.repository = repository
 
     async def __call__(self) -> list[BaseDataField]:

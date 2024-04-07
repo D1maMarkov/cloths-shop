@@ -1,3 +1,4 @@
+from domain.brand.repository import BrandRepositoryInterface
 from infrastructure.persistence.models.brand_models import BrandImageOrm, BrandOrm
 from infrastructure.persistence.repositories.mappers.brand_mappers import (
     from_orm_to_paginate_brand,
@@ -8,7 +9,7 @@ from sqlalchemy.orm import joinedload
 from web_api.exc.brand_exc import BrandNotFound
 
 
-class BrandRepository(BaseRepository):
+class BrandRepository(BrandRepositoryInterface, BaseRepository):
     async def add_brand(self, data: dict) -> None:
         brand = BrandOrm(**data)
         self.db.add(brand)

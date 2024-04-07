@@ -1,3 +1,4 @@
+from domain.order.repository import OrderRepositoryInterface
 from infrastructure.persistence.models.order import OrderOrm, OrderProductOrm
 from infrastructure.persistence.models.product_models import ProductImageOrm, ProductOrm
 from infrastructure.persistence.repositories.repository import BaseRepository
@@ -5,7 +6,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import joinedload
 
 
-class OrderRepository(BaseRepository):
+class OrderRepository(OrderRepositoryInterface, BaseRepository):
     async def create_order(self, order_form: dict) -> int:
         order = OrderOrm(**order_form)
 

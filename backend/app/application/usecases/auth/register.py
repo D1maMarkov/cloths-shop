@@ -1,21 +1,21 @@
 from random import randrange
 
+from application.common.email_notification import EmailNotificationServiceInterface
+from application.common.jwt_processor import JwtProcessorInterface
+from application.common.password_hasher import PasswordHasherInterface
 from application.contracts.user.create_user_request import CreateUserRequest
 from application.contracts.user.token_response import TokenResponse
-from infrastructure.auth.jwt_processor import JwtProcessor
-from infrastructure.email_notification.service import EmailNotificationService
-from infrastructure.persistence.repositories.user_repository import UserRepository
-from infrastructure.security.password_hasher import PasswordHasher
+from domain.user.repository import UserRepositoryInterface
 from web_api.exc.user_exc import UserWithEmailAlreadyExist, UserWithUsernameAlreadyExist
 
 
 class Register:
     def __init__(
         self,
-        repository: UserRepository,
-        password_hasher: PasswordHasher,
-        jwt_processor: JwtProcessor,
-        email_service: EmailNotificationService,
+        repository: UserRepositoryInterface,
+        password_hasher: PasswordHasherInterface,
+        jwt_processor: JwtProcessorInterface,
+        email_service: EmailNotificationServiceInterface,
     ) -> None:
         self.repository = repository
         self.password_hasher = password_hasher

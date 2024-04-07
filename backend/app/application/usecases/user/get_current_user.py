@@ -1,10 +1,10 @@
-from infrastructure.auth.jwt_processor import JwtProcessor
+from application.common.jwt_processor import JwtProcessorInterface
 from infrastructure.persistence.repositories.user_repository import UserRepository
 from web_api.exc.auth_exc import UserNotFound
 
 
 class GetCurrentUser:
-    def __init__(self, repository: UserRepository, jwt_processor: JwtProcessor) -> None:
+    def __init__(self, repository: UserRepository, jwt_processor: JwtProcessorInterface) -> None:
         self.repository = repository
         self.jwt_processor = jwt_processor
 

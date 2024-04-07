@@ -1,8 +1,9 @@
-from .backend_tasks import send_mail
-from .email_settings import EmailSettings
+from application.common.email_notification import EmailNotificationServiceInterface
+from infrastructure.email_notification.backend_tasks import send_mail
+from infrastructure.email_notification.email_settings import EmailSettings
 
 
-class EmailNotificationService:
+class EmailNotificationService(EmailNotificationServiceInterface):
     def __init__(self, settings: EmailSettings) -> None:
         self.settings = settings
 

@@ -1,12 +1,10 @@
 from domain.category.basic_category_values import BasicCategory
 from domain.category.category import Category
-from infrastructure.persistence.repositories.category_repository import (
-    CategoriesRepository,
-)
+from domain.category.repository import CategoriesRepositoryInterface
 
 
 class GetAllCategories:
-    def __init__(self, repository: CategoriesRepository) -> None:
+    def __init__(self, repository: CategoriesRepositoryInterface) -> None:
         self.repository = repository
 
     async def __call__(self) -> list[Category]:
@@ -16,7 +14,7 @@ class GetAllCategories:
 
 
 class GetAccessoriesCategories:
-    def __init__(self, repository: CategoriesRepository) -> None:
+    def __init__(self, repository: CategoriesRepositoryInterface) -> None:
         self.repository = repository
 
     async def __call__(self) -> list[Category]:

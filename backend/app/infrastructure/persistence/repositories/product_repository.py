@@ -1,5 +1,6 @@
 from application.contracts.products.filter_products_request import FilterProductsRequest
 from domain.product.gender_values import Gender
+from domain.product.repository import ProductRepositoryInterface
 from infrastructure.persistence.models.additional_for_product_models import (
     ProductColorOrm,
     ProductSizeOrm,
@@ -23,7 +24,7 @@ from web_api.exc.product_exc import (
 )
 
 
-class ProductRepository(BaseRepository):
+class ProductRepository(ProductRepositoryInterface, BaseRepository):
     def get_products_models(self):
         query = select(ProductOrm, BrandOrm, CategoryOrm, ProductImageOrm, ProductColorOrm, ProductSizeOrm)
         query = query.join(BrandOrm)

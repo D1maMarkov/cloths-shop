@@ -1,9 +1,9 @@
 from application.contracts.brands.add_brand_request import AddBrandRequest
-from infrastructure.persistence.repositories.brand_repository import BrandRepository
+from domain.brand.repository import BrandRepositoryInterface
 
 
 class AddBrand:
-    def __init__(self, repository: BrandRepository) -> None:
+    def __init__(self, repository: BrandRepositoryInterface) -> None:
         self.repository = repository
 
     async def __call__(self, data: AddBrandRequest) -> None:

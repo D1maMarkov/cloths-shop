@@ -1,9 +1,10 @@
 from functools import lru_cache
 
+from application.common.password_hasher import PasswordHasherInterface
 from passlib.context import CryptContext
 
 
-class PasswordHasher:
+class PasswordHasher(PasswordHasherInterface):
     def __init__(self) -> None:
         self.pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 

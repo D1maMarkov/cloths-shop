@@ -5,7 +5,7 @@ node_modules/
 *.dir
 /.mypy_cache/
 /backend/static/
-sql_app.db
+*.db
 /backend/src/static
 __pycache__
 /backend/app/static

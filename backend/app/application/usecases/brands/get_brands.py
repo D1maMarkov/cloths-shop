@@ -1,9 +1,9 @@
 from domain.brand.brand import Brand, PaginateBrand
-from infrastructure.persistence.repositories.brand_repository import BrandRepository
+from domain.brand.repository import BrandRepositoryInterface
 
 
 class GetAllBrands:
-    def __init__(self, repository: BrandRepository) -> None:
+    def __init__(self, repository: BrandRepositoryInterface) -> None:
         self.repository = repository
 
     async def __call__(self) -> list[Brand]:
@@ -13,7 +13,7 @@ class GetAllBrands:
 
 
 class GetAllPaginateBrands:
-    def __init__(self, repository: BrandRepository) -> None:
+    def __init__(self, repository: BrandRepositoryInterface) -> None:
         self.repository = repository
 
     async def __call__(self) -> list[PaginateBrand]:

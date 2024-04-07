@@ -1,13 +1,15 @@
+from application.common.file_service import FileServiceInterface
+from domain.product.repository import ProductRepositoryInterface
 from fastapi import UploadFile
 from fastapi.responses import FileResponse
 from infrastructure.configs.product_config import ProductSettings
-from infrastructure.file_service.file_service import FileService
-from infrastructure.persistence.repositories.product_repository import ProductRepository
 from web_api.exc.product_exc import ProductsImageNotFound
 
 
 class AddProductsImage:
-    def __init__(self, repository: ProductRepository, file_service: FileService, settings: ProductSettings) -> None:
+    def __init__(
+        self, repository: ProductRepositoryInterface, file_service: FileServiceInterface, settings: ProductSettings
+    ) -> None:
         self.repository = repository
         self.file_service = file_service
         self.settings = settings
@@ -19,7 +21,7 @@ class AddProductsImage:
 
 
 class GetProductsImage:
-    def __init__(self, repository: ProductRepository, settings: ProductSettings) -> None:
+    def __init__(self, repository: ProductRepositoryInterface, settings: ProductSettings) -> None:
         self.repository = repository
         self.settings = settings
 

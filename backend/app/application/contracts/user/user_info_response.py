@@ -1,11 +1,6 @@
-from pydantic import BaseModel
+from domain.user.user import User
 
 
-class UserInfoResponse(BaseModel):
-    id: int | None = None
-    username: str
-    email: str
-    is_active: bool
-
+class UserInfoResponse(User):
     class Config:
         from_attributes = True

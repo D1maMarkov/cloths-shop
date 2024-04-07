@@ -1,13 +1,15 @@
+from application.common.file_service import FileServiceInterface
+from domain.brand.repository import BrandRepositoryInterface
 from fastapi import UploadFile
 from fastapi.responses import FileResponse
 from infrastructure.configs.brand_config import BrandSettings
-from infrastructure.file_service.file_service import FileService
-from infrastructure.persistence.repositories.brand_repository import BrandRepository
 from web_api.exc.brand_exc import BrandsImageNotFound
 
 
 class AddBrandsImage:
-    def __init__(self, repository: BrandRepository, file_service: FileService, settings: BrandSettings) -> None:
+    def __init__(
+        self, repository: BrandRepositoryInterface, file_service: FileServiceInterface, settings: BrandSettings
+    ) -> None:
         self.repository = repository
         self.file_service = file_service
         self.settings = settings
@@ -19,7 +21,7 @@ class AddBrandsImage:
 
 
 class GetBrandsImage:
-    def __init__(self, repository: BrandRepository, settings: BrandSettings) -> None:
+    def __init__(self, repository: BrandRepositoryInterface, settings: BrandSettings) -> None:
         self.repository = repository
         self.settings = settings
 

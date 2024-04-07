@@ -1,11 +1,12 @@
 from datetime import datetime, timedelta
 
+from application.common.jwt_processor import JwtProcessorInterface
 from jose import JWTError, jwt
 
 from .jwt_settings import JwtSettings
 
 
-class JwtProcessor:
+class JwtProcessor(JwtProcessorInterface):
     def __init__(self, jwt_settings: JwtSettings) -> None:
         self.jwt_settings = jwt_settings
 

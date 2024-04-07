@@ -1,12 +1,12 @@
 from domain.order.order import Order
+from domain.order.repository import OrderRepositoryInterface
 from infrastructure.persistence.repositories.mappers.order_mappers import (
     order_from_orm_to_entity,
 )
-from infrastructure.persistence.repositories.order_repository import OrderRepository
 
 
 class GetOrders:
-    def __init__(self, repository: OrderRepository) -> None:
+    def __init__(self, repository: OrderRepositoryInterface) -> None:
         self.repository = repository
 
     async def __call__(self, user_id: int) -> list[Order]:

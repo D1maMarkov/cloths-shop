@@ -1,11 +1,11 @@
 from application.contracts.order.create_order_request import CreateOrderRequest
-from infrastructure.persistence.repositories.order_repository import OrderRepository
+from domain.order.repository import OrderRepositoryInterface
 from infrastructure.persistence.repositories.user_repository import UserRepository
 from infrastructure.persistence.session.cart_adapter import Cart
 
 
 class CreateOrder:
-    def __init__(self, repository: OrderRepository, cart: Cart, user_repository: UserRepository) -> None:
+    def __init__(self, repository: OrderRepositoryInterface, cart: Cart, user_repository: UserRepository) -> None:
         self.repository = repository
         self.cart_session = cart
         self.user_repository = user_repository

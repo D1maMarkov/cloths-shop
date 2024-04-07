@@ -1,5 +1,5 @@
+from application.common.jwt_processor import JwtProcessorInterface
 from application.contracts.user.token_response import TokenResponse
-from infrastructure.auth.jwt_processor import JwtProcessor
 from infrastructure.persistence.repositories.user_repository import UserRepository
 
 
@@ -7,7 +7,7 @@ class ActivateUser:
     def __init__(
         self,
         repository: UserRepository,
-        jwt_processor: JwtProcessor,
+        jwt_processor: JwtProcessorInterface,
     ) -> None:
         self.repository = repository
         self.jwt_processor = jwt_processor

@@ -1,10 +1,10 @@
 from application.contracts.products.price_range_response import PriceRangeResponse
-from infrastructure.persistence.repositories.product_repository import ProductRepository
+from domain.product.repository import ProductRepositoryInterface
 from web_api.exc.product_exc import ProductsNotFound
 
 
 class GetProductsPrices:
-    def __init__(self, repository: ProductRepository) -> None:
+    def __init__(self, repository: ProductRepositoryInterface) -> None:
         self.repository = repository
 
     async def __call__(self) -> PriceRangeResponse:

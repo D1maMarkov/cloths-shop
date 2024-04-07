@@ -3,8 +3,6 @@ from application.usecases.user.activate_user import ActivateUser
 from application.usecases.user.get_current_user import GetCurrentUser
 from fastapi import Depends
 from infrastructure.auth.jwt_processor import JwtProcessor
-from infrastructure.email_notification.depends import get_email_service
-from infrastructure.email_notification.service import EmailNotificationService
 from infrastructure.persistence.repositories.user_repository import UserRepository
 from infrastructure.security.password_hasher import PasswordHasher, get_password_hasher
 from web_api.depends.auth.get_jwt_processor import get_jwt_processor
@@ -14,10 +12,9 @@ from web_api.depends.user import get_repository
 def get_login_interactor(
     jwt_processor: JwtProcessor = Depends(get_jwt_processor),
     password_hasher: PasswordHasher = Depends(get_password_hasher),
-    email_service: EmailNotificationService = Depends(get_email_service),
     repository: UserRepository = Depends(get_repository),
 ) -> Login:
-    return Login(repository, password_hasher, jwt_processor, email_service)
+    return Login(repository, password_hasher, jwt_processor)
 
 
 def get_activate_user_interactor(

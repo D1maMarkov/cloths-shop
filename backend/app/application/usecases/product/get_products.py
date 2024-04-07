@@ -1,13 +1,13 @@
 from application.contracts.products.filter_products_request import FilterProductsRequest
 from domain.product.product import CatalogProduct, Product
+from domain.product.repository import ProductRepositoryInterface
 from infrastructure.persistence.repositories.mappers.product_mappers import (
     from_orm_to_catalog_product,
 )
-from infrastructure.persistence.repositories.product_repository import ProductRepository
 
 
 class GetFilteredProducts:
-    def __init__(self, repository: ProductRepository) -> None:
+    def __init__(self, repository: ProductRepositoryInterface) -> None:
         self.repository = repository
 
     async def __call__(self, data: FilterProductsRequest) -> list[CatalogProduct]:
@@ -15,7 +15,7 @@ class GetFilteredProducts:
 
 
 class GetSearchedProducts:
-    def __init__(self, repository: ProductRepository) -> None:
+    def __init__(self, repository: ProductRepositoryInterface) -> None:
         self.repository = repository
 
     async def __call__(self, search: str) -> list[CatalogProduct]:
@@ -37,7 +37,7 @@ class GetSearchedProducts:
 
 
 class GetProductById:
-    def __init__(self, repository: ProductRepository) -> None:
+    def __init__(self, repository: ProductRepositoryInterface) -> None:
         self.repository = repository
 
     async def __call__(self, id: int) -> Product:
@@ -45,7 +45,7 @@ class GetProductById:
 
 
 class GetProductsColors:
-    def __init__(self, repository: ProductRepository) -> None:
+    def __init__(self, repository: ProductRepositoryInterface) -> None:
         self.repository = repository
 
     async def __call__(self, name: str) -> list[CatalogProduct]:
@@ -53,7 +53,7 @@ class GetProductsColors:
 
 
 class GetNewArrivals:
-    def __init__(self, repository: ProductRepository) -> None:
+    def __init__(self, repository: ProductRepositoryInterface) -> None:
         self.repository = repository
 
     async def __call__(self) -> list[Product]:
@@ -61,7 +61,7 @@ class GetNewArrivals:
 
 
 class GetPopulars:
-    def __init__(self, repository: ProductRepository) -> None:
+    def __init__(self, repository: ProductRepositoryInterface) -> None:
         self.repository = repository
 
     async def __call__(self) -> list[CatalogProduct]:
