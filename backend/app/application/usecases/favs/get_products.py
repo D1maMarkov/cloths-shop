@@ -1,9 +1,9 @@
 from domain.product.product import CatalogProduct
-from infrastructure.persistence.session.favs_adapter import Favs
+from application.common.favs import FavsInterface
 
 
 class GetFavsProducts:
-    def __init__(self, favs: Favs) -> None:
+    def __init__(self, favs: FavsInterface) -> None:
         self.favs_session = favs
 
     async def __call__(self) -> list[CatalogProduct]:

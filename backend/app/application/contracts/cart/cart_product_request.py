@@ -1,6 +1,5 @@
-from domain.product.product import BaseProduct
+from domain.cart.cart import CartProduct
 
 
-class CartProductRequest(BaseProduct):
-    quantity: int
-    size: str
+class CartProductRequest(CartProduct):
+    pass

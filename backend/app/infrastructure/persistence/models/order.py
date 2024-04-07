@@ -17,7 +17,7 @@ class OrderOrm(Model):
     payment = Column(String)
     delivery = Column(String)
     user_id = Column(Integer, ForeignKey("user.id"))
-    user = relationship("User", back_populates="orders")
+    user = relationship("UserOrm", back_populates="orders")
     created = Column(TIMESTAMP, default=datetime.utcnow)
     order_products = relationship("OrderProductOrm", back_populates="order")
     status = Column(String, default=OrderStatus.InTheWarehouse)

@@ -19,7 +19,7 @@ router = APIRouter(prefix="/cart", tags=["cart"])
 async def cart_add(
     product: CartProductRequest, add_in_cart_interactor: AddProduct = Depends(get_add_in_cart_interactor)
 ) -> None:
-    return await add_in_cart_interactor.add_product(product)
+    return await add_in_cart_interactor(product)
 
 
 @router.get("/", response_model=list[CartProduct])
