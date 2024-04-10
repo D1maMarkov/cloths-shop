@@ -3,7 +3,7 @@ import { GlobalSettingsService } from "./global-settings.service";
 import { Observable, catchError, throwError } from 'rxjs';
 import { FilterService } from "./filter.service";
 import { ErrorService } from "./error.service";
-import { IProduct, TypeBaseProduct } from "../models/product";
+import { IProduct, TypeBaseProduct, ICatalogProduct } from "../models/product";
 import { Injectable } from "@angular/core";
 
 
@@ -34,23 +34,23 @@ export class ProductsService{
         )
     }
 
-    getColors(name: string): Observable<TypeBaseProduct[]>{
-        return this.http.get<TypeBaseProduct[]>(this.host + `/product-colors/${name}`).pipe(
+    getColors(name: string): Observable<ICatalogProduct[]>{
+        return this.http.get<ICatalogProduct[]>(this.host + `/product-colors/${name}`).pipe(
             catchError(this.errorHandler.bind(this))
         )
     }
 
-    getSearched(searchBy: string): Observable<TypeBaseProduct[]>{
+    getSearched(searchBy: string): Observable<ICatalogProduct[]>{
         const data = {
             search: searchBy
         }
 
-        return this.http.post<TypeBaseProduct[]>(this.host + `/search`, data, this.httpOptions).pipe(
+        return this.http.post<ICatalogProduct[]>(this.host + `/search`, data, this.httpOptions).pipe(
             catchError(this.errorHandler.bind(this))
         )
     }
 
-    getFiltered(): Observable<TypeBaseProduct[]>{
+    getFiltered(): Observable<ICatalogProduct[]>{
         const data = {
             gender: this.filter.genderFilters$.getValue(),
             category: this.filter.categoryFilters$.getValue(),
@@ -66,19 +66,19 @@ export class ProductsService{
 
         //console.log(data);
 
-        return this.http.post<TypeBaseProduct[]>(this.host + '/get-filtered', data, this.httpOptions).pipe(
+        return this.http.post<ICatalogProduct[]>(this.host + '/get-filtered', data, this.httpOptions).pipe(
             catchError(this.errorHandler.bind(this))
         )
     }
 
-    getPopularProducts(): Observable<TypeBaseProduct[]>{
-        return this.http.get<TypeBaseProduct[]>(this.host + '/populars').pipe(
+    getPopularProducts(): Observable<ICatalogProduct[]>{
+        return this.http.get<ICatalogProduct[]>(this.host + '/populars').pipe(
             catchError(this.errorHandler.bind(this))
         )
     }
 
-    getNewArrivals(): Observable<TypeBaseProduct[]>{
-        return this.http.get<TypeBaseProduct[]>(this.host + '/new-arrivals').pipe(
+    getNewArrivals(): Observable<ICatalogProduct[]>{
+        return this.http.get<ICatalogProduct[]>(this.host + '/new-arrivals').pipe(
             catchError(this.errorHandler.bind(this))
         )
     }

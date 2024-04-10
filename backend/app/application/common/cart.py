@@ -1,5 +1,7 @@
 from typing import Protocol
+
 from domain.cart.cart import CartProduct
+
 
 class CartInterface(Protocol):
     def add_product(self, key: str, product: dict) -> None:

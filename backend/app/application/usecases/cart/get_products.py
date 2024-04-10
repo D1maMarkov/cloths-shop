@@ -1,5 +1,5 @@
-from domain.cart.cart import CartProduct
 from application.common.cart import CartInterface
+from domain.cart.cart import CartProduct
 
 
 class GetCart:

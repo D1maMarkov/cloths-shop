@@ -1,7 +1,7 @@
 import { flyInOutLeft } from 'src/app/animations/fly-in-out-left.animation';
 import { flyInOut } from 'src/app/animations/fly-in-out.animation';
 import { Component, OnInit, Input } from '@angular/core';
-import { TypeBaseProduct } from 'src/app/models/product';
+import { ICatalogProduct } from 'src/app/models/product';
 
 @Component({
   selector: 'app-paginate-component',
@@ -15,7 +15,7 @@ export class PaginateComponent implements OnInit {
   right: boolean = false;
   productsPerPage: number = 4;
 
-  @Input() objects: TypeBaseProduct[];
+  @Input() objects: ICatalogProduct[];
   @Input() title: string;
 
   increment(): void{

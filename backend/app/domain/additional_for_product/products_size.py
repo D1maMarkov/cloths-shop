@@ -3,5 +3,4 @@ from pydantic import BaseModel
 
 
 class Size(BaseModel):
-    product_id: int
     size: SizeValues

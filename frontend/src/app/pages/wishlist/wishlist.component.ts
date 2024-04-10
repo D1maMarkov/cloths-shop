@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { TypeBaseProduct } from 'src/app/models/product';
+import { ICatalogProduct } from 'src/app/models/product';
 import { FavsService } from 'src/app/services/favs.service';
 import { fadeIn } from 'src/app/animations/fade-in.animation';
 
@@ -10,7 +10,7 @@ import { fadeIn } from 'src/app/animations/fade-in.animation';
   animations: [fadeIn]
 })
 export class WishlistComponent implements OnInit {
-  products: TypeBaseProduct[] = [];
+  products: ICatalogProduct[] = [];
 
   constructor(
     private favsService: FavsService

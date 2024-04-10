@@ -1,41 +1,31 @@
 import { TypeDataFilter } from "./filter"
 
 
-export interface IProduct {
+export type TypeBaseProduct = {
     id: number,
     name: string,
     description: string,
     price: number,
+}
+
+export interface ICatalogProduct extends TypeBaseProduct {
+    image: string,
+    sizes: string[]
+}
+
+export interface IProduct extends TypeBaseProduct {
     images: string[],
     gender: string,
-    category_id: number,
     category: TypeDataFilter,
-    color_id: number,
     color: string,
     sizes: string[],
-    brand_id: number,
     brand: TypeDataFilter,
     code: string,
     article: string,
-    basic_category: string
-    created: string
 }
 
-export type TypeCartProduct = {
-    id: number,
-    name: string,
-    description: string,
-    price: number,
+export interface ICartProduct extends TypeBaseProduct {
     image: string,
     size: string,
     quantity: number
-}
-
-export type TypeBaseProduct = {
-    id: number,
-    image: string,
-    name: string,
-    description: string,
-    price: number,
-    sizes: string[]
 }

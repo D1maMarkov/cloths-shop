@@ -1,7 +1,6 @@
-from infrastructure.persistence.session.sessionObject import SessionObject
-from domain.cart.cart import CartProduct
 from application.common.cart import CartInterface
-
+from domain.cart.cart import CartProduct
+from infrastructure.persistence.session.sessionObject import SessionObject
 
 secret_key = "cart"
 

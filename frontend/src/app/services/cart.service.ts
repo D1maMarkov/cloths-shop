@@ -3,7 +3,7 @@ import { Observable, catchError, throwError, BehaviorSubject } from 'rxjs';
 import { GlobalSettingsService } from "./global-settings.service";
 import { AuthService } from 'src/app/services/auth.service';
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { TypeCartProduct } from 'src/app/models/product';
+import { ICartProduct } from 'src/app/models/product';
 import { ErrorService } from "./error.service";
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
@@ -16,7 +16,7 @@ export class CartService{
   opened: boolean = true;
 
   len: number = 0;
-  products = new BehaviorSubject<TypeCartProduct[]>([]);
+  products = new BehaviorSubject<ICartProduct[]>([]);
 
   price: number;
   checkClick: boolean = true;
@@ -48,14 +48,14 @@ export class CartService{
     }
   }
 
-  increment(product: TypeCartProduct): void{
+  increment(product: ICartProduct): void{
     product.quantity++;
     this.price += Number(product.price);
     this.len++
     this.addInSession(product);
   }
 
-  decrement(product: TypeCartProduct): void{
+  decrement(product: ICartProduct): void{
     product.quantity--;
     this.price -= Number(product.price);
     this.len--;
@@ -91,9 +91,6 @@ export class CartService{
     this.host = this.global.host + 'cart'
     this.getCart().subscribe(products => {
       this.products.next([...products]);
-    })
-
-    this.products.subscribe(products => {
       let curPrice = 0;
       let curLen = 0;
 
@@ -107,8 +104,8 @@ export class CartService{
     })
   }
 
-  getCart(): Observable<TypeCartProduct[]>{
-    return this.http.get<TypeCartProduct[]>(this.host, this.httpOptions).pipe(
+  getCart(): Observable<ICartProduct[]>{
+    return this.http.get<ICartProduct[]>(this.host, this.httpOptions).pipe(
       catchError(this.errorHandler.bind(this))
     )
   }
@@ -118,15 +115,15 @@ export class CartService{
     return throwError(() => error.message)
   }
 
-  addInSession(product: TypeCartProduct){
+  addInSession(product: ICartProduct){
     this.http.post(this.host + '/add', product, this.httpOptions).subscribe()
   }
 
-  lowQuantityInSession(product: TypeCartProduct){
+  lowQuantityInSession(product: ICartProduct){
     this.http.post(this.host + `/low-quantity`, product, this.httpOptions).subscribe()
   }
 
-  addProduct(cartProduct: TypeCartProduct){
+  addProduct(cartProduct: ICartProduct){
     const products = this.products.getValue()
     let inCart = false;
     for (let product of products){
@@ -145,9 +142,9 @@ export class CartService{
     this.addInSession(cartProduct);
   }
 
-  isInCart(product: TypeCartProduct): boolean{
+  isInCart(product: ICartProduct): boolean{
     let inCart = false;
-    this.products.getValue().forEach((cartProduct: TypeCartProduct) => {
+    this.products.getValue().forEach((cartProduct: ICartProduct) => {
       if (cartProduct.id === product.id && cartProduct.size === product.size){
         inCart = true;
       }
@@ -156,10 +153,10 @@ export class CartService{
     return inCart;
   }
 
-  getProduct(product: TypeCartProduct){
-    let result: TypeCartProduct = this.products.getValue()[0];
+  getProduct(product: ICartProduct){
+    let result: ICartProduct = this.products.getValue()[0];
 
-    this.products.getValue().forEach((cartProduct: TypeCartProduct) => {
+    this.products.getValue().forEach((cartProduct: ICartProduct) => {
       if (product.id === cartProduct.id && product.size === cartProduct.size){
         result = cartProduct;
       }

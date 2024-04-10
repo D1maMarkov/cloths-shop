@@ -1,5 +1,5 @@
 import { transition, style, animate, trigger } from "@angular/animations";
-import { TypeBaseProduct } from "src/app/models/product";
+import { ICatalogProduct } from "src/app/models/product";
 import { Component, Input } from "@angular/core";
 import { Router } from "@angular/router";
 
@@ -20,7 +20,7 @@ const fadeIn = trigger('fadeIn', [enterTransition]);
 })
 export class ProductComponent{
     hover = false;
-    @Input() product: TypeBaseProduct;
+    @Input() product: ICatalogProduct;
 
     constructor(
         private route: Router

@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable, OnInit } from '@angular/core';
 import { ErrorService } from "./error.service";
-import { IProduct } from '../models/product';
+import { ICatalogProduct } from '../models/product';
 import { GlobalSettingsService } from './global-settings.service';
 import { TypeBaseProduct } from '../models/product';
 
@@ -12,7 +12,7 @@ import { TypeBaseProduct } from '../models/product';
 })
 export class FavsService implements OnInit{
   len: number = 0;
-  products = new BehaviorSubject<TypeBaseProduct[]>([]);
+  products = new BehaviorSubject<ICatalogProduct[]>([]);
   host: string;
 
   httpOptions = {
@@ -27,14 +27,12 @@ export class FavsService implements OnInit{
     this.host = this.global.host + 'favs';
     this.getFavs().subscribe(products => {
       this.products.next([...products]);
-    })
-    this.products.subscribe(products => {
-      this.len = products.length;
+      this.len = products.length
     })
   }
 
-  getFavs(): Observable<TypeBaseProduct[]>{
-    return this.http.get<TypeBaseProduct[]>(this.host, {
+  getFavs(): Observable<ICatalogProduct[]>{
+    return this.http.get<ICatalogProduct[]>(this.host, {
           withCredentials: true
     }).pipe(
         catchError(this.errorHandler.bind(this))
@@ -62,7 +60,7 @@ export class FavsService implements OnInit{
     this.http.get(this.host + `/remove/${id}`, this.httpOptions).subscribe()
   }
 
-  addProduct(product: TypeBaseProduct){
+  addProduct(product: ICatalogProduct){
     const products = this.products.getValue()
     this.products.next([...products, product]);
     this.addInSession(product);

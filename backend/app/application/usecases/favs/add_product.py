@@ -1,5 +1,5 @@
-from domain.product.product import BaseProduct
 from application.common.favs import FavsInterface
+from domain.product.product import BaseProduct
 
 
 class AddInFavs:

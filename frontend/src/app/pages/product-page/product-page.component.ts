@@ -1,6 +1,6 @@
 import { IsVisibleImageService } from 'src/app/services/is-visible-image.service';
 import { ProductsService } from 'src/app/services/products.service';
-import { IProduct, TypeCartProduct, TypeBaseProduct } from 'src/app/models/product';
+import { IProduct, ICatalogProduct, ICartProduct } from 'src/app/models/product';
 import { SearchService } from 'src/app/services/search.service';
 import { fadeIn } from 'src/app/animations/fade-in.animation';
 import { CartService } from 'src/app/services/cart.service';
@@ -18,7 +18,7 @@ import { ActivatedRoute } from "@angular/router";
   animations: [fadeIn]
 })
 export class ProductPageComponent implements OnInit {
-  colors$: Observable<TypeBaseProduct[]>;
+  colors$: Observable<ICatalogProduct[]>;
 
   refs = new BehaviorSubject<TypeDataFilter[]>([
     {
@@ -28,14 +28,14 @@ export class ProductPageComponent implements OnInit {
   ]);
 
   product: IProduct;
-  products$: Observable<TypeBaseProduct[]>;
+  products$: Observable<ICatalogProduct[]>;
 
   chosedSize = new BehaviorSubject<string>('');
 
   visibleImageId: number;
 
   isInFavs = new BehaviorSubject<boolean>(false);
-  cartProduct: TypeCartProduct;
+  cartProduct: ICartProduct;
 
   changeSize(event: Event): void{
     this.chosedSize.next((event.target as HTMLInputElement).value);
@@ -47,7 +47,7 @@ export class ProductPageComponent implements OnInit {
   }
 
   addToFavs(): void{
-    const favsProduct: TypeBaseProduct = {
+    const favsProduct: ICatalogProduct = {
       id: this.product.id,
       image: this.product.images[0],
       name: this.product.name,
@@ -100,7 +100,7 @@ export class ProductPageComponent implements OnInit {
     this.chosedSize.subscribe(chosedSize => {
       if (this.product !== undefined){
 
-        const cartProduct: TypeCartProduct = {
+        const cartProduct: ICartProduct = {
           id: this.product.id,
           name: this.product.name,
           description: this.product.description,

@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 import { OrdersService } from 'src/app/services/orders.service';
-import { TypeCartProduct } from 'src/app/models/product';
+import { ICartProduct } from 'src/app/models/product';
 import { TypeCreateOrder } from 'src/app/models/order';
 
 @Component({
@@ -16,7 +16,7 @@ import { TypeCreateOrder } from 'src/app/models/order';
   animations: [flyInOut]
 })
 export class OrderComponent implements OnInit {
-  products = new BehaviorSubject<TypeCartProduct[]>([]);
+  products: ICartProduct[] = [];
   host: string;
   formInd = 0;
 
@@ -84,10 +84,10 @@ export class OrderComponent implements OnInit {
     private global: GlobalSettingsService,
     private router: Router,
     private ordersService: OrdersService,
-  ) { 
+  ) {
     this.host = this.global.host;
     this.cartService.products.subscribe(products => {
-      this.products.next(products);
+      this.products = products;
     })
   }
 

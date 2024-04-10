@@ -3,7 +3,7 @@ import { ProductsService } from 'src/app/services/products.service';
 import { SearchService } from 'src/app/services/search.service';
 import { fadeInOutTopnav } from 'src/app/animations/fade-in-out-topnav.animation';
 import { Observable } from 'rxjs';
-import { TypeBaseProduct } from 'src/app/models/product';
+import { ICatalogProduct } from 'src/app/models/product';
 
 @Component({
   selector: 'app-search',
@@ -15,7 +15,7 @@ export class SearchComponent implements OnInit {
   history: string[] = [];
 
   nothingFound: boolean = false;
-  products$: Observable<TypeBaseProduct[]> = this.productService.getSearched("");
+  products$: Observable<ICatalogProduct[]> = this.productService.getSearched("");
 
   search: string = "";
 

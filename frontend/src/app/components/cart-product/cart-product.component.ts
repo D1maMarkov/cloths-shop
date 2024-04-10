@@ -1,7 +1,7 @@
 import { fadeInOut } from 'src/app/animations/fade-in-out.animation';
 import { CartService } from 'src/app/services/cart.service';
 import { Component, Input, OnInit } from '@angular/core';
-import { TypeCartProduct } from 'src/app/models/product';
+import { ICartProduct } from 'src/app/models/product';
 
 @Component({
   selector: 'app-cart-product',
@@ -10,7 +10,7 @@ import { TypeCartProduct } from 'src/app/models/product';
   animations: [fadeInOut]
 })
 export class CartProductComponent implements OnInit {
-  @Input() product: TypeCartProduct;
+  @Input() product: ICartProduct;
 
   constructor(
     public cartService: CartService,

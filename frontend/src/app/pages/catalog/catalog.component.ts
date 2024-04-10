@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { TypeBaseProduct } from 'src/app/models/product';
+import { ICatalogProduct } from 'src/app/models/product';
 import { ProductsService } from 'src/app/services/products.service';
 import { Observable, tap } from 'rxjs';
 import { FilterService } from 'src/app/services/filter.service';
@@ -19,7 +19,7 @@ import { TypeDataFilter } from 'src/app/models/filter';
   animations: [fadeIn]
 })
 export class CatalogComponent implements OnInit {
-  products$: Observable<TypeBaseProduct[]>;
+  products$: Observable<ICatalogProduct[]>;
   loading : boolean = true;
   totalCount: number;
   brands: TypeDataFilter[];

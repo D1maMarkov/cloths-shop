@@ -1,9 +1,9 @@
-import { TypeCartProduct } from "./product";
+import { ICartProduct } from "./product";
 
 export type TypeOrder = {
     created: string,
     status: string,
-    order_products: TypeCartProduct[],
+    order_products: ICartProduct[],
 }
 
 export type TypeCreateOrder = {

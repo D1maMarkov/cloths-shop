@@ -3,7 +3,7 @@ import { ProductsService } from 'src/app/services/products.service';
 import { FilterService } from 'src/app/services/filter.service';
 import { fadeIn } from 'src/app/animations/fade-in.animation';
 import { Title } from '@angular/platform-browser';
-import { TypeBaseProduct } from 'src/app/models/product';
+import { ICatalogProduct } from 'src/app/models/product';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -15,8 +15,8 @@ import { Observable } from 'rxjs';
   animations: [fadeIn]
 })
 export class MainPageComponent{
-  popularProducts$: Observable<TypeBaseProduct[]>;
-  newArrivals$: Observable<TypeBaseProduct[]>;
+  popularProducts$: Observable<ICatalogProduct[]>;
+  newArrivals$: Observable<ICatalogProduct[]>;
 
   constructor(
     public filter: FilterService,

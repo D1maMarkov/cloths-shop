@@ -4,7 +4,7 @@
     <main>
         <div [ngClass]="{not__allowed: formInd === 2}" class="products__wrapper">
             <div class="products">
-                <div *ngFor="let product of products.getValue()">
+                <div *ngFor="let product of products">
                     <app-cart-product [product]="product"></app-cart-product>
                 </div>
             </div>
@@ -28,15 +28,15 @@
             <form @flyInOut *ngIf="formInd === 1">
                 <img (click)="back()" class="array" src="../../../assets/img/topnav_title/array.png"/>
 
-                <a style="margin-left: 10px;">доставка</a> 
-            
+                <a style="margin-left: 10px;">доставка</a>
+
                 <div class="radio__wrapper">
                     <div *ngFor="let method of deliveryMethods" class="form_radio_btn">
                         <input (click)="changeDeliveryMethod($event)" [checked]="method === chosedDeliveryMethod.getValue()" id="radio-{{ method }}" type="radio" value="{{ method }}" />
                         <label for="radio-{{ method }}">{{ method }}</label>
                     </div>
                 </div>
-                
+
                 <div style="padding: 5px 10px; display: flex; justify-content: space-between;">
                     <a>Общая сумма заказа</a>
                     <a>{{ cartService.price }} $</a>

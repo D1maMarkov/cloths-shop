@@ -1,12 +1,12 @@
 from typing import Annotated
 
+from application.contracts.additional_for_product.add_size_request import AddSizeRequest
 from application.contracts.common.base_data_add_request import BaseDataFieldAddRequest
 from application.usecases.additional_for_product.color import AddColor, GetColors
 from application.usecases.additional_for_product.size import (
     AddProductsSize,
     GetProductsSizes,
 )
-from domain.additional_for_product.products_size import Size
 from domain.common.base_data_field import BaseDataField
 from fastapi import APIRouter, Depends, status
 from web_api.depends.additional_for_product.color import (
@@ -23,7 +23,7 @@ router = APIRouter(prefix="/additional-for-products", tags=["additional for prod
 
 @router.post("/size", status_code=status.HTTP_201_CREATED)
 async def add_size(
-    size: Annotated[Size, Depends()], add_size_interactor: AddProductsSize = Depends(get_add_size_interactor)
+    size: Annotated[AddSizeRequest, Depends()], add_size_interactor: AddProductsSize = Depends(get_add_size_interactor)
 ) -> None:
     return await add_size_interactor(size)
 

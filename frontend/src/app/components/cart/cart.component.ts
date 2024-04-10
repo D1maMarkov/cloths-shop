@@ -2,11 +2,8 @@ import { fadeInOutTopnav } from 'src/app/animations/fade-in-out-topnav.animation
 import { Component, OnInit, HostListener, ElementRef } from '@angular/core';
 import { fadeIn } from 'src/app/animations/fade-in.animation';
 import { CartService } from 'src/app/services/cart.service';
-import { AuthService } from 'src/app/services/auth.service';
-import { MatSnackBar } from "@angular/material/snack-bar";
-import { TypeCartProduct } from 'src/app/models/product';
+import { ICartProduct } from 'src/app/models/product';
 import { Router } from '@angular/router';
-import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-cart',
@@ -15,7 +12,7 @@ import { BehaviorSubject } from 'rxjs';
   animations: [fadeIn, fadeInOutTopnav]
 })
 export class CartComponent implements OnInit {
-  products: TypeCartProduct[] = [];
+  products: ICartProduct[] = [];
   deleteWarning: boolean = false;
   readyToChangeDelete: boolean = false;
   checkClick: boolean = true;
@@ -43,7 +40,7 @@ export class CartComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  decrement(product: TypeCartProduct): void{
+  decrement(product: ICartProduct): void{
     this.cartService.decrement(product);
   }
 

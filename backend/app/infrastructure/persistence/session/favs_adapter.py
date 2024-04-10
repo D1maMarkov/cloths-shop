@@ -1,6 +1,5 @@
-from infrastructure.persistence.session.sessionObject import SessionObject
 from application.common.favs import FavsInterface
-
+from infrastructure.persistence.session.sessionObject import SessionObject
 
 secret_key = "favs"
 

@@ -16,9 +16,6 @@ class CatalogProduct(BaseProduct):
 
 
 class Product(BaseProduct):
-    category_id: int
-    brand_id: int
-    color_id: int
     code: int
     article: str
     gender: Gender | None = Gender.unisex
@@ -33,6 +30,4 @@ class Product(BaseProduct):
 
 
 class ProductImage(BaseModel):
-    id: int
     image: str
-    product_id: int
