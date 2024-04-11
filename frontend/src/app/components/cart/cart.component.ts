@@ -17,6 +17,9 @@ export class CartComponent implements OnInit {
   readyToChangeDelete: boolean = false;
   checkClick: boolean = true;
 
+  len: number;
+  price: number;
+
   constructor(
     private element: ElementRef,
     public cartService: CartService,
@@ -24,6 +27,8 @@ export class CartComponent implements OnInit {
   ) {
     this.cartService.products.subscribe(products => {
       this.products = products;
+      this.len = this.cartService.len;
+      this.price = this.cartService.price;
     })
   }
 

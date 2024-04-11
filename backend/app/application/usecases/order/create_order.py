@@ -10,8 +10,11 @@ class CreateOrder:
         self.cart_session = cart
         self.user_repository = user_repository
 
-    async def __call__(self, request: CreateOrderRequest, user) -> None:
-        order_id = await self.repository.create_order({**request.model_dump(), "user_id": user.id, "user": user})
+    async def __call__(self, request: CreateOrderRequest, user: dict) -> None:
+        user_model = await self.user_repository.get_user(user["id"])
+        order_id = await self.repository.create_order(
+            {**request.model_dump(), "user_id": user_model.id, "user": user_model}
+        )
 
         for product in self.cart_session:
             await self.repository.create_order_product(

@@ -1,26 +1,39 @@
 import { AccessTokenType, isAuthResponseType, TypePayload, UserInfoType } from '../models/auth';
-import { GlobalSettingsService } from './global-settings.service';
+import { GlobalSettingsService } from '../services/global-settings.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, throwError } from 'rxjs';
 import { TypeRegisterForm } from '../models/auth';
 import { catchError } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { JwtProcessorService } from '../services/jwt-processor.service';
+import { HttpBaseService } from './base-http-service.service';
+import { ErrorService } from '../services/error.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService{
-  token = new BehaviorSubject<string>(this.getToken());
-  host: string;
+export class AuthService extends HttpBaseService{
 
-  httpOptions = {
-    withCredentials: true,
-    headers: new HttpHeaders({
-      'accept': 'application/json',
-      'Authorization': `Bearer ${this.token.getValue()}`,
+  constructor(
+    private route: Router,
+    http: HttpClient,
+    global: GlobalSettingsService,
+    errorService: ErrorService,
+    private jwtProcesor: JwtProcessorService
+  ) {
+    super(http, errorService, global)
+    this.host = this.host + 'auth';
+    this.jwtProcesor.token.subscribe(token => {
+      this.httpOptions = {
+        withCredentials: true,
+        headers: new HttpHeaders({
+          'accept': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        })
+      };
     })
-  };
+  }
 
   async isAuth(){
     try {
@@ -38,9 +51,10 @@ export class AuthService{
   }
 
   activateUser(user_id: number){
-    this.http.get<string>(this.host + `/activate-user/${user_id}`).subscribe(response => {
-      const token = response;
-      this.setToken(token);
+    this.http.get<AccessTokenType>(this.host + `/activate-user/${user_id}`).subscribe(response => {
+      const token = response.access_token;
+
+      this.jwtProcesor.setToken(token);
       this.route.navigate(["/profile"])
     });
   }
@@ -53,8 +67,8 @@ export class AuthService{
       })
     ).subscribe(response => {
       const token = response.access_token;
-      this.setToken(token);
 
+      this.jwtProcesor.setToken(token);
       this.route.navigate(["/profile"])
     })
   }
@@ -80,41 +94,8 @@ export class AuthService{
     return userInfo;
   }
 
-  setToken(token: string): void{
-    const encodedToken = encodeURIComponent(token);
-
-    this.token.next(encodedToken);
-
-    localStorage.setItem("token", JSON.stringify(encodedToken))
-  }
-
-  constructor(
-    private route: Router,
-    private http: HttpClient,
-    private global: GlobalSettingsService,
-  ) {
-    this.host = this.global.host + 'auth';
-    this.token.subscribe(token => {
-      this.httpOptions = {
-        withCredentials: true,
-        headers: new HttpHeaders({
-          'accept': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        })
-      };
-    })
-  }
-
-  getToken(): string{
-    const raw = localStorage.getItem("token");
-
-    if (raw !== null){
-      return JSON.parse(raw);
-    }
-    return '';
-  }
-
   logout(): void{
-    this.setToken("");
+    this.jwtProcesor.setToken("");
+    this.route.navigate(["/"])
   }
 }

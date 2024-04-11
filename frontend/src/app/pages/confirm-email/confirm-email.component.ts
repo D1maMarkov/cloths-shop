@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from 'src/app/services/auth.service';
+import { AuthService } from 'src/app/http-services/auth.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { TypePayload } from 'src/app/models/auth';
@@ -50,6 +50,5 @@ export class ConfirmEmailComponent implements OnInit {
         this.payload = payload;
       }
     })
-
   }
 }

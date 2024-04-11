@@ -1,5 +1,5 @@
 import { TopnavRedirectService } from 'src/app/services/topnav-redirect.service';
-import { PaginateBrandsService } from 'src/app/services/paginate-brands.service';
+import { PaginateBrandsService } from 'src/app/http-services/paginate-brands.service';
 import { flyInOutLeft } from 'src/app/animations/fly-in-out-left.animation';
 import { flyInOut } from 'src/app/animations/fly-in-out.animation';
 import { Component, Input } from '@angular/core';

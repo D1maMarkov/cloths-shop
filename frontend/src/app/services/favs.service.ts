@@ -1,77 +1,40 @@
-import { Observable, catchError, throwError, BehaviorSubject } from 'rxjs';
-import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { HttpErrorResponse } from '@angular/common/http';
-import { Injectable, OnInit } from '@angular/core';
-import { ErrorService } from "./error.service";
-import { ICatalogProduct } from '../models/product';
-import { GlobalSettingsService } from './global-settings.service';
-import { TypeBaseProduct } from '../models/product';
+import { BehaviorSubject } from 'rxjs';
+import { Injectable } from '@angular/core';
+import { IProduct, ICatalogProduct } from '../models/product';
+import { HttpFavsService } from '../http-services/http-favs-service.service';
+import { FavsProductAdapter } from '../adapters/favs-product-adapter';
 
 @Injectable({
   providedIn: 'root'
 })
-export class FavsService implements OnInit{
+export class FavsService{
   len: number = 0;
   products = new BehaviorSubject<ICatalogProduct[]>([]);
-  host: string;
-
-  httpOptions = {
-    withCredentials: true
-  };
 
   constructor(
-    private http: HttpClient,
-    private errorService: ErrorService,
-    private global: GlobalSettingsService,
+    private httpFavsService: HttpFavsService,
+    private favsProductAdapter: FavsProductAdapter
   ){
-    this.host = this.global.host + 'favs';
-    this.getFavs().subscribe(products => {
+    this.httpFavsService.getFavs().subscribe(products => {
       this.products.next([...products]);
-      this.len = products.length
+    })
+
+    this.products.subscribe(products => {
+      this.len = products.length;
     })
   }
 
-  getFavs(): Observable<ICatalogProduct[]>{
-    return this.http.get<ICatalogProduct[]>(this.host, {
-          withCredentials: true
-    }).pipe(
-        catchError(this.errorHandler.bind(this))
-    )
-  }
+  addProduct(product: IProduct){
+    const favsProduct: ICatalogProduct = this.favsProductAdapter.getProduct(product);
 
-  private errorHandler(error: HttpErrorResponse){
-    this.errorService.handle(error.message)
-    return throwError(() => error.message)
-  }
-
-  addInSession(product: TypeBaseProduct){
-    const httpOptions = {
-      ...this.httpOptions,
-      headers: new HttpHeaders({
-          'accept': 'application/json',
-          'Content-Type': 'application/json',
-      })
-    };
-
-    this.http.post(this.host, product, httpOptions).subscribe()
-  }
-
-  removeFromSession(id: number){
-    this.http.get(this.host + `/remove/${id}`, this.httpOptions).subscribe()
-  }
-
-  addProduct(product: ICatalogProduct){
     const products = this.products.getValue()
-    this.products.next([...products, product]);
-    this.addInSession(product);
+    this.products.next([...products, favsProduct]);
+    this.httpFavsService.addInSession(favsProduct);
   }
 
   removeProduct(id: number){
     this.products.next([...this.products.getValue().filter(product => product.id !== id)]);
-    this.removeFromSession(id);
-  }
-
-  ngOnInit(): void {
+    this.httpFavsService.removeFromSession(id);
   }
 
   isInFavs(id: number){

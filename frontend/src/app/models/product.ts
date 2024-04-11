@@ -1,4 +1,4 @@
-import { TypeDataFilter } from "./filter"
+import { TypeDataField } from "./filter"
 
 
 export type TypeBaseProduct = {
@@ -16,10 +16,10 @@ export interface ICatalogProduct extends TypeBaseProduct {
 export interface IProduct extends TypeBaseProduct {
     images: string[],
     gender: string,
-    category: TypeDataFilter,
+    category: TypeDataField,
     color: string,
     sizes: string[],
-    brand: TypeDataFilter,
+    brand: TypeDataField,
     code: string,
     article: string,
 }

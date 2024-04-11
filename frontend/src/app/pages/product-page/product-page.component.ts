@@ -1,11 +1,8 @@
 import { IsVisibleImageService } from 'src/app/services/is-visible-image.service';
-import { ProductsService } from 'src/app/services/products.service';
-import { IProduct, ICatalogProduct, ICartProduct } from 'src/app/models/product';
+import { ProductsService } from 'src/app/http-services/products.service';
+import { IProduct, ICatalogProduct } from 'src/app/models/product';
 import { SearchService } from 'src/app/services/search.service';
-import { fadeIn } from 'src/app/animations/fade-in.animation';
-import { CartService } from 'src/app/services/cart.service';
-import { FavsService } from 'src/app/services/favs.service';
-import { TypeDataFilter } from 'src/app/models/filter';
+import { TypeDataField } from 'src/app/models/filter';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
@@ -15,64 +12,25 @@ import { ActivatedRoute } from "@angular/router";
   selector: 'app-product-page',
   templateUrl: './product-page.component.html',
   styleUrls: ['./product-page.component.scss'],
-  animations: [fadeIn]
 })
 export class ProductPageComponent implements OnInit {
-  colors$: Observable<ICatalogProduct[]>;
+  defaultRefs: TypeDataField[] = [{viewed_name: "Новинки", name: 'unisex'}];
 
-  refs = new BehaviorSubject<TypeDataFilter[]>([
-    {
-      viewed_name: "Новинки",
-      name: 'unisex'
-    }
-  ]);
+  refs = new BehaviorSubject<TypeDataField[]>([]);
 
   product: IProduct;
   products$: Observable<ICatalogProduct[]>;
 
-  chosedSize = new BehaviorSubject<string>('');
-
   visibleImageId: number;
-
-  isInFavs = new BehaviorSubject<boolean>(false);
-  cartProduct: ICartProduct;
-
-  changeSize(event: Event): void{
-    this.chosedSize.next((event.target as HTMLInputElement).value);
-  }
-
-  addToCart(): void{
-    this.cartProduct.quantity++;
-    this.cartService.addProduct(this.cartProduct);
-  }
-
-  addToFavs(): void{
-    const favsProduct: ICatalogProduct = {
-      id: this.product.id,
-      image: this.product.images[0],
-      name: this.product.name,
-      description: this.product.description,
-      price: this.product.price,
-      sizes: this.product.sizes
-    }
-
-    this.favsService.addProduct(favsProduct);
-  }
-
-  removeFromFavs(): void{
-    this.favsService.removeProduct(this.product.id);
-  }
 
   constructor(
     private productsService: ProductsService,
     private route: ActivatedRoute,
     private visibleService: IsVisibleImageService,
     private titleService: Title,
-    public cartService: CartService,
-    public favsService: FavsService,
     private searchService: SearchService,
   ){
-    this.searchService.opened = false;
+    this.searchService.close();
     this.products$ = this.productsService.getSearched("");
   }
 
@@ -83,40 +41,17 @@ export class ProductPageComponent implements OnInit {
       this.productsService.getProduct(id).subscribe(product => {
         this.product = product;
 
-        this.chosedSize.next(product.sizes[0]);
-
-        this.refs.next([...this.refs.getValue(), {name: product.category.name, viewed_name: product.category.viewed_name}]);
-        this.refs.next([...this.refs.getValue(), {name: product.name, viewed_name: product.name}]);
+        this.refs.next([...this.defaultRefs,
+          {name: product.category.name, viewed_name: product.category.viewed_name},
+          {name: product.name, viewed_name: product.name}]
+        );
 
         this.titleService.setTitle(product.name);
-        this.colors$ = this.productsService.getColors(product.name);
       })
     });
 
     this.visibleService.visibleImageId$.subscribe(id => {
       this.visibleImageId = id;
-    })
-
-    this.chosedSize.subscribe(chosedSize => {
-      if (this.product !== undefined){
-
-        const cartProduct: ICartProduct = {
-          id: this.product.id,
-          name: this.product.name,
-          description: this.product.description,
-          price: this.product.price,
-          size: chosedSize,
-          quantity: 0,
-          image: this.product.images[0]
-        }
-
-        if (this.cartService.isInCart(cartProduct)){
-          this.cartProduct = this.cartService.getProduct(cartProduct);
-        }
-        else{
-          this.cartProduct = cartProduct;
-        }
-      }
     })
   }
 }

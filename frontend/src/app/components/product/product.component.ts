@@ -1,16 +1,7 @@
-import { transition, style, animate, trigger } from "@angular/animations";
 import { ICatalogProduct } from "src/app/models/product";
 import { Component, Input } from "@angular/core";
 import { Router } from "@angular/router";
-
-const enterTransition = transition(":enter", [
-    style({
-        opacity: 0,
-        height: 0
-    }),
-    animate('.15s ease-in', style({opacity: 1, height: "*"})),
-]);
-const fadeIn = trigger('fadeIn', [enterTransition]);
+import { fadeIn } from "src/app/animations/fade-in.animation";
 
 @Component({
     selector: "catalog-product",

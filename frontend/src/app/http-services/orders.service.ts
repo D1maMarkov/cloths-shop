@@ -1,23 +1,25 @@
 import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
-import { GlobalSettingsService } from './global-settings.service';
+import { GlobalSettingsService } from '../services/global-settings.service';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { TypeOrder } from '../models/order';
 import { TypeCreateOrder } from '../models/order';
+import { HttpBaseService } from './base-http-service.service';
+import { ErrorService } from '../services/error.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class OrdersService {
-  host: string;
-
+export class OrdersService extends HttpBaseService{
   constructor(
     private authService: AuthService,
-    private global: GlobalSettingsService,
-    private http: HttpClient
+    global: GlobalSettingsService,
+    errorService: ErrorService,
+    http: HttpClient
   ) {
-    this.host = this.global.host + 'orders';
+    super(http, errorService, global);
+    this.host = this.host + 'orders';
   }
 
   place(data: TypeCreateOrder): void{

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ProductsService } from 'src/app/services/products.service';
+import { ProductsService } from 'src/app/http-services/products.service';
 import { SearchService } from 'src/app/services/search.service';
 import { fadeInOutTopnav } from 'src/app/animations/fade-in-out-topnav.animation';
 import { Observable } from 'rxjs';

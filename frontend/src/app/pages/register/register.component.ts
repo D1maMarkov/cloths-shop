@@ -1,5 +1,5 @@
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { AuthService } from 'src/app/services/auth.service';
+import { AuthService } from 'src/app/http-services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Title } from '@angular/platform-browser';
@@ -46,7 +46,7 @@ export class RegisterComponent implements OnInit {
   constructor(
     public authService: AuthService,
     private titleService: Title
-  ) { 
+  ) {
     this.titleService.setTitle("Регистрация")
   }
 

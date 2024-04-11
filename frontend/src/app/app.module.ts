@@ -41,6 +41,7 @@ import { NgxMaskModule } from 'ngx-mask';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { CartProductComponent } from './components/cart-product/cart-product.component';
 import { ConfirmEmailComponent } from './pages/confirm-email/confirm-email.component';
+import { ProductDescriptionComponent } from './components/product-description/product-description.component';
 
 @NgModule({
   declarations: [
@@ -72,7 +73,8 @@ import { ConfirmEmailComponent } from './pages/confirm-email/confirm-email.compo
     OrderComponent,
     NotFoundComponent,
     CartProductComponent,
-    ConfirmEmailComponent
+    ConfirmEmailComponent,
+    ProductDescriptionComponent
   ],
   imports: [
     BrowserModule,

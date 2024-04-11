@@ -20,5 +20,7 @@ async def create_order(
 
 
 @router.get("/", response_model=list[Order])
-async def get_orders(get_orders_interactor: GetOrders = Depends(get_find_interactor)) -> list[Order]:
-    return await get_orders_interactor()
+async def get_orders(
+    user: user_dependency, get_orders_interactor: GetOrders = Depends(get_find_interactor)
+) -> list[Order]:
+    return await get_orders_interactor(user["id"])

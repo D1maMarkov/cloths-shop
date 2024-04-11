@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { ElementRef } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import { TypeDataFilter } from 'src/app/models/filter';
+import { TypeDataField } from 'src/app/models/filter';
 
 @Component({
   selector: 'app-search-filter',
@@ -11,7 +11,7 @@ import { TypeDataFilter } from 'src/app/models/filter';
 export class SearchFilterComponent{
   @Input() title: string;
   @Input() observableObject: BehaviorSubject<string[]>;
-  @Input() list: TypeDataFilter[];
+  @Input() list: TypeDataField[];
   @Input() functionUpdate: Function;
 
   search: string = "";
@@ -22,7 +22,7 @@ export class SearchFilterComponent{
     const checkboxes: HTMLInputElement[] = this.elementRef.nativeElement.querySelectorAll('input[type=checkbox]');
     this.search = "";
     this.observableObject.next([]);
-    
+
     checkboxes.forEach(checkbox => {
       checkbox.checked = false;
     })
@@ -42,7 +42,7 @@ export class SearchFilterComponent{
     return activeCount;
   }
 
-  empty(list: TypeDataFilter[]) : boolean{
+  empty(list: TypeDataField[]) : boolean{
     return !(list.length > 0);
   }
 }

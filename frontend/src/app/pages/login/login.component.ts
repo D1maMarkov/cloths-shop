@@ -1,7 +1,7 @@
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { AuthService } from 'src/app/services/auth.service';
+import { AuthService } from 'src/app/http-services/auth.service';
 import { Title } from '@angular/platform-browser';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
 
@@ -10,7 +10,7 @@ import { BehaviorSubject } from 'rxjs';
   templateUrl: './login.component.html',
   styleUrls: ['../../../assets/styles/form.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
   error = new BehaviorSubject<string>('');
 
   getAccessToken(event: Event): void{
@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit {
     public authService: AuthService,
     public route: Router,
     private titleService: Title
-  ) { 
+  ) {
     this.titleService.setTitle("Вход в аккаунт")
   }
 
@@ -39,7 +39,4 @@ export class LoginComponent implements OnInit {
     username: new FormControl('', [Validators.required]),
     password: new FormControl('', [Validators.required]),
   });
-
-  ngOnInit(): void {
-  }
 }

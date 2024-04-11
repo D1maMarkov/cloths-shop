@@ -4,7 +4,7 @@ from infrastructure.persistence.repositories.order_repository import OrderReposi
 from infrastructure.persistence.repositories.user_repository import UserRepository
 from infrastructure.persistence.session.cart_adapter import Cart
 from web_api.depends.cart import get_cart
-from web_api.depends.product.get_repository import get_repository
+from web_api.depends.order.get_repository import get_repository
 from web_api.depends.user import get_repository as get_user_repository
 
 

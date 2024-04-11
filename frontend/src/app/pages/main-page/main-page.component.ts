@@ -1,5 +1,5 @@
 import { TopnavRedirectService } from 'src/app/services/topnav-redirect.service';
-import { ProductsService } from 'src/app/services/products.service';
+import { ProductsService } from 'src/app/http-services/products.service';
 import { FilterService } from 'src/app/services/filter.service';
 import { fadeIn } from 'src/app/animations/fade-in.animation';
 import { Title } from '@angular/platform-browser';

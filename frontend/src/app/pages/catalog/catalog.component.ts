@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ICatalogProduct } from 'src/app/models/product';
-import { ProductsService } from 'src/app/services/products.service';
+import { ProductsService } from 'src/app/http-services/products.service';
 import { Observable, tap } from 'rxjs';
 import { FilterService } from 'src/app/services/filter.service';
 import { TopnavFiltersService } from 'src/app/services/topnav-filters.service';
@@ -9,8 +9,8 @@ import { ActivatedRoute } from '@angular/router';
 import { TopnavRedirectService } from 'src/app/services/topnav-redirect.service';
 import { fadeIn } from 'src/app/animations/fade-in.animation';
 import { DataService } from 'src/app/services/data.service';
-import { TypeDataFilter } from 'src/app/models/filter';
-
+import { TypeDataField} from 'src/app/models/filter';
+import { FilterDataAdapter } from 'src/app/adapters/filter-data-adapter';
 
 @Component({
   selector: 'app-catalog',
@@ -22,7 +22,7 @@ export class CatalogComponent implements OnInit {
   products$: Observable<ICatalogProduct[]>;
   loading : boolean = true;
   totalCount: number;
-  brands: TypeDataFilter[];
+  brands: TypeDataField[];
 
   constructor(
     private productsService: ProductsService,
@@ -31,7 +31,8 @@ export class CatalogComponent implements OnInit {
     private titleService: Title,
     private activatedRoute: ActivatedRoute,
     private TopnavService: TopnavRedirectService,
-    private data: DataService
+    private data: DataService,
+    private filterDataAdapter: FilterDataAdapter
   ){
     this.topnavFilterService.refs$.subscribe(refs => {
       if (refs[0] !== undefined){
@@ -47,11 +48,11 @@ export class CatalogComponent implements OnInit {
       const label = params["label"];
 
       if (label === "zhenskoe"){
-        this.filter.setDefaultGender('female', 'Женский');
+        this.filter.setDefaultGender({viewed_name: 'Женский', name: 'female'});
         this.topnavFilterService.refs$.next([{viewed_name: "Женская одежда и обувь", name: 'female'}]);
       }
       else if (label === "muzhskoe"){
-        this.filter.setDefaultGender('male', 'Мужской');
+        this.filter.setDefaultGender({viewed_name: 'Мужской', name: 'male'});
         this.topnavFilterService.refs$.next([{viewed_name: "Мужская одежда и обувь", name: 'male'}]);
       }
       else if (label === "accessories"){
@@ -78,7 +79,10 @@ export class CatalogComponent implements OnInit {
 
   filterProducts(){
     this.loading = true;
-    this.products$ = this.productsService.getFiltered().pipe(
+
+    const data = this.filterDataAdapter.getData(this.filter);
+
+    this.products$ = this.productsService.getFiltered(data).pipe(
       tap((products) => {
         this.loading = false;
         this.totalCount = products.length;

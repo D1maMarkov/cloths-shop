@@ -25,7 +25,5 @@ class SessionObject:
         self.dict[key] = product
 
     def remove(self, key: str) -> None:
-        print(self.dict)
-        print(key)
         if key in self.dict:
             del self.dict[key]

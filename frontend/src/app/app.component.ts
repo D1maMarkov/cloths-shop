@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 
 export class AppComponent implements OnInit{
   constructor(
-    private router: Router, 
+    private router: Router,
     private cartService: CartService,
     private searchService: SearchService
   ) {
@@ -24,7 +24,7 @@ export class AppComponent implements OnInit{
       if (event instanceof NavigationEnd) {
         this.cartService.opened = false;
         window.scrollTo(0, 0);
-        this.searchService.opened = false;
+        this.searchService.close();
       }
     });
   }

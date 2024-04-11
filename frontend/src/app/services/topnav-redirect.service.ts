@@ -1,5 +1,5 @@
 import { TopnavFiltersService } from './topnav-filters.service';
-import { TypeDataFilter } from '../models/filter';
+import { TypeDataField } from '../models/filter';
 import { FilterService } from './filter.service';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
@@ -9,26 +9,23 @@ import { Router } from '@angular/router';
 })
 export class TopnavRedirectService {
   constructor(
-    private filter: FilterService, 
+    private filter: FilterService,
     private route: Router,
     private topnavFilterService: TopnavFiltersService,
-    
   ) {
   }
 
   infoIndex: number = 0;
   openedInfo: boolean = false;
 
-  async goToCatalog(filters?: {brand?: string, category?: TypeDataFilter}){
+  async goToCatalog(filters?: {brand?: string, category?: TypeDataField}){
     this.filter.globalReset()
 
     if (this.infoIndex === 3){
       await this.route.navigate(["catalog/zhenskoe"]);
-      this.filter.setDefaultGender('female', 'Женский');
     }
     else if (this.infoIndex === 2){
       await this.route.navigate(["catalog/muzhskoe"]);
-      this.filter.setDefaultGender('male', 'Мужской');
     }
     else if (this.infoIndex === 0){
       await this.route.navigate(["catalog/new"]);
@@ -43,7 +40,7 @@ export class TopnavRedirectService {
     }
   }
 
-  defaultFilter(filters?: {brand?: string, category?: TypeDataFilter}){
+  defaultFilter(filters?: {brand?: string, category?: TypeDataField}){
     this.goToCatalog(filters)
       .then(() => {
         this.closeInfo();

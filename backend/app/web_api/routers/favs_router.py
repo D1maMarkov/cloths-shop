@@ -29,6 +29,6 @@ async def favs_get(
 
 @router.get("/remove/{id}")
 async def remove(
-    id: int, remove_from_favs_interactor: RemoveFromFavs = Depends(get_remove_from_favs_interactor)
+    id: str, remove_from_favs_interactor: RemoveFromFavs = Depends(get_remove_from_favs_interactor)
 ) -> None:
     return await remove_from_favs_interactor(id)

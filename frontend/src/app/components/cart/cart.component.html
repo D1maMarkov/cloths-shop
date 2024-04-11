@@ -14,9 +14,9 @@
             <div *ngFor="let product of products">
                 <app-cart-product [product]="product"></app-cart-product>
             </div>
-        </div>  
+        </div>
 
-        <button (click)="cartService.openSnackBar()" style="padding: 13px 0px;" class="black__button">Оформить заказ на {{ cartService.price }} $</button>
+        <button (click)="cartService.openSnackBar()" style="padding: 13px 0px;" class="black__button">Оформить заказ на {{ price }} $</button>
     </div>
 
     <ng-template #empty>

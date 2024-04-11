@@ -9,4 +9,8 @@ export class SearchService {
   visible(): void{
     this.opened = !this.opened;
   }
+
+  close(): void{
+    this.opened = false;
+  }
 }

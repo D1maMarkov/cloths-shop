@@ -1,18 +1,15 @@
-import { HttpClient, HttpHeaders, HttpErrorResponse } from "@angular/common/http";
-import { Observable, catchError, throwError, BehaviorSubject } from 'rxjs';
-import { GlobalSettingsService } from "./global-settings.service";
-import { AuthService } from 'src/app/services/auth.service';
+import { BehaviorSubject } from 'rxjs';
+import { AuthService } from 'src/app/http-services/auth.service';
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { ICartProduct } from 'src/app/models/product';
-import { ErrorService } from "./error.service";
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { HttpCartService } from "../http-services/http-cart-service.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class CartService{
-  host: string;
   opened: boolean = true;
 
   len: number = 0;
@@ -20,14 +17,6 @@ export class CartService{
 
   price: number;
   checkClick: boolean = true;
-
-  httpOptions = {
-    withCredentials: true,
-    headers: new HttpHeaders({
-      'accept': 'application/json',
-      'Content-Type': 'application/json',
-  })
-  };
 
   async openSnackBar(){
     const isAuth = await this.authService.isAuth();
@@ -52,14 +41,14 @@ export class CartService{
     product.quantity++;
     this.price += Number(product.price);
     this.len++
-    this.addInSession(product);
+    this.httpCartService.addInSession(product);
   }
 
   decrement(product: ICartProduct): void{
     product.quantity--;
     this.price -= Number(product.price);
     this.len--;
-    this.lowQuantityInSession(product);
+    this.httpCartService.lowQuantityInSession(product);
 
     if (product.quantity === 0){
       const productId = product.id;
@@ -72,25 +61,20 @@ export class CartService{
   clear(): void{
     this.len = 0;
     this.products.next([]);
-    this.clearSession();
-    this.http.get(this.host + '/clear', this.httpOptions).subscribe();
-  }
-
-  clearSession(): void{
-    this.http.get(this.host + '/clear', this.httpOptions).subscribe();
+    this.httpCartService.clearSession();
   }
 
   constructor(
-    private http: HttpClient,
-    private errorService: ErrorService,
-    private global: GlobalSettingsService,
+    private httpCartService: HttpCartService,
     private route: Router,
     private authService: AuthService,
     private snackBar: MatSnackBar,
   ){
-    this.host = this.global.host + 'cart'
-    this.getCart().subscribe(products => {
+    this.httpCartService.getCart().subscribe(products => {
       this.products.next([...products]);
+    })
+
+    this.products.subscribe(products => {
       let curPrice = 0;
       let curLen = 0;
 
@@ -104,42 +88,21 @@ export class CartService{
     })
   }
 
-  getCart(): Observable<ICartProduct[]>{
-    return this.http.get<ICartProduct[]>(this.host, this.httpOptions).pipe(
-      catchError(this.errorHandler.bind(this))
-    )
-  }
-
-  private errorHandler(error: HttpErrorResponse){
-    this.errorService.handle(error.message)
-    return throwError(() => error.message)
-  }
-
-  addInSession(product: ICartProduct){
-    this.http.post(this.host + '/add', product, this.httpOptions).subscribe()
-  }
-
-  lowQuantityInSession(product: ICartProduct){
-    this.http.post(this.host + `/low-quantity`, product, this.httpOptions).subscribe()
-  }
-
   addProduct(cartProduct: ICartProduct){
     const products = this.products.getValue()
-    let inCart = false;
     for (let product of products){
       if (product.id === cartProduct.id && product.size === cartProduct.size){
         product.quantity++;
-        inCart = true;
         break;
       }
     }
 
-    if (!inCart){
+    if (!this.isInCart(cartProduct)){
       products.push(cartProduct);
     }
 
     this.products.next(products);
-    this.addInSession(cartProduct);
+    this.httpCartService.addInSession(cartProduct);
   }
 
   isInCart(product: ICartProduct): boolean{

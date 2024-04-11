@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { TopnavFiltersService } from 'src/app/services/topnav-filters.service';
-import { TypeDataFilter } from 'src/app/models/filter';
+import { TypeDataField } from 'src/app/models/filter';
 
 @Component({
   selector: 'app-redirect-toolbar',
@@ -9,9 +9,9 @@ import { TypeDataFilter } from 'src/app/models/filter';
   styleUrls: ['./redirect-toolbar.component.scss']
 })
 export class RedirectToolbarComponent implements OnInit {
-  defaultRefs: TypeDataFilter[];
+  defaultRefs: TypeDataField[];
 
-  @Input() refs?: BehaviorSubject<TypeDataFilter[]>;
+  @Input() refs?: BehaviorSubject<TypeDataField[]>;
 
   constructor(
     private topnavFilterService: TopnavFiltersService

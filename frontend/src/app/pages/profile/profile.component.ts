@@ -1,8 +1,8 @@
-import { OrdersService } from 'src/app/services/orders.service';
+import { OrdersService } from 'src/app/http-services/orders.service';
 import { FavsService } from 'src/app/services/favs.service';
-import { AuthService } from 'src/app/services/auth.service';
+import { AuthService } from 'src/app/http-services/auth.service';
 import { Observable } from 'rxjs';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { TypeOrder } from 'src/app/models/order';
 import { Router } from '@angular/router';
@@ -13,7 +13,7 @@ import { UserInfoType } from 'src/app/models/auth';
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss']
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent{
   userInfo: UserInfoType;
   orders$: Observable<TypeOrder[]>;
 
@@ -38,10 +38,5 @@ export class ProfileComponent implements OnInit {
 
   logout(): void{
     this.authService.logout();
-    this.route.navigate(["/"])
   }
-
-  ngOnInit(): void {
-  }
-
 }

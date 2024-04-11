@@ -1,5 +1,5 @@
 import { BehaviorSubject, Observable, tap } from 'rxjs';
-import { TypeDataFilter, TypePriceRange } from '../models/filter';
+import { TypeDataField, TypePriceRange } from '../models/filter';
 import { DataService } from './data.service';
 import { Injectable } from '@angular/core';
 import { genders } from "../data/filter";
@@ -8,11 +8,11 @@ import { genders } from "../data/filter";
   providedIn: 'root'
 })
 export class FilterService{
-  genders: TypeDataFilter[] = genders;
-  colors: TypeDataFilter[];
-  sizes: TypeDataFilter[];
-  brands: TypeDataFilter[];
-  categories: TypeDataFilter[];
+  genders: TypeDataField[] = genders;
+  colors: TypeDataField[];
+  sizes: TypeDataField[];
+  brands: TypeDataField[];
+  categories: TypeDataField[];
 
   genderFilters$ = new BehaviorSubject<string[]>([]);
   categoryFilters$ = new BehaviorSubject<string[]>([]);
@@ -145,9 +145,9 @@ export class FilterService{
     this.basicCategory$.next("cloths");
   }
 
-  setDefaultGender(genderKey: string, genderValue: string): void{
-    this.genders = [{viewed_name: genderValue, name: genderKey}];
-    this.genderFilters$.next([genderKey]);
+  setDefaultGender(gender: TypeDataField): void{
+    this.genders = [gender];
+    this.genderFilters$.next([gender.name]);
   }
 
   setDefaultMainCategory(category: string): void{

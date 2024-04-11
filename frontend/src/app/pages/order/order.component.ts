@@ -1,11 +1,10 @@
-import { GlobalSettingsService } from 'src/app/services/global-settings.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { flyInOut } from 'src/app/animations/fly-in-out.animation';
 import { CartService } from 'src/app/services/cart.service';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
-import { OrdersService } from 'src/app/services/orders.service';
+import { OrdersService } from 'src/app/http-services/orders.service';
 import { ICartProduct } from 'src/app/models/product';
 import { TypeCreateOrder } from 'src/app/models/order';
 
@@ -15,9 +14,8 @@ import { TypeCreateOrder } from 'src/app/models/order';
   styleUrls: ['./order.component.scss'],
   animations: [flyInOut]
 })
-export class OrderComponent implements OnInit {
+export class OrderComponent{
   products: ICartProduct[] = [];
-  host: string;
   formInd = 0;
 
   deliveryPrice = new BehaviorSubject<number>(10);
@@ -52,7 +50,7 @@ export class OrderComponent implements OnInit {
     this.ordersService.place(data);
     this.formInd = 2;
 
-    this.cartService.clearSession();
+    this.cartService.clear();
   }
 
   exit(): void{
@@ -81,16 +79,11 @@ export class OrderComponent implements OnInit {
 
   constructor(
     public cartService: CartService,
-    private global: GlobalSettingsService,
     private router: Router,
     private ordersService: OrdersService,
   ) {
-    this.host = this.global.host;
     this.cartService.products.subscribe(products => {
       this.products = products;
     })
-  }
-
-  ngOnInit(): void {
   }
 }

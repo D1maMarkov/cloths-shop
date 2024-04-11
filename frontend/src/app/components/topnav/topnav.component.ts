@@ -7,11 +7,9 @@ import { CartService } from 'src/app/services/cart.service';
 import { SearchService } from 'src/app/services/search.service';
 import { fadeIn } from 'src/app/animations/fade-in.animation';
 import { DataService } from 'src/app/services/data.service';
-import { TypeDataFilter } from 'src/app/models/filter';
+import { TypeDataField } from 'src/app/models/filter';
 import { FavsService } from 'src/app/services/favs.service';
-import { catchError, throwError } from 'rxjs'
-import { AuthService } from 'src/app/services/auth.service';
-import { BehaviorSubject } from 'rxjs';
+import { AuthService } from 'src/app/http-services/auth.service';
 
 @Component({
   selector: 'app-topnav',
@@ -20,29 +18,19 @@ import { BehaviorSubject } from 'rxjs';
   animations: [fadeIn]
 })
 export class TopnavComponent {
-  brands: TypeDataFilter[];
-  categories: TypeDataFilter[];
-  accessoriesCategories: TypeDataFilter[];
+  brands: TypeDataField[];
+  categories: TypeDataField[];
+  accessoriesCategories: TypeDataField[];
   labels = labels;
-  allBrandsList: TypeDataFilter[];
+  allBrandsList: TypeDataField[];
   images = [novelsImages, brandsImages, male, female, accessories];
 
   searchOpened: boolean = false;
   isAuth: boolean = false;
   username: string = '';
 
-  async goToProfile(){
-    const isAuth = await this.authService.isAuth();
-    if (isAuth){
-      this.route.navigate(["/profile"])
-    }
-    else {
-      this.route.navigate(["/login"])
-    };
-  }
-
   constructor(
-    public filter: FilterService, 
+    public filter: FilterService,
     public TopnavService: TopnavRedirectService,
     public route: Router,
     public cartService: CartService,
@@ -62,6 +50,16 @@ export class TopnavComponent {
       this.accessoriesCategories = categories;
     })
     this.getUser();
+  }
+
+  async goToProfile(){
+    const isAuth = await this.authService.isAuth();
+    if (isAuth){
+      this.route.navigate(["/profile"])
+    }
+    else {
+      this.route.navigate(["/login"])
+    };
   }
 
   async getUser(){
