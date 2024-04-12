@@ -1,9 +1,9 @@
 from application.common.file_service import FileServiceInterface
+from domain.brand.exc import BrandsImageNotFound
 from domain.brand.repository import BrandRepositoryInterface
 from fastapi import UploadFile
 from fastapi.responses import FileResponse
 from infrastructure.configs.brand_config import BrandSettings
-from web_api.exc.brand_exc import BrandsImageNotFound
 
 
 class AddBrandsImage:
@@ -28,6 +28,6 @@ class GetBrandsImage:
     async def __call__(self, image_id: int):
         image = await self.repository.get_image(image_id)
         if image is None:
-            raise BrandsImageNotFound()
+            raise BrandsImageNotFound("brand`s image with this id not found")
 
         return FileResponse(self.settings.BRANDS_PATH + image.image)

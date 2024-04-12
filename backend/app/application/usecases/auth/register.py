@@ -5,8 +5,8 @@ from application.common.jwt_processor import JwtProcessorInterface
 from application.common.password_hasher import PasswordHasherInterface
 from application.contracts.user.create_user_request import CreateUserRequest
 from application.contracts.user.token_response import TokenResponse
+from domain.user.exc import UserWithEmailAlreadyExist, UserWithUsernameAlreadyExist
 from domain.user.repository import UserRepositoryInterface
-from web_api.exc.user_exc import UserWithEmailAlreadyExist, UserWithUsernameAlreadyExist
 
 
 class Register:
@@ -25,11 +25,11 @@ class Register:
     async def __call__(self, create_user_request: CreateUserRequest) -> TokenResponse:
         user_by_username = await self.repository.get_user_by_username(create_user_request.username)
         if user_by_username:
-            raise UserWithUsernameAlreadyExist()
+            raise UserWithUsernameAlreadyExist("user with this username already exist")
 
         user_by_email = await self.repository.get_user_by_email(create_user_request.email)
         if user_by_email:
-            raise UserWithEmailAlreadyExist()
+            raise UserWithEmailAlreadyExist("user with this email already exist")
 
         create_user_request_dict = {
             "username": create_user_request.username,

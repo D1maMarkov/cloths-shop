@@ -1,15 +1,15 @@
+from domain.user.exc import UserByIdNotFound
 from domain.user.repository import UserRepositoryInterface
 from infrastructure.persistence.models.user import UserOrm
 from infrastructure.persistence.repositories.repository import BaseRepository
 from sqlalchemy import select
-from web_api.exc.user_exc import UserNotFound
 
 
 class UserRepository(UserRepositoryInterface, BaseRepository):
     async def delete_user(self, user_id: int):
         user = await self.db.get(UserOrm, user_id)
         if user is None:
-            raise UserNotFound()
+            raise UserByIdNotFound("user with this id does not exist")
 
         await self.db.delete(user)
         await self.db.commit()

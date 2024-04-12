@@ -1,9 +1,9 @@
 from application.common.file_service import FileServiceInterface
+from domain.product.exc import ProductsImageNotFound
 from domain.product.repository import ProductRepositoryInterface
 from fastapi import UploadFile
 from fastapi.responses import FileResponse
 from infrastructure.configs.product_config import ProductSettings
-from web_api.exc.product_exc import ProductsImageNotFound
 
 
 class AddProductsImage:
@@ -28,6 +28,6 @@ class GetProductsImage:
     async def __call__(self, image_id: int) -> FileResponse:
         image = await self.repository.get_image(image_id)
         if image is None:
-            raise ProductsImageNotFound()
+            raise ProductsImageNotFound("product`s image with this id not found")
 
         return FileResponse(self.settings.PRODUCTS_PATH + image.image)

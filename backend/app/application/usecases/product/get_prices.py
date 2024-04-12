@@ -1,6 +1,6 @@
 from application.contracts.products.price_range_response import PriceRangeResponse
+from domain.product.exc import ProductsNotFound
 from domain.product.repository import ProductRepositoryInterface
-from web_api.exc.product_exc import ProductsNotFound
 
 
 class GetProductsPrices:
@@ -11,6 +11,6 @@ class GetProductsPrices:
         prices = await self.repository.get_prices()
 
         if len(prices) == 0:
-            raise ProductsNotFound()
+            raise ProductsNotFound("no products found")
 
         return PriceRangeResponse(min_price=min(prices), max_price=max(prices))

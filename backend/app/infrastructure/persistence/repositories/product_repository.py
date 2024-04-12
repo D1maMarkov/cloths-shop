@@ -1,4 +1,7 @@
 from application.contracts.products.filter_products_request import FilterProductsRequest
+from domain.brand.exc import BrandNotFound
+from domain.category.exc import CategoryNotFound
+from domain.product.exc import ProductAlreadyExist, ProductNotFound
 from domain.product.gender_values import Gender
 from domain.product.repository import ProductRepositoryInterface
 from infrastructure.persistence.models.additional_for_product_models import (
@@ -16,12 +19,6 @@ from infrastructure.persistence.repositories.repository import BaseRepository
 from sqlalchemy import and_, or_, select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import joinedload
-from web_api.exc.brand_exc import BrandNotFound
-from web_api.exc.product_exc import (
-    CategoryNotFound,
-    ProductAlreadyExist,
-    ProductNotFound,
-)
 
 
 class ProductRepository(ProductRepositoryInterface, BaseRepository):
@@ -74,11 +71,11 @@ class ProductRepository(ProductRepositoryInterface, BaseRepository):
     async def add_product(self, data: dict) -> None:
         category = await self.db.get(CategoryOrm, data["category_id"])
         if category is None:
-            raise CategoryNotFound()
+            raise CategoryNotFound("category with this id not found")
 
         brand = await self.db.get(BrandOrm, data["brand_id"])
         if brand is None:
-            raise BrandNotFound()
+            raise BrandNotFound("brand with this id not found")
 
         try:
             product = ProductOrm(**data, category=category, brand=brand)
@@ -86,17 +83,16 @@ class ProductRepository(ProductRepositoryInterface, BaseRepository):
             self.db.add(product)
             await self.db.commit()
         except IntegrityError:
-            raise ProductAlreadyExist()
+            raise ProductAlreadyExist("There is already a product with that code or article")
 
     async def get_product(self, id: int):
-        query = self.get_products_models()
-        query = query.filter(ProductOrm.id == id)
+        query = self.get_products_models().filter(ProductOrm.id == id)
 
         product = await self.db.execute(query)
         product = product.unique().scalars().first()
 
         if product is None:
-            raise ProductNotFound()
+            raise ProductNotFound("product with this id not found")
 
         return from_orm_to_product(product)
 
@@ -167,8 +163,7 @@ class ProductRepository(ProductRepositoryInterface, BaseRepository):
         return product_models
 
     async def get_populars(self):
-        query = self.get_products_models()
-        query = query.order_by(ProductOrm.quantity_sold.desc())
+        query = self.get_products_models().order_by(ProductOrm.quantity_sold.desc())
 
         result = await self.db.execute(query)
         product_models = result.unique().scalars().all()
@@ -176,9 +171,7 @@ class ProductRepository(ProductRepositoryInterface, BaseRepository):
         return [from_orm_to_catalog_product(product) for product in product_models]
 
     async def get_new_arrivals(self):
-        query = self.get_products_models()
-
-        query = query.order_by(ProductOrm.created.desc())
+        query = self.get_products_models().order_by(ProductOrm.created.desc())
 
         result = await self.db.execute(query)
         product_models = result.unique().scalars().all()
@@ -186,9 +179,7 @@ class ProductRepository(ProductRepositoryInterface, BaseRepository):
         return [from_orm_to_catalog_product(product) for product in product_models]
 
     async def get_colors(self, name: str):
-        query = self.get_products_models()
-
-        query = query.filter(ProductOrm.name == name)
+        query = self.get_products_models().filter(ProductOrm.name == name)
 
         result = await self.db.execute(query)
         product_models = result.unique().scalars().all()

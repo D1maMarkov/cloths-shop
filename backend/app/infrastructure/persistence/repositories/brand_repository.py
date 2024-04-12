@@ -1,3 +1,4 @@
+from domain.brand.exc import BrandNotFound
 from domain.brand.repository import BrandRepositoryInterface
 from infrastructure.persistence.models.brand_models import BrandImageOrm, BrandOrm
 from infrastructure.persistence.repositories.mappers.brand_mappers import (
@@ -6,7 +7,6 @@ from infrastructure.persistence.repositories.mappers.brand_mappers import (
 from infrastructure.persistence.repositories.repository import BaseRepository
 from sqlalchemy import select
 from sqlalchemy.orm import joinedload
-from web_api.exc.brand_exc import BrandNotFound
 
 
 class BrandRepository(BrandRepositoryInterface, BaseRepository):
@@ -18,7 +18,7 @@ class BrandRepository(BrandRepositoryInterface, BaseRepository):
     async def add_image(self, brand_id: int, filename: str) -> None:
         brand = await self.db.get(BrandOrm, brand_id)
         if brand is None:
-            raise BrandNotFound()
+            raise BrandNotFound("brand with this id not found")
 
         image = BrandImageOrm(image=filename, brand_id=brand_id, brand=brand)
 

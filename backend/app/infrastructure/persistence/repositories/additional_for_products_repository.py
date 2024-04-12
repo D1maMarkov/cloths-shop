@@ -2,6 +2,7 @@ from domain.additional_for_product.repository import (
     AdditionalForProductSRepositoryInterface,
 )
 from domain.common.base_data_field import BaseDataField
+from domain.product.exc import ProductNotFound
 from infrastructure.persistence.models.additional_for_product_models import (
     ProductColorOrm,
     ProductSizeOrm,
@@ -9,14 +10,13 @@ from infrastructure.persistence.models.additional_for_product_models import (
 from infrastructure.persistence.models.product_models import ProductOrm
 from infrastructure.persistence.repositories.repository import BaseRepository
 from sqlalchemy import select
-from web_api.exc.product_exc import ProductNotFound
 
 
 class AdditionalForProductSRepository(BaseRepository, AdditionalForProductSRepositoryInterface):
     async def add_size(self, size: dict) -> None:
         product = await self.db.get(ProductOrm, size["product_id"])
         if product is None:
-            raise ProductNotFound()
+            raise ProductNotFound("product with this id not found")
 
         product_size = ProductSizeOrm(**size, product=product)
 
