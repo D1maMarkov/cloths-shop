@@ -8,6 +8,12 @@ from infrastructure.persistence.models.additional_for_product_models import (
     ProductSizeOrm,
 )
 from infrastructure.persistence.models.product_models import ProductOrm
+from infrastructure.persistence.repositories.mappers.color_mapper import (
+    from_orm_to_color,
+)
+from infrastructure.persistence.repositories.mappers.size_mapper import (
+    from_orm_to_sizes,
+)
 from infrastructure.persistence.repositories.repository import BaseRepository
 from sqlalchemy import select
 
@@ -24,11 +30,11 @@ class AdditionalForProductSRepository(BaseRepository, AdditionalForProductSRepos
         await self.db.commit()
 
     async def get_sizes(self) -> list[str]:
-        query = select(ProductSizeOrm.size).order_by(ProductSizeOrm.size)
+        query = select(ProductSizeOrm).order_by(ProductSizeOrm.size)
         sizes = await self.db.execute(query)
         sizes = sizes.unique().scalars().all()
 
-        return sizes
+        return from_orm_to_sizes(sizes)
 
     async def add_color(self, color: dict) -> None:
         product_color = ProductColorOrm(**color)
@@ -41,4 +47,4 @@ class AdditionalForProductSRepository(BaseRepository, AdditionalForProductSRepos
         colors = await self.db.execute(query)
         colors = colors.scalars().all()
 
-        return colors
+        return [from_orm_to_color(color) for color in colors]

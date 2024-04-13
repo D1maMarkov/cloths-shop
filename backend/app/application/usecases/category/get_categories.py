@@ -8,9 +8,7 @@ class GetAllCategories:
         self.repository = repository
 
     async def __call__(self) -> list[Category]:
-        category_models = await self.repository.find_all_categories(BasicCategory.cloths)
-
-        return [Category.model_validate(category_model) for category_model in category_models]
+        return await self.repository.find_all_categories(BasicCategory.cloths)
 
 
 class GetAccessoriesCategories:
@@ -18,6 +16,4 @@ class GetAccessoriesCategories:
         self.repository = repository
 
     async def __call__(self) -> list[Category]:
-        category_models = await self.repository.find_all_categories(BasicCategory.accessories)
-
-        return [Category.model_validate(category_model) for category_model in category_models]
+        return await self.repository.find_all_categories(BasicCategory.accessories)

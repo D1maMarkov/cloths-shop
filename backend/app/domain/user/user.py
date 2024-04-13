@@ -1,8 +1,9 @@
-from pydantic import BaseModel
+from dataclasses import dataclass
 
 
-class User(BaseModel):
-    id: int | None = None
+@dataclass
+class User:
+    id: int
     username: str
     email: str
     is_active: bool

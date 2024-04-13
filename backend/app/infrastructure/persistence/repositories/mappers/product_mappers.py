@@ -10,7 +10,7 @@ from infrastructure.persistence.repositories.mappers.color_mapper import (
     from_orm_to_color,
 )
 from infrastructure.persistence.repositories.mappers.size_mapper import (
-    from_orm_to_sizes,
+    from_orm_to_products_sizes,
 )
 from web_api.config import get_settings
 
@@ -26,7 +26,7 @@ def from_orm_to_catalog_product(product: ProductOrm) -> CatalogProduct:
         name=product.name,
         description=product.description,
         price=product.price,
-        sizes=from_orm_to_sizes(product.sizes),
+        sizes=from_orm_to_products_sizes(product.sizes),
     )
 
 
@@ -36,15 +36,12 @@ def from_orm_to_product(product: ProductOrm) -> Product:
         name=product.name,
         description=product.description,
         price=product.price,
-        category_id=product.category_id,
-        brand_id=product.brand_id,
-        color_id=product.color_id,
         code=product.code,
         article=product.article,
         gender=product.gender,
         category=from_orm_to_category(product.category),
         brand=from_orm_to_brand(product.brand),
         color=from_orm_to_color(product.color),
-        sizes=from_orm_to_sizes(product.sizes),
+        sizes=from_orm_to_products_sizes(product.sizes),
         images=[from_orm_to_image(image) for image in product.images],
     )

@@ -10,20 +10,28 @@ def order_products_from_orm_to_entity(order: OrderOrm) -> list[OrderProduct]:
 
 
 def order_from_orm_to_entity(order: OrderOrm) -> Order:
-    products = order_products_from_orm_to_entity(order)
-
-    order_dict = order.__dict__
-    del order_dict["order_products"]
-
-    return Order(**order_dict, order_products=products)
+    return Order(
+        name=order.name,
+        secondname=order.secondname,
+        adress=order.adress,
+        phone=order.phone,
+        payment=order.payment,
+        delivery=order.delivery,
+        user_id=order.user_id,
+        created=order.created,
+        order_products=order_products_from_orm_to_entity(order),
+    )
 
 
 def order_product_from_orm_to_entity(order_product: OrderProductOrm) -> OrderProduct:
-    product_model = order_product.product
+    product = order_product.product
 
-    product = product_model.__dict__
-
-    product["size"] = order_product.size
-    product["quantity"] = order_product.quantity
-
-    return OrderProduct(**product, image=from_orm_to_image(product_model.images[0]))
+    return OrderProduct(
+        id=product.id,
+        name=product.name,
+        quantity=order_product.quantity,
+        size=order_product.size,
+        image=from_orm_to_image(product.images[0]),
+        description=product.description,
+        price=product.price,
+    )

@@ -7,9 +7,7 @@ class GetAllBrands:
         self.repository = repository
 
     async def __call__(self) -> list[Brand]:
-        brand_models = await self.repository.find_all_brands()
-
-        return [Brand(**brand.__dict__, viewed_name=brand.name) for brand in brand_models]
+        return await self.repository.find_all_brands()
 
 
 class GetAllPaginateBrands:

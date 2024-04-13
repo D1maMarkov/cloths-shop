@@ -1,10 +1,14 @@
-from pydantic import BaseModel
+from dataclasses import dataclass
 
 
-class Brand(BaseModel):
+@dataclass
+class Brand:
+    id: int
     name: str
     viewed_name: str
 
 
-class PaginateBrand(BaseModel):
+@dataclass
+class PaginateBrand:
+    id: int
     image: str | None = None

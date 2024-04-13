@@ -1,13 +1,12 @@
-from pydantic import BaseModel
+from dataclasses import dataclass
 
 
-class BaseDataFieldAdd(BaseModel):
+@dataclass
+class BaseDataFieldAdd:
     name: str
     viewed_name: str
 
 
+@dataclass
 class BaseDataField(BaseDataFieldAdd):
-    id: int | None = None
-
-    class Config:
-        from_attributes = True
+    id: int

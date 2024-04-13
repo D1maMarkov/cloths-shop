@@ -19,6 +19,4 @@ class GetColors:
         self.repository = repository
 
     async def __call__(self) -> list[BaseDataField]:
-        color_models = await self.repository.get_colors()
-
-        return [BaseDataField(**color.__dict__) for color in color_models]
+        return await self.repository.get_colors()

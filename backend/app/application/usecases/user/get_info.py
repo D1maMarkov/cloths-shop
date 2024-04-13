@@ -1,4 +1,5 @@
 from application.contracts.user.user_info_response import UserInfoResponse
+from infrastructure.persistence.repositories.mappers.user_mapper import from_orm_to_user
 from infrastructure.persistence.repositories.user_repository import UserRepository
 
 
@@ -8,5 +9,4 @@ class GetUserInfo:
 
     async def __call__(self, user_id: int) -> UserInfoResponse:
         user_model = await self.repository.get_user(user_id)
-
-        return UserInfoResponse(**user_model.__dict__)
+        return from_orm_to_user(user_model)

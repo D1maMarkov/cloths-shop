@@ -1,6 +1,8 @@
+from dataclasses import dataclass
+
 from domain.additional_for_product.size_values import SizeValues
-from pydantic import BaseModel
 
 
-class Size(BaseModel):
+@dataclass
+class Size:
     size: SizeValues

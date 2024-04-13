@@ -2,7 +2,6 @@ from application.contracts.additional_for_product.add_size_request import AddSiz
 from domain.additional_for_product.repository import (
     AdditionalForProductSRepositoryInterface,
 )
-from domain.common.base_data_field import BaseDataField
 
 
 class AddProductsSize:
@@ -18,7 +17,5 @@ class GetProductsSizes:
     def __init__(self, repository: AdditionalForProductSRepositoryInterface) -> None:
         self.repository = repository
 
-    async def __call__(self) -> list[BaseDataField]:
-        sizes = await self.repository.get_sizes()
-
-        return [BaseDataField(name=size, viewed_name=size) for size in sizes]
+    async def __call__(self) -> list[str]:
+        return await self.repository.get_sizes()

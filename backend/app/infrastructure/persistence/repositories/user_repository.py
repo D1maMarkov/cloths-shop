@@ -43,7 +43,7 @@ class UserRepository(UserRepositoryInterface, BaseRepository):
         await self.db.commit()
         await self.db.refresh(user)
 
-    async def get_user(self, user_id: int):
+    async def get_user(self, user_id: int) -> UserOrm:
         return await self.db.get(UserOrm, user_id)
 
     async def delete_inactive_users(self):
