@@ -6,7 +6,7 @@ from sqlalchemy import select
 
 
 class UserRepository(UserRepositoryInterface, BaseRepository):
-    async def delete_user(self, user_id: int):
+    async def delete_user(self, user_id: int) -> None:
         user = await self.db.get(UserOrm, user_id)
         if user is None:
             raise UserByIdNotFound("user with this id does not exist")
@@ -14,7 +14,7 @@ class UserRepository(UserRepositoryInterface, BaseRepository):
         await self.db.delete(user)
         await self.db.commit()
 
-    async def create_user(self, create_user_request: dict):
+    async def create_user(self, create_user_request: dict) -> None:
         create_user_model = UserOrm(**create_user_request)
 
         self.db.add(create_user_model)
@@ -22,21 +22,21 @@ class UserRepository(UserRepositoryInterface, BaseRepository):
         await self.db.commit()
         return create_user_model.id
 
-    async def get_user_by_username(self, username: str):
+    async def get_user_by_username(self, username: str) -> UserOrm | None:
         query = select(UserOrm).filter(UserOrm.username == username)
         result = await self.db.execute(query)
         user = result.scalars().first()
 
         return user
 
-    async def get_user_by_email(self, email: str):
+    async def get_user_by_email(self, email: str) -> UserOrm | None:
         query = select(UserOrm).filter(UserOrm.email == email)
         result = await self.db.execute(query)
         user = result.scalars().first()
 
         return user
 
-    async def activate_user(self, user_id: int):
+    async def activate_user(self, user_id: int) -> None:
         user = await self.db.get(UserOrm, user_id)
         user.is_active = True
 

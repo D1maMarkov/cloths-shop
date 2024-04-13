@@ -1,4 +1,4 @@
-from domain.brand.brand import Brand
+from domain.brand.brand import Brand, PaginateBrand
 from domain.brand.exc import BrandNotFound
 from domain.brand.repository import BrandRepositoryInterface
 from infrastructure.persistence.models.brand_models import BrandImageOrm, BrandOrm
@@ -27,10 +27,10 @@ class BrandRepository(BrandRepositoryInterface, BaseRepository):
         self.db.add(image)
         await self.db.commit()
 
-    async def get_image(self, image_id: int):
+    async def get_image(self, image_id: int) -> BrandImageOrm:
         return await self.db.get(BrandImageOrm, image_id)
 
-    async def find_all_brands(self) -> Brand:
+    async def find_all_brands(self) -> list[Brand]:
         query = select(BrandOrm)
         result = await self.db.execute(query)
 
@@ -38,7 +38,7 @@ class BrandRepository(BrandRepositoryInterface, BaseRepository):
 
         return [from_orm_to_brand(brand_model) for brand_model in brand_models]
 
-    async def get_paginate_brands(self):
+    async def get_paginate_brands(self) -> list[PaginateBrand]:
         query = select(BrandOrm).join(BrandImageOrm)
 
         query = query.options(joinedload(BrandOrm.image))

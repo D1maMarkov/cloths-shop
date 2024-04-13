@@ -73,7 +73,7 @@ async def upload(
     product_id: int,
     image: UploadFile,
     add_products_image_interactor: AddProductsImage = Depends(get_add_products_image_interactor),
-):
+) -> str:
     return await add_products_image_interactor(product_id=product_id, file=image)
 
 

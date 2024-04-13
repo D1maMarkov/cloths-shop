@@ -3,6 +3,7 @@ from domain.brand.exc import BrandNotFound
 from domain.category.exc import CategoryNotFound
 from domain.product.exc import ProductAlreadyExist, ProductNotFound
 from domain.product.gender_values import Gender
+from domain.product.product import CatalogProduct, Product
 from domain.product.repository import ProductRepositoryInterface
 from infrastructure.persistence.models.additional_for_product_models import (
     ProductColorOrm,
@@ -22,7 +23,7 @@ from sqlalchemy.orm import joinedload
 
 
 class ProductRepository(ProductRepositoryInterface, BaseRepository):
-    def get_products_models(self):
+    def get_products_models(self) -> ProductOrm:
         query = select(ProductOrm, BrandOrm, CategoryOrm, ProductImageOrm, ProductColorOrm, ProductSizeOrm)
         query = query.join(BrandOrm)
         query = query.join(CategoryOrm)
@@ -47,14 +48,14 @@ class ProductRepository(ProductRepositoryInterface, BaseRepository):
 
         return prices
 
-    async def get_all_images(self):
+    async def get_all_images(self) -> list[ProductImageOrm]:
         query = select(ProductImageOrm)
         images = await self.db.execute(query)
         images = images.scalars().all()
 
         return images
 
-    async def add_image(self, product_id: int, filename: str):
+    async def add_image(self, product_id: int, filename: str) -> str:
         product = await self.db.get(ProductOrm, product_id)
 
         image = ProductImageOrm(image=filename, product_id=product_id, product=product)
@@ -65,7 +66,7 @@ class ProductRepository(ProductRepositoryInterface, BaseRepository):
 
         return f"Successfully uploaded {filename} for {product.name}"
 
-    async def get_image(self, id: int):
+    async def get_image(self, id: int) -> ProductImageOrm:
         return await self.db.get(ProductImageOrm, id)
 
     async def add_product(self, data: dict) -> None:
@@ -85,7 +86,7 @@ class ProductRepository(ProductRepositoryInterface, BaseRepository):
         except IntegrityError:
             raise ProductAlreadyExist("There is already a product with that code or article")
 
-    async def get_product(self, id: int):
+    async def get_product(self, id: int) -> Product:
         query = self.get_products_models().filter(ProductOrm.id == id)
 
         product = await self.db.execute(query)
@@ -96,7 +97,7 @@ class ProductRepository(ProductRepositoryInterface, BaseRepository):
 
         return from_orm_to_product(product)
 
-    async def get_filtered_products(self, data: FilterProductsRequest):
+    async def get_filtered_products(self, data: FilterProductsRequest) -> list[CatalogProduct]:
         genders = data.gender
         categories = data.category
         colors = data.color
@@ -154,7 +155,7 @@ class ProductRepository(ProductRepositoryInterface, BaseRepository):
 
         return [from_orm_to_catalog_product(product) for product in unique_products]
 
-    async def get_all_products(self):
+    async def get_all_products(self) -> list[ProductOrm]:
         query = self.get_products_models()
 
         result = await self.db.execute(query)
@@ -162,7 +163,7 @@ class ProductRepository(ProductRepositoryInterface, BaseRepository):
 
         return product_models
 
-    async def get_populars(self):
+    async def get_populars(self) -> list[CatalogProduct]:
         query = self.get_products_models().order_by(ProductOrm.quantity_sold.desc())
 
         result = await self.db.execute(query)
@@ -170,7 +171,7 @@ class ProductRepository(ProductRepositoryInterface, BaseRepository):
 
         return [from_orm_to_catalog_product(product) for product in product_models]
 
-    async def get_new_arrivals(self):
+    async def get_new_arrivals(self) -> list[CatalogProduct]:
         query = self.get_products_models().order_by(ProductOrm.created.desc())
 
         result = await self.db.execute(query)
@@ -178,7 +179,7 @@ class ProductRepository(ProductRepositoryInterface, BaseRepository):
 
         return [from_orm_to_catalog_product(product) for product in product_models]
 
-    async def get_colors(self, name: str):
+    async def get_colors(self, name: str) -> list[CatalogProduct]:
         query = self.get_products_models().filter(ProductOrm.name == name)
 
         result = await self.db.execute(query)

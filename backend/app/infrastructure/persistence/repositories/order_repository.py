@@ -28,7 +28,7 @@ class OrderRepository(OrderRepositoryInterface, BaseRepository):
 
         await self.db.refresh(product)
 
-    async def get_orders(self, user_id: int):
+    async def get_orders(self, user_id: int) -> list[OrderOrm]:
         query = (
             select(OrderOrm)
             .order_by(OrderOrm.created.desc())

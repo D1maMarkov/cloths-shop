@@ -8,7 +8,7 @@ celery = Celery("email", broker=get_settings().CELERY_BROKER_URL)
 
 
 @celery.task
-def send_mail(email: str, code: str, token: str, settings: dict):
+def send_mail(email: str, code: str, token: str, settings: dict) -> None:
     msg = EmailMessage()
     msg["Subject"] = "подтверждение почты"
     msg["From"] = settings["backend_email"]

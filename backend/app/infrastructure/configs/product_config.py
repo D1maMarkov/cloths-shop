@@ -14,5 +14,5 @@ class ProductSettings(BaseSettings):
 
 
 @lru_cache
-def get_settings():
+def get_settings() -> ProductSettings:
     return ProductSettings()

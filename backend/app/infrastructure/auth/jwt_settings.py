@@ -16,5 +16,5 @@ class JwtSettings(BaseSettings):
 
 
 @lru_cache
-def get_jwt_settings():
+def get_jwt_settings() -> JwtSettings:
     return JwtSettings()

@@ -16,5 +16,5 @@ class EmailSettings(BaseSettings):
 
 
 @lru_cache
-def get_email_settings():
+def get_email_settings() -> EmailSettings:
     return EmailSettings()

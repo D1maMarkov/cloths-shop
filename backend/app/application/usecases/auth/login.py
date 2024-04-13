@@ -22,9 +22,9 @@ class Login:
         if not user:
             raise UserNotFound("Could not validate user")
         if not self.password_hasher.verify(password, user.hashed_password):
-            raise UserNotFound("Could not validate user")
+            raise UserNotFound("Incorrect password")
         if not user.is_active:
-            raise UserNotFound("Could not validate user")
+            raise UserNotFound("Confirm your email first")
 
         token = self.jwt_processor.create_access_token(user.username, user.id)
 

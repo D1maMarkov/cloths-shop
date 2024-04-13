@@ -6,7 +6,7 @@ from fastapi import UploadFile
 
 
 class FileService(FileServiceInterface):
-    def save_file(self, path: str, file: UploadFile):
+    def save_file(self, path: str, file: UploadFile) -> None:
         contents = file.file.read()
         if not os.path.exists(path):
             os.makedirs(path)
@@ -19,5 +19,4 @@ class FileService(FileServiceInterface):
 
 @lru_cache
 def get_file_service() -> FileService:
-    service = FileService()
-    return service
+    return FileService()
